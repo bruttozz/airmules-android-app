@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Air Mules</string>
+    <string name="payment_Mule">Mule:</string>
+    <string name="payment_Price">Price:  $</string>
+    <string name="payment_Fee">Service Fee:  $</string>
+    <string name="payment_Total">Total:  $</string>
+    <string name="payment_Type">Payment Methods</string>
+    <string name="payment_InApp">In App Currency</string>
+    <string name="payment_Credit">Credit Card</string>
+
+    <string name="tracking_enabled_notif">Tracking is currently enabled. Tap to cancel.</string>
+    <string name="test_email">test@test.com</string>
+    <string name="test_password">testpassword</string>
+    <string name="firebase_path">location</string>
+</resources>

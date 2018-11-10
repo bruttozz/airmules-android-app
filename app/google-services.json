@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "984894805179",
+    "firebase_url": "https://air-mules-chat.firebaseio.com",
+    "project_id": "air-mules-chat",
+    "storage_bucket": "air-mules-chat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:984894805179:android:5cc6547afde00763",
+        "android_client_info": {
+          "package_name": "com.example.asthana.airmuleschat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "984894805179-l6oo1r36io368muo86bfhovodon9c1tm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.asthana.airmuleschat",
+            "certificate_hash": "c81d0853319945f3bdafa38b47004e31641bcfc5"
+          }
+        },
+        {
+          "client_id": "984894805179-m0t2kbsbuoovbbfigdbs00gb0h00p7t1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6gKLNBJfdo_t647H8-27lGN7thC61xJw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "984894805179-m0t2kbsbuoovbbfigdbs00gb0h00p7t1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

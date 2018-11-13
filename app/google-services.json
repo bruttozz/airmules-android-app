@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "984894805179-1toi1oqbgdqnnr9nv6jkniajhnc2c0vs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.asthana.airmuleschat",
+            "certificate_hash": "8a6e619d233be1e2cea8dbab8d652281d8a00920"
+          }
+        },
+        {
           "client_id": "984894805179-m0t2kbsbuoovbbfigdbs00gb0h00p7t1.apps.googleusercontent.com",
           "client_type": 3
         }

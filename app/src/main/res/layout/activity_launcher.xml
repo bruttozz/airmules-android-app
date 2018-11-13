@@ -50,4 +50,14 @@
         android:text="View Mule Requests"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnOpenPayment" />
+
+    <Button
+        android:id="@+id/btnFlightAPI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="128dp"
+        android:layout_marginTop="436dp"
+        android:text="Pull API data"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

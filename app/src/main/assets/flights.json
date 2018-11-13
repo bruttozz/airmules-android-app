@@ -1,0 +1,119 @@
+[
+{
+
+
+  "type": "arrival",
+
+
+  "status": "active",
+
+
+  "departure": {
+
+
+
+    "iataCode": "BOS",
+
+
+
+    "icaoCode": "KBOS",
+
+
+
+    "terminal": "E",
+
+
+
+    "delay": 46,
+
+
+
+    "scheduledTime": "2018-11-03T17:10:00.000", 5:20
+
+
+
+    "estimatedTime": "2018-11-03T17:56:00.000", 5:56
+
+
+
+    "actualTime": "2018-11-03T17:56:00.000", 5:56
+
+
+
+    "estimatedRunway": "2018-11-03T18:08:00.000", 6:08
+
+
+
+    "actualRunway": "2018-11-03T18:08:00.000" 6:08
+
+
+  },
+
+
+  "arrival": {
+
+
+
+    "iataCode": "PEK",
+
+
+
+    "icaoCode": "ZBAA",
+
+
+
+    "terminal": "2",
+
+
+
+    "scheduledTime": "2018-11-04T19:05:00.000", 7:05
+
+
+
+    "estimatedTime": "2018-11-04T18:31:00.000", 6:31
+
+
+
+    "estimatedRunway": "2018-11-04T18:08:00.000" 6:08
+
+
+  },
+
+
+  "airline": {
+
+
+
+    "name": "Hainan Airlines",
+
+
+
+    "iataCode": "HU",
+
+
+
+    "icaoCode": "CHH"
+
+
+  },
+
+
+  "flight": {
+
+
+
+    "number": "482",
+
+
+
+    "iataNumber": "HU482",
+
+
+
+    "icaoNumber": "CHH482"
+
+
+  }
+
+}
+]

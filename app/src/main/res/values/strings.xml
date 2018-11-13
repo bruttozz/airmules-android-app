@@ -12,4 +12,11 @@
     <string name="test_email">test@test.com</string>
     <string name="test_password">testpassword</string>
     <string name="firebase_path">location</string>
+
+    <string name="all_transactions">Requests for Mules:</string>
+
+    <string name="from_location">From:</string>
+    <string name="to_location">To:</string>
+    <string name="posted_price">Reward:</string>
+
 </resources>

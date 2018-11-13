@@ -41,5 +41,14 @@ public class LauncherActivity extends AppCompatActivity {
                 LauncherActivity.this.startActivity(startTracking);
             }
         });
+
+        Button btnTransactions = (Button) findViewById(R.id.btnTransactions);
+        btnTransactions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent viewTransactions = new Intent(LauncherActivity.this, AllTransactionsActivity.class);
+                LauncherActivity.this.startActivity(viewTransactions);
+            }
+        });
     }
 }

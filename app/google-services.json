@@ -31,6 +31,14 @@
           }
         },
         {
+          "client_id": "984894805179-7m4n9and70iu5vk7rist26ae42lggbql.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.asthana.airmuleschat",
+            "certificate_hash": "c2f1f0e504cc7e99f8fcd432be10a88a7d315f59"
+          }
+        },
+        {
           "client_id": "984894805179-m0t2kbsbuoovbbfigdbs00gb0h00p7t1.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -48,7 +56,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "984894805179-m0t2kbsbuoovbbfigdbs00gb0h00p7t1.apps.googleusercontent.com",
+              "client_id": "984894805179-o448c0fsnfohmqt6iqn7e0q3u9dcoaif.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

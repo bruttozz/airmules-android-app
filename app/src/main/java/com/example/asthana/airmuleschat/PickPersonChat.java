@@ -1,5 +1,6 @@
 package com.example.asthana.airmuleschat;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -67,8 +68,9 @@ public class PickPersonChat extends AppCompatActivity{
                 {
                     mUniqueChatID = selectedID + mFirebaseUser.getUid();
                 }
-
-
+                Intent i = new Intent(PickPersonChat.this, PersonalChat.class);
+                i.putExtra("chatID", mUniqueChatID);
+                startActivity(i);
             }
         });
 
@@ -80,11 +82,11 @@ public class PickPersonChat extends AppCompatActivity{
                     spinnerArray = new Vector<String>();
                     int i = 0;
                     for (DataSnapshot user : dataSnapshot.getChildren()) {
-                        if (!(user.getKey().toString().equals(mFirebaseUser.getUid()))){
+                        if (!(user.getKey().equals(mFirebaseUser.getUid()))){
 
-                            Log.e(TAG, "" + user.getKey().toString() + " : " + user.getValue().toString());
+                            Log.e(TAG, "" + user.getKey() + " : " + user.getValue());
                             spinnerArray.add(user.getValue().toString());
-                            spinnerMap.put(i, user.getKey().toString());
+                            spinnerMap.put(i, user.getKey());
                             i++;
                         }
                     }

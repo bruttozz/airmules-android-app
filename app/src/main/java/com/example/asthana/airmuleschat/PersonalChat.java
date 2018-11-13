@@ -46,7 +46,7 @@ import com.google.firebase.storage.StorageReference;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MainActivity extends AppCompatActivity
+public class PersonalChat extends AppCompatActivity
         implements GoogleApiClient.OnConnectionFailedListener {
 
     public static class MessageViewHolder extends RecyclerView.ViewHolder {
@@ -71,10 +71,11 @@ public class MainActivity extends AppCompatActivity
     private FirebaseRecyclerAdapter<MessageClass, MessageViewHolder>
             mFirebaseAdapter;
     private static final String TAG = "MainActivity";
-    public static final String MESSAGES_CHILD = "messages";
+    public static final String PERSONAL_MESSAGES_CHILD = "personal_messages";
     public static final String ANONYMOUS = "Unknown Person";
     private String mUsername;
     private String mPhotoUrl;
+    private String mPrivateChatID;
     private SharedPreferences mSharedPreferences;
     private GoogleApiClient mGoogleApiClient;
 
@@ -90,8 +91,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_personal_chat);
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        mPrivateChatID = getIntent().getExtras().getString("chatID");
+
         // Set default username is anonymous.
         mUsername = ANONYMOUS;
 
@@ -135,7 +139,7 @@ public class MainActivity extends AppCompatActivity
             }
         };
 
-        DatabaseReference messagesRef = mFirebaseDatabaseReference.child(MESSAGES_CHILD);
+        DatabaseReference messagesRef = mFirebaseDatabaseReference.child(PERSONAL_MESSAGES_CHILD).child(mPrivateChatID);
         FirebaseRecyclerOptions<MessageClass> options =
                 new FirebaseRecyclerOptions.Builder<MessageClass>()
                         .setQuery(messagesRef, parser)
@@ -188,10 +192,10 @@ public class MainActivity extends AppCompatActivity
 
                 viewHolder.messengerTextView.setText(messageClass.getName());
                 if (messageClass.getPhotoUrl() == null) {
-                    viewHolder.messengerImageView.setImageDrawable(ContextCompat.getDrawable(MainActivity.this,
+                    viewHolder.messengerImageView.setImageDrawable(ContextCompat.getDrawable(PersonalChat.this,
                             R.drawable.ic_account_circle_black_36dp));
                 } else {
-                    Glide.with(MainActivity.this)
+                    Glide.with(PersonalChat.this)
                             .load(messageClass.getPhotoUrl())
                             .into(viewHolder.messengerImageView);
                 }
@@ -248,7 +252,7 @@ public class MainActivity extends AppCompatActivity
                         mUsername,
                         mPhotoUrl,
                         null /* no image */);
-                mFirebaseDatabaseReference.child(MESSAGES_CHILD)
+                mFirebaseDatabaseReference.child(PERSONAL_MESSAGES_CHILD).child(mPrivateChatID)
                         .push().setValue(messageClass);
                 mMessageEditText.setText("");
             }

@@ -59,5 +59,13 @@ public class LauncherActivity extends AppCompatActivity {
                 LauncherActivity.this.startActivity(flights);
             }
         });
+        Button btnAuth = (Button) findViewById(R.id.btnAuth);
+        btnAuth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(LauncherActivity.this, AuthActivity.class);
+                LauncherActivity.this.startActivity(i);
+            }
+        });
     }
 }

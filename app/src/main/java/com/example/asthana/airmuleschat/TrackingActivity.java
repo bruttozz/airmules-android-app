@@ -1,17 +1,20 @@
 package com.example.asthana.airmuleschat;
 
-import android.app.Activity;
-import android.support.v4.app.ActivityCompat;
-import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.content.Intent;
-import android.location.LocationManager;
 import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
+
+// see reference: https://www.androidauthority.com/create-a-gps-tracking-application-with-firebase-realtime-databse-844343/
 public class TrackingActivity extends Activity {
     private static final int PERMISSIONS_REQUEST = 100;
+
 
 
     @Override

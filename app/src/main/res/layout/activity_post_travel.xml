@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PostTravelActivity">
+
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="34dp"
+        android:text="Submit" />
+
+    <EditText
+        android:id="@+id/editTextDepartureCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:ems="10"
+        android:hint="Departure City"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/editTextArrivalCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="136dp"
+        android:ems="10"
+        android:hint="Arrival City"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/editTextDepartureDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="213dp"
+        android:ems="10"
+        android:hint="Departure Date"
+        android:inputType="date" />
+
+    <EditText
+        android:id="@+id/editTextArrivalDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="181dp"
+        android:ems="10"
+        android:hint="Arrival Date"
+        android:inputType="date" />
+
+    <EditText
+        android:id="@+id/editTextFlightNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="108dp"
+        android:ems="10"
+        android:hint="Flight Number"
+        android:inputType="text" />
+
+</RelativeLayout>

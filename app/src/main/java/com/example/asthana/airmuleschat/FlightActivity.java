@@ -10,6 +10,9 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -65,12 +68,22 @@ public class FlightActivity extends AppCompatActivity {
     }
 
     protected void staticJson(String response) {
+        String result= "";
         if(response == null) {
             response = "Error with processing the request";
         }
+        try{
+            JSONObject obj = new JSONObject(response);
+            JSONObject departure = new JSONObject(obj.getString("departure"));
+            JSONObject arrival = new JSONObject(obj.getString("arrival"));
+            result = departure.getString("scheduledTime").substring(11,16) + " to " + arrival.getString("scheduledTime").substring(11,16);
+        }
+        catch (JSONException e){
+            result = e.getMessage();
+        }
         progressBar.setVisibility(View.GONE);
         Log.i("INFO", response);
-        responseView.setText(response);
+        responseView.setText(result);
     }
 
     //Uses the HttpURLConnection and URL libraries to get the result of the request

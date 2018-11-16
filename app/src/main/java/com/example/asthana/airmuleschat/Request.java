@@ -1,0 +1,180 @@
+package com.example.asthana.airmuleschat;
+
+import java.util.Date;
+
+public class Request {
+    private String customer;
+    private String mule;
+
+    private ItemData itemData;
+    private float reward;
+
+    private LocationInfo arrival;
+    private LocationInfo departure;
+
+    private String chatID;
+    private String flightNumber;
+
+    public Request(){}
+
+    public Request(String customer){
+        this.customer = customer;
+    }
+
+    public String getCustomer(){
+        return customer;
+    }
+
+    public String getMule() {
+        return mule;
+    }
+
+    public void setMule(String mule) {
+        this.mule = mule;
+    }
+
+    public ItemData getItemData() {
+        return itemData;
+    }
+
+    public void setItemData(ItemData itemData) {
+        this.itemData = itemData;
+    }
+
+    public float getReward() {
+        return reward;
+    }
+
+    public void setReward(float reward) {
+        this.reward = reward;
+    }
+
+    public LocationInfo getArrival() {
+        return arrival;
+    }
+
+    public void setArrival(LocationInfo arrival) {
+        this.arrival = arrival;
+    }
+
+    public LocationInfo getDeparture() {
+        return departure;
+    }
+
+    public void setDeparture(LocationInfo departure) {
+        this.departure = departure;
+    }
+
+    public String getChatID() {
+        return chatID;
+    }
+
+    public void setChatID(String chatID) {
+        this.chatID = chatID;
+    }
+
+    public String getFlightNumber() {
+        return flightNumber;
+    }
+
+    public void setFlightNumber(String flightNumber) {
+        this.flightNumber = flightNumber;
+    }
+
+
+    public static class ItemData{
+        private String name;
+        private float weight;
+        private float height;
+        private float length;
+        private float width;
+
+        public ItemData(){}
+
+        public ItemData(String name, float weight, float height, float length, float width){
+            this.name = name;
+            this.weight = weight;
+            this.height = height;
+            this.length = length;
+            this.width = width;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public float getWeight() {
+            return weight;
+        }
+
+        public void setWeight(float weight) {
+            this.weight = weight;
+        }
+
+        public float getHeight() {
+            return height;
+        }
+
+        public void setHeight(float height) {
+            this.height = height;
+        }
+
+        public float getLength() {
+            return length;
+        }
+
+        public void setLength(float length) {
+            this.length = length;
+        }
+
+        public float getWidth() {
+            return width;
+        }
+
+        public void setWidth(float width) {
+            this.width = width;
+        }
+    }
+
+    public static class LocationInfo{
+        private String city;
+        private String country;
+        private String date;
+
+        public LocationInfo(){}
+
+        public LocationInfo(String city, String country, String date) {
+            this.city = city;
+            this.country = country;
+            this.date = date;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public void setCity(String city) {
+            this.city = city;
+        }
+
+        public String getCountry() {
+            return country;
+        }
+
+        public void setCountry(String country) {
+            this.country = country;
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
+        }
+    }
+}

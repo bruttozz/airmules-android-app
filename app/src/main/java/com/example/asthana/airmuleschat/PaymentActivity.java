@@ -9,12 +9,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.payu.india.Model.PaymentParams;
 import com.payu.india.Model.PayuConfig;
 import com.payu.india.Model.PayuHashes;
@@ -59,6 +66,11 @@ public class PaymentActivity extends AppCompatActivity {
     // This sets the configuration
     private PayuConfig payuConfig;
 
+    //Database stuff
+    private FirebaseAuth mFirebaseAuth;
+    private DatabaseReference mDatabase;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,11 +78,15 @@ public class PaymentActivity extends AppCompatActivity {
 
         Payu.setInstance(this);
 
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
         txtPrice = (EditText) findViewById(R.id.edtPrice);
         txtFee = (TextView) findViewById(R.id.txtFeeAmount);
         txtTotalAmount = (TextView)findViewById(R.id.txtTotalAmount);
         setUpPriceListeners();
-        txtPrice.setText("100");    //TODO get this from previous activity
+        txtPrice.setText("10");    //TODO get this from previous activity
+        //TODO also need to get the actual transaction this applies to, so we can mark the payment as PENDING
 
         Button btnPayCredit = (Button) findViewById(R.id.btnPayCredit);
         btnPayCredit.setOnClickListener(new View.OnClickListener() {
@@ -85,32 +101,50 @@ public class PaymentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String totalAmountString = txtTotalAmount.getText().toString();
-                double totalAmount = Double.parseDouble(totalAmountString);
-                //TODO get the amount of money the user has in account and compare to total
-                String inAppMoneyString = "999";
-                double inAppMoney = Double.parseDouble(inAppMoneyString);
-                if(inAppMoney < totalAmount){
-                    new AlertDialog.Builder(PaymentActivity.this)
-                            .setCancelable(false)
-                            .setMessage("Not enough funds, have only $" + inAppMoneyString)
-                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    dialog.dismiss();
-                                }
-                            }).show();
-                }
-                else{
-                    inAppMoney = inAppMoney - totalAmount;
-                    //TODO subtract money from user's account
-                    new AlertDialog.Builder(PaymentActivity.this)
-                            .setCancelable(false)
-                            .setMessage("Payment Confirmed! $" + inAppMoney + " remaining.")
-                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    dialog.dismiss();
-                                }
-                            }).show();
-                }
+                final float totalAmount = Float.parseFloat(totalAmountString);
+
+                //Get the amount of money the user has in account and compare to total
+                DatabaseReference ref = mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).getRef();
+                // Attach a listener to read the data at our posts reference
+                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        UserClass user = dataSnapshot.getValue(UserClass.class);
+                        float inAppMoney = user.getMoney();
+                        String inAppMoneyString = Float.toString(inAppMoney);
+
+                        if(inAppMoney < totalAmount){
+                            new AlertDialog.Builder(PaymentActivity.this)
+                                    .setCancelable(false)
+                                    .setMessage("Not enough funds, have only $" + inAppMoneyString)
+                                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            dialog.dismiss();
+                                        }
+                                    }).show();
+                        }
+                        else{
+                            inAppMoney = inAppMoney - totalAmount;
+                            //subtract money from user's account
+                            mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).child("money").setValue(inAppMoney);
+                            //TODO Update the transaction to indicate payment is PENDING
+                            new AlertDialog.Builder(PaymentActivity.this)
+                                    .setCancelable(false)
+                                    .setMessage("Payment Confirmed! $" + inAppMoney + " remaining.")
+                                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            dialog.dismiss();
+                                        }
+                                    }).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.e("Payment", "Cannot connect to Firebase");
+                        //TODO return to transaction data activity?
+                    }
+                });
             }
         });
     }

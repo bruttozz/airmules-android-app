@@ -41,7 +41,7 @@ public class PostRequestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 saveRequestToDatabase();
-                //finish();
+                finish();
             }
         });
     }
@@ -50,8 +50,7 @@ public class PostRequestActivity extends AppCompatActivity {
         // add exception check in here!!!!!!
 
         Request req = makeFakeRequest();
-        String reqID = req.getCustomer() + System.currentTimeMillis();     //makes it unique
-        mDatabase.child("requests").child(reqID).setValue(req);
+        mDatabase.child("requests").child(req.getTransactionID()).setValue(req);
 
 
         /*
@@ -95,7 +94,8 @@ public class PostRequestActivity extends AppCompatActivity {
 
     private Request makeFakeRequest(){
         String customerID = mFirebaseAuth.getCurrentUser().getUid();
-        Request req = new Request(customerID);
+        String reqID = customerID + System.currentTimeMillis();     //makes it unique
+        Request req = new Request(reqID, customerID);
         req.setReward(123);
 
         Request.ItemData itemData = new Request.ItemData("cheese", 2, 1.1f, 2.1f, 3);

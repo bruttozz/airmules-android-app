@@ -3,6 +3,9 @@ package com.example.asthana.airmuleschat;
 import java.util.Date;
 
 public class Request {
+    //Unfortunately we need to track it here, so that we can pass it between activities...
+    private String transactionID;
+
     private String customer;
     private String mule;
 
@@ -17,8 +20,13 @@ public class Request {
 
     public Request(){}
 
-    public Request(String customer){
+    public Request(String transactionID, String customer){
+        this.transactionID = transactionID;
         this.customer = customer;
+    }
+
+    public String getTransactionID(){
+        return transactionID;
     }
 
     public String getCustomer(){

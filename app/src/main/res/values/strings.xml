@@ -17,6 +17,26 @@
 
     <string name="from_location">From:</string>
     <string name="to_location">To:</string>
+    <string name="arrival_date">Arrive By:</string>
     <string name="posted_price">Reward:</string>
+
+    <!--For creating a request START-->
+    <string name="createNewReq">Create A New Request!</string>
+
+    <string name="itemInfo">Item Information</string>
+    <string name="itemName">Name</string>
+    <string name="itemWeight">Weight (lbs)</string>
+    <string name="itemHeight">Height (in)</string>
+    <string name="itemLength">Length (in)</string>
+    <string name="itemWidth">Width (in)</string>
+
+    <string name="reqReward">Reward ($)</string>
+
+    <string name="reqDeparture">Departure</string>
+    <string name="reqArrival">Arrival</string>
+    <string name="reqCity">City</string>
+    <string name="reqCountry">Country</string>
+    <string name="reqDate">Date</string>
+    <!--For creating a request END-->
 
 </resources>

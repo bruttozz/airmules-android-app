@@ -30,18 +30,13 @@ import java.util.HashMap;
  * A simple {@link Fragment} subclass.
  */
 public class Transactions extends Fragment {
-    //Should match database:
-    public static final String TO_LOCATION = "TO_LOCATION";
-    public static final String FROM_LOCATION = "FROM_LOCATION";
-    public static final String PRICE = "REWARD";
-
     private TransactionsListener TL;
 
     //Database stuff
     private FirebaseAuth mFirebaseAuth;
     private DatabaseReference mDatabase;
     private RecyclerView listTransactions;
-    FirebaseRecyclerAdapter adapter;
+    private FirebaseRecyclerAdapter adapter;
 
     public Transactions() {
         // Required empty public constructor
@@ -104,8 +99,9 @@ public class Transactions extends Fragment {
             @Override
             protected void onBindViewHolder(TransactionHolder holder, int position, Request model) {
                 holder.bindTransactionData(model.getTransactionID(),
-                        model.getDeparture().getCity(),
-                        model.getArrival().getCity(),
+                        model.getDeparture().getCity(), model.getDeparture().getCountry(),
+                        model.getArrival().getCity(), model.getArrival().getCountry(),
+                        model.getArrival().getDate(),
                         Float.toString(model.getReward()));
             }
         };
@@ -128,6 +124,7 @@ class TransactionHolder extends RecyclerView.ViewHolder {
     private Context mContext;
     private TextView txtFromLocation;
     private TextView txtToLocation;
+    private TextView txtArrivalDate;
     private TextView txtPostedPrice;
 
     private String transactionID;
@@ -138,6 +135,7 @@ class TransactionHolder extends RecyclerView.ViewHolder {
 
         txtFromLocation = (TextView) itemView.findViewById(R.id.txtFromLocation);
         txtToLocation = (TextView) itemView.findViewById(R.id.txtToLocation);
+        txtArrivalDate = (TextView) itemView.findViewById(R.id.txtArrivalDate);
         txtPostedPrice = (TextView) itemView.findViewById(R.id.txtPostedPrice);
 
         //With the Firebase Adapter, for some reason, we set the listener directly on the view
@@ -152,10 +150,13 @@ class TransactionHolder extends RecyclerView.ViewHolder {
     }
 
     public void bindTransactionData(String transactionID,
-            String from, String to, String price) {
+                                    String fromzCity, String fromCountry,
+                                    String toCity, String toCountry,
+                                    String arrivalDate, String price) {
         this.transactionID = transactionID;
-        txtFromLocation.setText(from);
-        txtToLocation.setText(to);
+        txtFromLocation.setText(fromzCity + ", " + fromCountry);
+        txtToLocation.setText(toCity + ", " + toCountry);
+        txtArrivalDate.setText(arrivalDate);
         txtPostedPrice.setText("$" + price);
     }
 }

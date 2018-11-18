@@ -16,10 +16,14 @@ import com.google.firebase.database.ValueEventListener;
 public class PostRequestActivity extends AppCompatActivity {
 
     private Button btnSubmit;
+
     private EditText editTextDepartureCity;
     private EditText editTextArrivalCity;
     private EditText editTextEndDate;
     private EditText itemEditText;
+
+
+
     private DatabaseReference mDatabase;
     private FirebaseAuth mFirebaseAuth;
 
@@ -32,10 +36,13 @@ public class PostRequestActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
 
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
+
+        /*
         editTextDepartureCity = (EditText) findViewById(R.id.editTextDepartureCity);
         editTextArrivalCity = (EditText) findViewById(R.id.editTextArrivalCity);
         editTextEndDate = (EditText) findViewById(R.id.editTextEndDate);
         itemEditText = (EditText) findViewById(R.id.itemTextView);
+        */
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,9 +54,12 @@ public class PostRequestActivity extends AppCompatActivity {
     }
 
     private  void saveRequestToDatabase() {
-        // add exception check in here!!!!!!
-
         Request req = makeFakeRequest();
+        //Request req = readReqDataFromGUI();
+
+
+        // add exception/user input check in here!!!!!!
+
         mDatabase.child("requests").child(req.getTransactionID()).setValue(req);
 
 
@@ -69,8 +79,9 @@ public class PostRequestActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {}
         });
         */
+    }
 
-        //TODO add and read all properties from GUI
+    private Request readReqDataFromGUI(){
 
         /*
         mDatabase.child("users")
@@ -90,6 +101,9 @@ public class PostRequestActivity extends AppCompatActivity {
                 .child("Request")
                 .child("Item").setValue(itemEditText.getText().toString());
                 */
+
+
+        return null;
     }
 
     private Request makeFakeRequest(){
@@ -101,10 +115,10 @@ public class PostRequestActivity extends AppCompatActivity {
         Request.ItemData itemData = new Request.ItemData("cheese", 2, 1.1f, 2.1f, 3);
         req.setItemData(itemData);
 
-        Request.LocationInfo departure = new Request.LocationInfo("Shanghai", "China", "2018-11-16");
+        Request.LocationInfo departure = new Request.LocationInfo("Shanghai", "China", "16-11-2018");
         req.setDeparture(departure);
 
-        Request.LocationInfo arrival = new Request.LocationInfo("Boston", "USA", "2018-11-17");
+        Request.LocationInfo arrival = new Request.LocationInfo("Boston", "USA", "17-11-2018");
         req.setArrival(arrival);
 
         return req;

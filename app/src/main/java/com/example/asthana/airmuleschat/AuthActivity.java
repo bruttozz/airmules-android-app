@@ -24,8 +24,11 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 // reference: https://firebase.google.com/docs/auth/android/google-signin
 public class AuthActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
@@ -39,6 +42,7 @@ public class AuthActivity extends AppCompatActivity implements GoogleApiClient.O
     private Button requestButton;
     private Button travelButton;
     private Button startTrackingButton;
+    private DataSnapshot mSnapShot;
 
     private DatabaseReference mDatabase;
 
@@ -78,6 +82,25 @@ public class AuthActivity extends AppCompatActivity implements GoogleApiClient.O
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mFirebaseAuth = FirebaseAuth.getInstance();
+
+        // Read from the database
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+
+                String value = dataSnapshot.getValue(String.class);
+                mSnapShot = dataSnapshot;
+                Log.d(TAG, "Value is: " + value);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
 
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

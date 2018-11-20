@@ -5,6 +5,7 @@ public class UserClass {
     private float money;
 
     public UserClass() {
+        
     }
 
     public UserClass(String name, float money) {

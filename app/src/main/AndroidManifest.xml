@@ -36,11 +36,15 @@
 
         <activity android:name=".PersonalChat" />
         <activity android:name=".AllTransactionsActivity" />
-        <activity android:name=".FlightActivity"/>
+        <activity android:name=".FlightActivity" />
         <activity android:name=".AuthActivity" />
         <activity android:name=".PostTravelActivity" />
-        <activity android:name=".PostRequestActivity">
-        </activity>
+        <activity android:name=".PostRequestActivity" />
+        <activity android:name=".UserProfileActivity" />
+        <activity android:name=".SeeTravelActivity" />
+        <activity android:name=".SeeRequestActivity" />
+        <activity android:name=".SeeChatActivity" />
+        <activity android:name=".RequestDetailActivity"></activity>
     </application>
 
 </manifest>

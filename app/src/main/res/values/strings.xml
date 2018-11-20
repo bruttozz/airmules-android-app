@@ -18,5 +18,18 @@
     <string name="from_location">From:</string>
     <string name="to_location">To:</string>
     <string name="posted_price">Reward:</string>
+    <string name="txtMoneyleft">Money:</string>
+    <string name="txtSeeRequest">See all your Requests</string>
+    <string name="txtSeeTravel">See all your travels</string>
+    <string name="txtSeeChat">See all your chats</string>
+    <string name="txtSignOut">Sign Out</string>
+    <string name="txtDeparture">Departure</string>
+    <string name="txtArrival">Arrival</string>
+    <string name="txtDate">Date</string>
+    <string name="txtItem">Item</string>
+    <string name="txtWeight">Weight</string>
+    <string name="txtSize">Size</string>
+    <string name="txtChat">Chat</string>
+    <string name="txtPay">Pay</string>
 
 </resources>

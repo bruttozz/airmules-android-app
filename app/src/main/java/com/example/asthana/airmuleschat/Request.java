@@ -92,14 +92,14 @@ public class Request {
 
     public static class ItemData{
         private String name;
-        private float weight;
+        private int weight;
         private float height;
         private float length;
         private float width;
 
         public ItemData(){}
 
-        public ItemData(String name, float weight, float height, float length, float width){
+        public ItemData(String name, int weight, float height, float length, float width){
             this.name = name;
             this.weight = weight;
             this.height = height;
@@ -115,11 +115,11 @@ public class Request {
             this.name = name;
         }
 
-        public float getWeight() {
+        public int getWeight() {
             return weight;
         }
 
-        public void setWeight(float weight) {
+        public void setWeight(int weight) {
             this.weight = weight;
         }
 

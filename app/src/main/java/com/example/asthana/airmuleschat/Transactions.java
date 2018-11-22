@@ -12,7 +12,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +34,19 @@ import java.util.HashMap;
  */
 public class Transactions extends Fragment {
     private TransactionsListener TL;
+
+    //Filter control
+    private LinearLayout layoutButton;
+    private Button btnFilter;
+    private LinearLayout layoutFilter;
+    private EditText editTextDepCity;
+    private EditText editTextDepCountry;
+    private EditText editTextDepDate;
+    private EditText editTextArrCity;
+    private EditText editTextArrCountry;
+    private EditText editTextArrDate;
+    private Button btnApply;
+    private Button btnClear;
 
     //Database stuff
     private FirebaseAuth mFirebaseAuth;
@@ -58,6 +74,18 @@ public class Transactions extends Fragment {
         // Inflate the layout for this fragment
         View fragView = inflater.inflate(R.layout.fragment_transactions, container, false);
 
+        layoutButton = (LinearLayout)fragView.findViewById(R.id.layoutButton);
+        btnFilter = (Button)fragView.findViewById(R.id.btnFilter);
+        layoutFilter = (LinearLayout)fragView.findViewById(R.id.layoutFilter);
+        editTextDepCity = (EditText)fragView.findViewById(R.id.editTextDepCity);
+        editTextDepCountry = (EditText)fragView.findViewById(R.id.editTextDepCountry);
+        editTextDepDate = (EditText)fragView.findViewById(R.id.editTextDepDate);
+        editTextArrCity = (EditText)fragView.findViewById(R.id.editTextArrCity);
+        editTextArrCountry = (EditText)fragView.findViewById(R.id.editTextArrCountry);
+        editTextArrDate = (EditText)fragView.findViewById(R.id.editTextArrDate);
+        btnApply = (Button)fragView.findViewById(R.id.btnApply);
+        btnClear = (Button)fragView.findViewById(R.id.btnClear);
+
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -77,7 +105,43 @@ public class Transactions extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //TODO add any listeners to the views (except the handler, which is assigned below)
+        //add any listeners to the views (except the handler, which is assigned below)
+        btnFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btnFilter.setVisibility(LinearLayout.GONE);
+                layoutFilter.setVisibility(LinearLayout.VISIBLE);
+            }
+        });
+
+        btnApply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                layoutFilter.setVisibility(LinearLayout.GONE);
+                btnFilter.setVisibility(LinearLayout.VISIBLE);
+
+                //TODO apply the filters
+            }
+        });
+
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                layoutFilter.setVisibility(LinearLayout.GONE);
+                btnFilter.setVisibility(LinearLayout.VISIBLE);
+
+                editTextDepCity.setText("");
+                editTextDepCountry.setText("");
+                editTextDepDate.setText("");
+                editTextArrCity.setText("");
+                editTextArrCountry.setText("");
+                editTextArrDate.setText("");
+            }
+        });
+
+
+        //hide the filter layout until it is needed
+        layoutFilter.setVisibility(LinearLayout.GONE);
     }
 
     private void createDatabaseQueryAdapter(){

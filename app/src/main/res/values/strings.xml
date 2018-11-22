@@ -15,10 +15,15 @@
 
     <string name="all_transactions">Requests for Mules:</string>
 
+    <string name="filter">Filter Requests</string>
+    <string name="apply">Apply</string>
+    <string name="clear">Clear Filters</string>
+
     <string name="from_location">From:</string>
     <string name="to_location">To:</string>
     <string name="arrival_date">Arrive By:</string>
     <string name="posted_price">Reward:</string>
+
     <string name="txtMoneyleft">Money:</string>
     <string name="txtSeeRequest">See all your Requests</string>
     <string name="txtSeeTravel">See all your travels</string>

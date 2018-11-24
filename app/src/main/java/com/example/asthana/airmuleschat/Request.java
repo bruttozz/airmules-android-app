@@ -149,6 +149,11 @@ public class Request {
     }
 
     public static class LocationInfo{
+        public static final String DATE_DELIMITER = "-";
+        public static final int DAY_INDEX = 0;
+        public static final int MONTH_INDEX = 1;
+        public static final int YEAR_INDEX = 2;
+
         private String city;
         private String country;
         private String date;

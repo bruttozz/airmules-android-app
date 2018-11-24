@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 
@@ -221,7 +224,32 @@ public class Transactions extends Fragment {
                         requestListAll.add(r);
                     }
 
-                    //TODO sort by date
+                    //Sort by arrive date
+                    final int preferLatestFirst = -1;
+                    Collections.sort(requestListAll, new Comparator<Request>() {
+                        @Override
+                        public int compare(Request r1, Request r2) {
+                            String arrDate1 = r1.getArrival().getDate();
+                            String[] arrDate1Data = arrDate1.split(Request.LocationInfo.DATE_DELIMITER);
+                            String arrDate2 = r2.getArrival().getDate();
+                            String[] arrDate2Data = arrDate2.split(Request.LocationInfo.DATE_DELIMITER);
+
+                            int compare;
+                            //year
+                            compare = arrDate1Data[Request.LocationInfo.YEAR_INDEX].compareTo(arrDate2Data[Request.LocationInfo.YEAR_INDEX]);
+                            if(compare != 0){
+                                return preferLatestFirst * compare;
+                            }
+                            //month
+                            compare = arrDate1Data[Request.LocationInfo.MONTH_INDEX].compareTo(arrDate2Data[Request.LocationInfo.MONTH_INDEX]);
+                            if(compare != 0){
+                                return preferLatestFirst * compare;
+                            }
+                            //day
+                            compare = arrDate1Data[Request.LocationInfo.DAY_INDEX].compareTo(arrDate2Data[Request.LocationInfo.DAY_INDEX]);
+                            return preferLatestFirst * compare;
+                        }
+                    });
 
                     clearRequestFilters();
                 }

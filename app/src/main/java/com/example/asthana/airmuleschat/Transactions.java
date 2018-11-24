@@ -22,10 +22,14 @@ import android.widget.Toast;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -52,7 +56,8 @@ public class Transactions extends Fragment {
     private FirebaseAuth mFirebaseAuth;
     private DatabaseReference mDatabase;
     private RecyclerView listTransactions;
-    private FirebaseRecyclerAdapter adapter;
+    private TransactionAdapter adapter;
+    //private FirebaseRecyclerAdapter adapter;
 
     public Transactions() {
         // Required empty public constructor
@@ -120,7 +125,7 @@ public class Transactions extends Fragment {
                 layoutFilter.setVisibility(LinearLayout.GONE);
                 btnFilter.setVisibility(LinearLayout.VISIBLE);
 
-                //TODO apply the filters
+               adapter.filterRequests();
             }
         });
 
@@ -136,6 +141,8 @@ public class Transactions extends Fragment {
                 editTextArrCity.setText("");
                 editTextArrCountry.setText("");
                 editTextArrDate.setText("");
+
+                adapter.clearRequestFilters();
             }
         });
 
@@ -145,6 +152,13 @@ public class Transactions extends Fragment {
     }
 
     private void createDatabaseQueryAdapter(){
+        //TODO add custom queries depending on the data of interest (ex. requests from specific user)
+        DatabaseReference q = mDatabase.child("requests").getRef();
+        adapter = new TransactionAdapter(getContext(), q);
+    }
+
+    /*
+    private void createDatabaseQueryAdapter2(){
         //based on https://github.com/firebase/FirebaseUI-Android/blob/master/database/README.md
 
         //TODO add custom queries depending on the data of interest
@@ -182,7 +196,120 @@ public class Transactions extends Fragment {
         super.onStop();
         adapter.stopListening();
     }
+    */
+
+    //Based on https://github.com/puf/firebase-stackoverflow-android/blob/master/app/src/main/java/com/firebasedemo/stackoverflow/Activity34962254.java
+    private class TransactionAdapter extends RecyclerView.Adapter<TransactionHolder> {
+        private Context mContext;
+        private DatabaseReference myQuery;
+        private ArrayList<Request> requestListAll;
+        private ArrayList<Request> requestListToShow;
+
+        public TransactionAdapter(Context mContext, DatabaseReference myQuery){
+            this.mContext = mContext;
+            this.myQuery = myQuery;
+
+            requestListAll = new ArrayList<Request>();
+            requestListToShow = new ArrayList<Request>();
+
+            myQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    requestListAll.clear();
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        Request r = postSnapshot.getValue(Request.class);
+                        requestListAll.add(r);
+                    }
+
+                    //TODO sort by date
+
+                    clearRequestFilters();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    System.out.println("The request read failed: " + databaseError.getMessage());
+                }
+            });
+        }
+
+        @NonNull
+        @Override
+        public TransactionHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.transaction_row, parent, false);
+            return new TransactionHolder(parent.getContext(), view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull TransactionHolder holder, int position) {
+            Request model = requestListToShow.get(position);
+            holder.bindTransactionData(model.getTransactionID(),
+                    model.getDeparture().getCity(), model.getDeparture().getCountry(),
+                    model.getArrival().getCity(), model.getArrival().getCountry(),
+                    model.getArrival().getDate(),
+                    Float.toString(model.getReward()));
+        }
+
+        @Override
+        public int getItemCount() {
+            return requestListToShow.size();
+        }
+
+        private void filterRequests(){
+            requestListToShow.clear();
+
+            //apply the filers
+            for(Request r : requestListAll){
+                if(!dataMatches(editTextDepCity.getText().toString(), r.getDeparture().getCity())){
+                    continue;
+                }
+                if(!dataMatches(editTextDepCountry.getText().toString(), r.getDeparture().getCountry())){
+                    continue;
+                }
+                if(!dataMatches(editTextDepDate.getText().toString(), r.getDeparture().getDate())){
+                    continue;
+                }
+
+                if(!dataMatches(editTextArrCity.getText().toString(), r.getArrival().getCity())){
+                    continue;
+                }
+                if(!dataMatches(editTextArrCountry.getText().toString(), r.getArrival().getCountry())){
+                    continue;
+                }
+                if(!dataMatches(editTextArrDate.getText().toString(), r.getArrival().getDate())) {
+                    continue;
+                }
+
+                requestListToShow.add(r);
+            }
+
+            notifyDataSetChanged();
+        }
+
+        private boolean dataMatches(String guiData, String requestData){
+            if(guiData == null || guiData.isEmpty()){
+                //We don't care to sort on this field
+                return true;
+            }
+
+            if(guiData.equals(requestData)){
+                return true;
+            }
+
+            return false;
+        }
+
+        private void clearRequestFilters(){
+            requestListToShow.clear();
+            requestListToShow.addAll(requestListAll);
+
+            notifyDataSetChanged();
+        }
+    }
 }
+
+
 
 class TransactionHolder extends RecyclerView.ViewHolder {
     private Context mContext;

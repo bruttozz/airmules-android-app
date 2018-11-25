@@ -69,7 +69,7 @@ public class PersonalChat extends BaseMenuActivity {
     private DatabaseReference mFirebaseDatabaseReference;
     private FirebaseRecyclerAdapter<MessageClass, MessageViewHolder>
             mFirebaseAdapter;
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "Personal Chat";
     public static final String PERSONAL_MESSAGES_CHILD = "personal_messages";
     public static final String ANONYMOUS = "Unknown Person";
     private String mUsername;

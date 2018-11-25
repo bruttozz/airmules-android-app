@@ -76,7 +76,6 @@ public class TrackingActivity extends Activity {
 
         Toast.makeText(this, "GPS tracking enabled", Toast.LENGTH_SHORT).show();
 
-//Close MainActivity//
 
 //        finish();
     }

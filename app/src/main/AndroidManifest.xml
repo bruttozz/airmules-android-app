@@ -44,7 +44,8 @@
         <activity android:name=".SeeTravelActivity" />
         <activity android:name=".SeeRequestActivity" />
         <activity android:name=".SeeChatActivity" />
-        <activity android:name=".RequestDetailActivity"></activity>
+        <activity android:name=".RequestDetailActivity" />
+        <activity android:name=".BaseMenuActivity"></activity>
     </application>
 
 </manifest>

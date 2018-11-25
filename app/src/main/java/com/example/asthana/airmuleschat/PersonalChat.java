@@ -46,8 +46,7 @@ import com.google.firebase.storage.StorageReference;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PersonalChat extends AppCompatActivity
-        implements GoogleApiClient.OnConnectionFailedListener {
+public class PersonalChat extends BaseMenuActivity {
 
     public static class MessageViewHolder extends RecyclerView.ViewHolder {
         TextView messageTextView;
@@ -96,28 +95,7 @@ public class PersonalChat extends AppCompatActivity
 
         mPrivateChatID = getIntent().getExtras().getString("chatID");
 
-        // Set default username is anonymous.
-        mUsername = ANONYMOUS;
 
-        // Firebase Auth!
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        if (mFirebaseUser == null) {
-            // Not signed in, launch the Sign In activity
-            startActivity(new Intent(this, SignInActivity.class));
-            finish();
-            return;
-        } else {
-            mUsername = mFirebaseUser.getDisplayName();
-            if (mFirebaseUser.getPhotoUrl() != null) {
-                mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
-            }
-        }
-
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API)
-                .build();
 
         // Initialize ProgressBar and RecyclerView.
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -301,8 +279,6 @@ public class PersonalChat extends AppCompatActivity
                 startActivity(new Intent(this, SignInActivity.class));
                 finish();
                 return true;
-            case R.id.view_people:
-                startActivity(new Intent(this, PickPersonChat.class));
             default:
                 return super.onOptionsItemSelected(item);
         }

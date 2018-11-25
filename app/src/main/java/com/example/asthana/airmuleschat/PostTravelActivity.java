@@ -11,7 +11,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 
-public class PostTravelActivity extends AppCompatActivity {
+public class PostTravelActivity extends BaseMenuActivity {
     private Button btnSubmit;
     private EditText editTextDepartureCity;
     private EditText editTextArrivalCity;

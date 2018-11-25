@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class FlightActivity extends AppCompatActivity {
+public class FlightActivity extends BaseMenuActivity {
 
     EditText flightNum;
     TextView responseView;

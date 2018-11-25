@@ -19,7 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
 
-public class UserProfileActivity extends AppCompatActivity {
+public class UserProfileActivity extends BaseMenuActivity {
     // User Profile main page
 
     private DatabaseReference mDatabase;

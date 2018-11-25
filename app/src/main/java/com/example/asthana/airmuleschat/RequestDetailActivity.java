@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
-public class RequestDetailActivity extends AppCompatActivity {
+public class RequestDetailActivity extends BaseMenuActivity {
 
     private TextView txtViewDeparture;
     private TextView txtViewArrival;

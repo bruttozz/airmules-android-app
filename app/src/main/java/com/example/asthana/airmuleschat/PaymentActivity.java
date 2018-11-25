@@ -43,7 +43,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Iterator;
 
-public class PaymentActivity extends AppCompatActivity {
+public class PaymentActivity extends BaseMenuActivity {
     private static final double SERVICE_FEE = .1;
 
     //Original price of transaction

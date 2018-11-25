@@ -3,7 +3,7 @@ package com.example.asthana.airmuleschat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class SeeRequestActivity extends AppCompatActivity {
+public class SeeRequestActivity extends BaseMenuActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

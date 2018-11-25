@@ -297,8 +297,6 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(this, SignInActivity.class));
                 finish();
                 return true;
-            case R.id.view_people:
-                startActivity(new Intent(this, PickPersonChat.class));
             default:
                 return super.onOptionsItemSelected(item);
         }

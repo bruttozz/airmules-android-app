@@ -129,7 +129,7 @@ public class SignInActivity extends AppCompatActivity implements
                         } else {
                             mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid())
                                     .setValue(new UserClass(mFirebaseAuth.getCurrentUser().getDisplayName(), 100));
-                            startActivity(new Intent(SignInActivity.this, MainActivity.class));
+                            startActivity(new Intent(SignInActivity.this, LauncherActivity.class));
                             finish();
                         }
                     }

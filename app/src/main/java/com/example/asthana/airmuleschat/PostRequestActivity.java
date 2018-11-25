@@ -16,7 +16,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class PostRequestActivity extends AppCompatActivity {
+public class PostRequestActivity extends BaseMenuActivity {
     private DatabaseReference mDatabase;
     private FirebaseAuth mFirebaseAuth;
 

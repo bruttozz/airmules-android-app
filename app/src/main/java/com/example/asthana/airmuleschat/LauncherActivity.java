@@ -25,6 +25,15 @@ public class LauncherActivity extends BaseMenuActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
 
+        Button btnUserProfile = (Button) findViewById(R.id.btnSeeUserProfile);
+        btnUserProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent gotoUserProfile = new Intent(LauncherActivity.this, UserProfileActivity.class);
+                LauncherActivity.this.startActivity(gotoUserProfile);
+            }
+        });
+
 
 
         Button btnOpenChat = (Button) findViewById(R.id.openChatButton);
@@ -70,6 +79,15 @@ public class LauncherActivity extends BaseMenuActivity{
             public void onClick(View view) {
                 Intent flights = new Intent(LauncherActivity.this, FlightActivity.class);
                 LauncherActivity.this.startActivity(flights);
+            }
+        });
+
+        Button btnPostRequest = (Button) findViewById(R.id.btnPostRequest);
+        btnPostRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent gotoPostRequestActivity = new Intent(LauncherActivity.this, PostRequestActivity.class);
+                LauncherActivity.this.startActivity(gotoPostRequestActivity);
             }
         });
     }

@@ -10,51 +10,51 @@
         android:id="@+id/txtLabelSize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/txtLabelDeparture"
-        android:layout_marginBottom="170dp"
+        android:layout_alignLeft="@id/txtLabelDeparture"
+        android:layout_below="@+id/txtLabelWeight"
+        android:layout_marginTop="20dp"
         android:text="@string/txtSize"
-        android:textSize="24sp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/txtLabelWeight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/txtLabelDeparture"
-        android:layout_marginBottom="220dp"
+        android:layout_alignLeft="@id/txtLabelDeparture"
+        android:layout_below="@id/txtLabelItem"
+        android:layout_marginTop="20dp"
         android:text="@string/txtWeight"
-        android:textSize="24sp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/txtLabelDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/txtLabelDeparture"
-        android:layout_marginTop="152dp"
+        android:layout_alignLeft="@+id/txtLabelDeparture"
+        android:layout_below="@+id/txtLabelArrival"
+        android:layout_marginTop="20dp"
         android:text="@string/txtDate"
-        android:textSize="24sp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/txtLabelArrival"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/txtLabelDeparture"
-        android:layout_marginTop="99dp"
+        android:layout_alignLeft="@+id/txtLabelDeparture"
+        android:layout_below="@+id/txtLabelDeparture"
+        android:layout_marginTop="20dp"
         android:text="@string/txtArrival"
-        android:textSize="24sp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/txtLabelItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/txtLabelDeparture"
-        android:layout_marginTop="208dp"
+        android:layout_alignLeft="@id/txtLabelDeparture"
+        android:layout_below="@id/txtLabelDate"
+        android:layout_marginTop="20dp"
         android:text="@string/txtItem"
-        android:textSize="24sp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/txtLabelDeparture"
@@ -62,9 +62,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignTop="@+id/txtViewDeparture"
-        android:layout_marginStart="71dp"
+        android:layout_marginStart="55dp"
         android:text="@string/txtDeparture"
-        android:textSize="24sp" />
+        android:textSize="18sp" />
 
 
     <TextView
@@ -81,97 +81,103 @@
         android:id="@+id/btnFlight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/btnChat"
-        android:layout_marginEnd="35dp"
-        android:text="Flight" />
+        android:layout_alignTop="@id/btnChat"
+        android:layout_toRightOf="@+id/btnPay"
+        android:layout_marginLeft="10dp"
+        android:text="Flight"
+        android:textSize="10sp" />
 
     <Button
         android:id="@+id/btnCancelRequest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/btnSignUpForMule"
-        android:layout_marginEnd="73dp"
-        android:text="Cancel" />
+        android:layout_below="@id/btnSignUpOrUnregister"
+        android:layout_alignLeft="@id/btnSignUpOrUnregister"
+        android:layout_alignRight="@id/btnSignUpOrUnregister"
+        android:text="Cancel"
+        android:textSize="10sp" />
 
     <Button
         android:id="@+id/btnPay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/btnFlight"
-        android:layout_toStartOf="@+id/textViewWeight"
-        android:text="@string/txtPay" />
+        android:layout_alignTop="@id/btnChat"
+        android:layout_centerHorizontal="true"
+        android:text="@string/txtPay"
+        android:textSize="10sp" />
 
     <Button
-        android:id="@+id/btnSignUpForMule"
+        android:id="@+id/btnSignUpOrUnregister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/btnChat"
-        android:layout_marginBottom="22dp"
-        android:text="Sign up for mule" />
+        android:layout_below="@id/btnChat"
+        android:layout_alignLeft="@id/btnChat"
+        android:layout_alignRight="@id/btnFlight"
+        android:textSize="10sp" />
+
 
     <Button
         android:id="@+id/btnChat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/txtLabelArrival"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="100dp"
-        android:text="@string/txtChat" />
+        android:layout_alignTop="@id/txtLabelSize"
+        android:layout_marginTop="60dp"
+        android:layout_toLeftOf="@id/btnPay"
+        android:layout_marginRight="10dp"
+        android:text="@string/txtChat"
+        android:textSize="10sp" />
 
     <TextView
         android:id="@+id/textViewWeight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/txtLabelWeight"
-        android:layout_toStartOf="@+id/txtViewDeparture"
-        android:text="10"
-        android:textSize="24sp" />
+        android:layout_toRightOf="@+id/txtLabelWeight"
+        android:layout_marginLeft="10dp"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/textViewSize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toStartOf="@+id/txtViewDeparture"
         android:layout_alignTop="@+id/txtLabelSize"
-        android:text="1 X 2 X 3"
-        android:textSize="24sp" />
+        android:layout_toRightOf="@+id/txtLabelSize"
+        android:layout_marginLeft="10dp"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/textViewItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toStartOf="@+id/txtViewDeparture"
         android:layout_alignTop="@+id/txtLabelItem"
-        android:text="coffee"
-        android:textSize="24sp" />
+        android:layout_toRightOf="@+id/txtLabelItem"
+        android:layout_marginLeft="10dp"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/textViewDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toStartOf="@+id/txtViewDeparture"
         android:layout_alignTop="@+id/txtLabelDate"
-        android:text="20180101"
-        android:textSize="24sp" />
+        android:layout_toRightOf="@+id/txtLabelDate"
+        android:layout_marginLeft="10dp"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/textViewArrival"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toStartOf="@+id/txtViewDeparture"
         android:layout_alignTop="@+id/txtLabelArrival"
-        android:text="boston"
-        android:textSize="24sp" />
+        android:layout_toRightOf="@+id/txtLabelArrival"
+        android:layout_marginLeft="10dp"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/textViewDeparture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toStartOf="@+id/txtViewDeparture"
         android:layout_alignTop="@+id/txtViewDeparture"
-        android:text="shanghai"
-        android:textSize="24sp" />
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/txtLabelDeparture"
+        android:textSize="18sp" />
 </RelativeLayout>

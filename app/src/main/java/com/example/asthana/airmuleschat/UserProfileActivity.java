@@ -33,6 +33,8 @@ public class UserProfileActivity extends BaseMenuActivity {
     private Button btnSeeChat;
     private Button btnSignOut;
 
+    private String userID;
+
 
 
     @Override
@@ -50,8 +52,10 @@ public class UserProfileActivity extends BaseMenuActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mFirebaseAuth = FirebaseAuth.getInstance();
 
+        userID = mFirebaseAuth.getCurrentUser().getUid();
+
         userDisplayName.setText(mFirebaseAuth.getCurrentUser().getDisplayName().toString());
-        // TO_DO: set user profile image in imageView
+        // TODO: set user profile image in imageView
 
         btnSignOut.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,7 +1,9 @@
 package com.example.asthana.airmuleschat;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,6 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.phonepe.intent.sdk.ui.TransactionActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -364,8 +367,13 @@ class TransactionHolder extends RecyclerView.ViewHolder {
             public void onClick(View view) {
                 //TODO make an intent to start the request details activity
                 Toast.makeText(mContext, transactionID, Toast.LENGTH_SHORT).show();
+                Intent seeRequestDetail = new Intent(mContext, RequestDetailActivity.class);
+                seeRequestDetail.putExtra("transactionID", transactionID);
+                mContext.startActivity(seeRequestDetail);
             }
         });
+
+
     }
 
     public void bindTransactionData(String transactionID,

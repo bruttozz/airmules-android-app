@@ -1,9 +1,11 @@
 package com.example.asthana.airmuleschat;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -14,7 +16,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class PostRequestActivity extends BaseMenuActivity {
     private DatabaseReference mDatabase;
@@ -35,6 +40,9 @@ public class PostRequestActivity extends BaseMenuActivity {
     private EditText editTextArrCity;
     private EditText editTextArrCountry;
     private EditText editTextArrDate;
+    private Calendar myCalendar;
+    DatePickerDialog.OnDateSetListener dateDep;
+    DatePickerDialog.OnDateSetListener dateArr;
 
     private ArrayList<EditText> allEditTexts;
 
@@ -96,6 +104,55 @@ public class PostRequestActivity extends BaseMenuActivity {
         allEditTexts.add(editTextArrCity);
         allEditTexts.add(editTextArrCountry);
         allEditTexts.add(editTextArrDate);
+        myCalendar = Calendar.getInstance();
+        dateArr = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel("arr");
+            }
+
+        };
+
+        editTextArrDate.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(PostRequestActivity.this, dateArr, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+        dateDep = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel("dep");
+            }
+
+        };
+
+        editTextDepDate.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(PostRequestActivity.this, dateDep, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
 
         //Clear the edit text data
         for(EditText et : allEditTexts){
@@ -190,5 +247,14 @@ public class PostRequestActivity extends BaseMenuActivity {
         req.setArrival(arrival);
 
         return req;
+    }
+
+    private void updateLabel(String type) {
+        String myFormat = "dd-MM-yyyy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        if (type.equals("arr"))
+            editTextArrDate.setText(sdf.format(myCalendar.getTime()));
+        else
+            editTextDepDate.setText(sdf.format(myCalendar.getTime()));
     }
 }

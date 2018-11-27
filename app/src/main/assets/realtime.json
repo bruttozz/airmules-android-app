@@ -1,0 +1,142 @@
+{
+
+
+    "geography": {
+
+
+
+      "latitude": 57.7561,
+
+
+
+      "longitude": 100.923,
+
+
+
+      "altitude": 11270,
+
+
+
+      "direction": 143
+
+
+    },
+
+
+    "speed": {
+
+
+
+      "horizontal": 935.26,
+
+
+
+      "isGround": 0,
+
+
+
+      "vertical": 0
+
+
+    },
+
+
+    "departure": {
+
+
+
+      "iataCode": "BOS",
+
+
+
+      "icaoCode": "KBOS"
+
+
+    },
+
+
+    "arrival": {
+
+
+
+      "iataCode": "PEK",
+
+
+
+      "icaoCode": "ZBAA"
+
+
+    },
+
+
+    "aircraft": {
+
+
+
+      "regNumber": "B2739",
+
+
+
+      "icaoCode": "B788",
+
+
+
+      "icao24": "780BDF",
+
+
+
+      "iataCode": "B788"
+
+
+    },
+
+
+    "airline": {
+
+
+
+      "iataCode": "HU",
+
+
+
+      "icaoCode": "CHH"
+
+
+    },
+
+
+    "flight": {
+
+
+
+      "iataNumber": "HU482",
+
+
+
+      "icaoNumber": "CHH482",
+
+
+
+      "number": "482"
+
+
+    },
+
+
+    "system": {
+
+
+
+      "updated": "1541317116",
+
+
+
+      "squawk": "227"
+
+
+    },
+
+
+    "status": "en-route"
+
+  }

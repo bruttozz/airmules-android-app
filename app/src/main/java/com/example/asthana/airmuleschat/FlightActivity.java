@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,6 +33,13 @@ public class FlightActivity extends BaseMenuActivity {
     static final String API_KEY = "782cbd-deb8af";
     static final String API_URL = "https://aviation-edge.com/v2/public/flights?key=782cbd-deb8af&flightIata=";
     //test API call (please don't, we only get so many free ones) https://aviation-edge.com/v2/public/flights?key=782cbd-deb8af&flightIata=HU482
+
+    double latitude;
+    double longitude;
+    double planedir;
+    String depart;
+    String arrive;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,18 +55,24 @@ public class FlightActivity extends BaseMenuActivity {
         queryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                staticJson(loadJSONFromAsset());
+                parseAirport(loadJSONFromAsset("flights.json"));
+                parseRealTime(loadJSONFromAsset("realtime.json"));
                 Intent myIntent = new Intent(FlightActivity.this, MapsActivity.class);
+                myIntent.putExtra("Latitude",latitude);
+                myIntent.putExtra("Longitude",longitude);
+                myIntent.putExtra("Direction",planedir);
+                myIntent.putExtra("arrTime",arrive);
+                myIntent.putExtra("depTime",depart);
                 FlightActivity.this.startActivity(myIntent);
                 //new getFlightTask().execute();
             }
         });
     }
 
-    public String loadJSONFromAsset() {
+    public String loadJSONFromAsset(String jsonobject) {
         String json = null;
         try {
-            InputStream is = getAssets().open("flights.json");
+            InputStream is = getAssets().open(jsonobject);
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
@@ -70,7 +85,7 @@ public class FlightActivity extends BaseMenuActivity {
         return json;
     }
 
-    protected void staticJson(String response) {
+    protected void parseAirport(String response) {
         String result= "";
         if(response == null) {
             response = "Error with processing the request";
@@ -80,6 +95,29 @@ public class FlightActivity extends BaseMenuActivity {
             JSONObject departure = new JSONObject(obj.getString("departure"));
             JSONObject arrival = new JSONObject(obj.getString("arrival"));
             result = departure.getString("scheduledTime").substring(11,16) + " to " + arrival.getString("scheduledTime").substring(11,16);
+            depart = departure.getString("scheduledTime");
+            arrive = arrival.getString("scheduledTime");
+        }
+        catch (JSONException e){
+            result = e.getMessage();
+        }
+        progressBar.setVisibility(View.GONE);
+        Log.i("INFO", response);
+        responseView.setText(result);
+    }
+
+    protected void parseRealTime(String response) {
+        String result = "";
+        if(response == null) {
+            response = "Error with processing the request";
+        }
+        try{
+            JSONObject obj = new JSONObject(response);
+            JSONObject geography = new JSONObject(obj.getString("geography"));
+            latitude = Double.parseDouble(geography.getString("latitude"));
+            longitude = Double.parseDouble(geography.getString("longitude"));
+            planedir = Double.parseDouble(geography.getString("direction"));
+            result = geography.getString("longitude");
         }
         catch (JSONException e){
             result = e.getMessage();

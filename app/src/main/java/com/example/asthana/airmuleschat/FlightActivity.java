@@ -1,5 +1,6 @@
 package com.example.asthana.airmuleschat;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -46,6 +47,8 @@ public class FlightActivity extends BaseMenuActivity {
             @Override
             public void onClick(View v) {
                 staticJson(loadJSONFromAsset());
+                Intent myIntent = new Intent(FlightActivity.this, MapsActivity.class);
+                FlightActivity.this.startActivity(myIntent);
                 //new getFlightTask().execute();
             }
         });

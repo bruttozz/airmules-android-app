@@ -54,9 +54,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
     private DatabaseReference mDatabase;
     private FirebaseAuth mFirebaseAuth;
-    private Request request;
-
-    private DataSnapshot dataSnapshot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

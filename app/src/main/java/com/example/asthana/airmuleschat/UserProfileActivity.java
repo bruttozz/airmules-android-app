@@ -48,6 +48,7 @@ public class UserProfileActivity extends BaseMenuActivity {
     private TextView txtViewMoneyLeft;
     private Button btnSeeRequest;
     private Button btnSeeChat;
+    private Button btnUploadImage;
 
     private String userID;
     private static final String USERS = "users";
@@ -72,7 +73,8 @@ public class UserProfileActivity extends BaseMenuActivity {
         StorageReference storageReference = storage.getReference().child(path);
         downloadProfileImage(storageReference);
 
-        userProfilePicture.setOnClickListener(new View.OnClickListener() {
+        btnUploadImage = (Button) findViewById(R.id.btnUploadImage);
+        btnUploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openFileChooser();
@@ -186,7 +188,7 @@ public class UserProfileActivity extends BaseMenuActivity {
                 try {
                     setImageViewWithByteArray(userProfilePicture, bytes);
                 } catch (Exception e) {
-                    userProfilePicture.setImageResource(R.drawable.image1);
+                    userProfilePicture.setImageResource(R.drawable.profileimage);
                     Toast.makeText(UserProfileActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
                 }
             }

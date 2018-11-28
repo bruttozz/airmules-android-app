@@ -47,7 +47,6 @@ public class UserProfileActivity extends BaseMenuActivity {
     private TextView userDisplayName;
     private TextView txtViewMoneyLeft;
     private Button btnSeeRequest;
-    private Button btnSeeTravel;
     private Button btnSeeChat;
 
     private String userID;
@@ -82,9 +81,6 @@ public class UserProfileActivity extends BaseMenuActivity {
         userDisplayName = (TextView) findViewById(R.id.txtViewUserName);
         txtViewMoneyLeft = (TextView) findViewById(R.id.txtViewMoneyLeft);
         btnSeeRequest = (Button) findViewById(R.id.btnSeeRequest);
-        btnSeeTravel = (Button) findViewById(R.id.btnSeeTravel);
-        btnSeeTravel.setVisibility(View.GONE);
-        //TODO: decide whether to add post travel function or not
 
         btnSeeChat = (Button) findViewById(R.id.btnSeeChat);
 
@@ -118,14 +114,6 @@ public class UserProfileActivity extends BaseMenuActivity {
             }
         });
 
-        // todo maybe delete the seetravel button??
-        btnSeeTravel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(UserProfileActivity.this, SeeTravelActivity.class);
-                UserProfileActivity.this.startActivity(i);
-            }
-        });
 
         btnSeeChat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,10 +186,9 @@ public class UserProfileActivity extends BaseMenuActivity {
                 try {
                     setImageViewWithByteArray(userProfilePicture, bytes);
                 } catch (Exception e) {
-                    userProfilePicture.setImageResource(R.drawable.profileimage);
+                    userProfilePicture.setImageResource(R.drawable.image1);
                     Toast.makeText(UserProfileActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
                 }
-
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

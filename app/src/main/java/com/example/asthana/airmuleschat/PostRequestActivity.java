@@ -3,10 +3,12 @@ package com.example.asthana.airmuleschat;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,16 +37,17 @@ public class PostRequestActivity extends BaseMenuActivity {
 
     private EditText editTextDepCity;
     private EditText editTextDepCountry;
-    private EditText editTextDepDate;
+    private TextView txtDepDate;
 
     private EditText editTextArrCity;
     private EditText editTextArrCountry;
-    private EditText editTextArrDate;
-    private Calendar myCalendar;
-    DatePickerDialog.OnDateSetListener dateDep;
-    DatePickerDialog.OnDateSetListener dateArr;
+    private TextView txtArrDate;
 
-    private ArrayList<EditText> allEditTexts;
+    private Calendar myCalendar;
+    private DatePickerDialog.OnDateSetListener dateDep;
+    private DatePickerDialog.OnDateSetListener dateArr;
+
+    private ArrayList<TextView> allEditTexts;
 
     private Button btnSubmit;
 
@@ -82,13 +85,13 @@ public class PostRequestActivity extends BaseMenuActivity {
 
         editTextDepCity = (EditText) findViewById(R.id.editTextDepCity);
         editTextDepCountry = (EditText) findViewById(R.id.editTextDepCountry);
-        editTextDepDate = (EditText) findViewById(R.id.editTextDepDate);
+        txtDepDate = (TextView) findViewById(R.id.txtDepDate);
 
         editTextArrCity = (EditText) findViewById(R.id.editTextArrCity);
         editTextArrCountry = (EditText) findViewById(R.id.editTextArrCountry);
-        editTextArrDate = (EditText) findViewById(R.id.editTextArrDate);
+        txtArrDate = (TextView) findViewById(R.id.txtArrDate);
 
-        allEditTexts = new ArrayList<EditText>();
+        allEditTexts = new ArrayList<TextView>();
         allEditTexts.add(editTextName);
         allEditTexts.add(editTextWeight);
         allEditTexts.add(editTextHeight);
@@ -99,36 +102,15 @@ public class PostRequestActivity extends BaseMenuActivity {
 
         allEditTexts.add(editTextDepCity);
         allEditTexts.add(editTextDepCountry);
-        allEditTexts.add(editTextDepDate);
+        allEditTexts.add(txtDepDate);
 
         allEditTexts.add(editTextArrCity);
         allEditTexts.add(editTextArrCountry);
-        allEditTexts.add(editTextArrDate);
+        allEditTexts.add(txtArrDate);
+
+        //Setup the calendar date pop-ups
         myCalendar = Calendar.getInstance();
-        dateArr = new DatePickerDialog.OnDateSetListener() {
-
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
-                // TODO Auto-generated method stub
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel("arr");
-            }
-
-        };
-
-        editTextArrDate.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                new DatePickerDialog(PostRequestActivity.this, dateArr, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
+        txtDepDate.setClickable(true);
         dateDep = new DatePickerDialog.OnDateSetListener() {
 
             @Override
@@ -142,8 +124,7 @@ public class PostRequestActivity extends BaseMenuActivity {
             }
 
         };
-
-        editTextDepDate.setOnClickListener(new View.OnClickListener() {
+        txtDepDate.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -153,9 +134,31 @@ public class PostRequestActivity extends BaseMenuActivity {
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+        txtArrDate.setClickable(true);
+        dateArr = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel("arr");
+            }
+        };
+        txtArrDate.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(PostRequestActivity.this, dateArr, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
 
         //Clear the edit text data
-        for(EditText et : allEditTexts){
+        for(TextView et : allEditTexts){
             et.setText("");
         }
     }
@@ -199,7 +202,7 @@ public class PostRequestActivity extends BaseMenuActivity {
 
     private Request readReqDataFromGUI(){
         //Is there data set?
-        for(EditText et : allEditTexts){
+        for(TextView et : allEditTexts){
             if(et.getText().toString().isEmpty()){
                 Toast.makeText(getBaseContext(), "Missing Data...", Toast.LENGTH_SHORT).show();
                 return null;
@@ -221,12 +224,12 @@ public class PostRequestActivity extends BaseMenuActivity {
 
         Request.LocationInfo departure = new Request.LocationInfo(editTextDepCity.getText().toString(),
                 editTextDepCountry.getText().toString(),
-                editTextDepDate.getText().toString());
+                txtDepDate.getText().toString());
         req.setDeparture(departure);
 
         Request.LocationInfo arrival = new Request.LocationInfo(editTextArrCity.getText().toString(),
                 editTextArrCountry.getText().toString(),
-                editTextArrDate.getText().toString());
+                txtArrDate.getText().toString());
         req.setArrival(arrival);
 
         return req;
@@ -250,11 +253,11 @@ public class PostRequestActivity extends BaseMenuActivity {
     }
 
     private void updateLabel(String type) {
-        String myFormat = "dd-MM-yyyy"; //In which you need put here
+        String myFormat = "dd" + Request.LocationInfo.DATE_DELIMITER + "MM" + Request.LocationInfo.DATE_DELIMITER + "yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         if (type.equals("arr"))
-            editTextArrDate.setText(sdf.format(myCalendar.getTime()));
+            txtArrDate.setText(sdf.format(myCalendar.getTime()));
         else
-            editTextDepDate.setText(sdf.format(myCalendar.getTime()));
+            txtDepDate.setText(sdf.format(myCalendar.getTime()));
     }
 }

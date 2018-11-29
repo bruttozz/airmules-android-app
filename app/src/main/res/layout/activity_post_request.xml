@@ -221,13 +221,13 @@
                         android:layout_weight="1"
                         android:text="@string/reqDate" />
 
-                    <EditText
-                        android:id="@+id/editTextDepDate"
+                    <TextView
+                        android:id="@+id/txtDepDate"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:inputType="text"
-                        android:text="18-11-2018" />
+                        android:text="18-11-2018"
+                        android:textAppearance="@android:style/TextAppearance.Material.Large" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -295,13 +295,13 @@
                         android:layout_weight="1"
                         android:text="@string/reqDate" />
 
-                    <EditText
-                        android:id="@+id/editTextArrDate"
+                    <TextView
+                        android:id="@+id/txtArrDate"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:inputType="text"
-                        android:text="18-11-2018" />
+                        android:text="18-11-2018"
+                        android:textAppearance="@android:style/TextAppearance.Material.Large" />
                 </LinearLayout>
 
             </LinearLayout>

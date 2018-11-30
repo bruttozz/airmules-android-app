@@ -16,12 +16,14 @@
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"/>
         <activity android:name=".wxapi.WeChatLoginActivity"/>
-        <activity android:name=".SignInActivity" />
-        <!-- activity android:name=".SignInActivity">
+        <!--activity android:name=".SignInActivity" /-->
+        <activity android:name=".SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity-->
+        </activity>
         <activity android:name=".PickPersonChat" />
         <activity android:name=".LauncherActivity">
             <intent-filter>
@@ -64,7 +66,7 @@
 
         <activity
             android:name=".MapsActivity"
-<<<<<<< HEAD
+
             android:label="@string/title_activity_maps"></activity>
 
         <receiver
@@ -75,10 +77,8 @@
             </intent-filter>
         </receiver>
 
-=======
-            android:label="@string/title_activity_maps" />
         <activity android:name=".GeographicalPreferences"></activity>
->>>>>>> 3aad9a5c1fd0d8a5f4b73e704b829a20884ca270
+
     </application>
 
 </manifest>

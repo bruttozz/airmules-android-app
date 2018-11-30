@@ -79,16 +79,10 @@ dependencies {
     androidTestImplementation 'com.android.support:support-annotations:27.1.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation project(':sdkui')
-<<<<<<< HEAD
-    // for circle image view
-    implementation 'de.hdodenhof:circleimageview:2.2.0'
-=======
 
     // for circle image view
     implementation 'de.hdodenhof:circleimageview:2.2.0'
-
-
->>>>>>> 3aad9a5c1fd0d8a5f4b73e704b829a20884ca270
+    
 }
 
 apply plugin: 'com.google.gms.google-services'

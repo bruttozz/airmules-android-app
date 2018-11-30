@@ -95,11 +95,13 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.addValueEventListener(new ValueEventListener() {
+        DatabaseReference reqRef = mDatabase.child("requests").child(transactionID).getRef();
+        reqRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                 setTextAndButton(dataSnapshot);
-                 addButtonFunctions(dataSnapshot);
+                Request req = dataSnapshot.getValue(Request.class);
+                setTextAndButton(req);
+                addButtonFunctions(dataSnapshot);
             }
 
             @Override
@@ -110,32 +112,23 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
     }
 
-    private void setTextAndButton(DataSnapshot dataSnapshot) {
-        if (dataSnapshot.child(REQUESTS).child(transactionID).getValue() == null) {
+    private void setTextAndButton(Request myReq) {
+        if (myReq.getTransactionID() == null) {
             RequestDetailActivity.this.finish();
             return;
         }
-        txtViewDeparture.setText(dataSnapshot.child(REQUESTS).child(transactionID).child(DEPARTURE)
-                .child(CITY).getValue().toString() + ", " + dataSnapshot.child(REQUESTS)
-                .child(transactionID).child(DEPARTURE).child(COUNTRY).getValue().toString());
-        txtViewArrival.setText(dataSnapshot.child(REQUESTS).child(transactionID).child(ARRIVAL)
-                .child(CITY).getValue().toString() + ", " + dataSnapshot.child(REQUESTS)
-                .child(transactionID).child(ARRIVAL).child(COUNTRY).getValue().toString());
-        txtViewDate.setText(dataSnapshot.child(REQUESTS).child(transactionID).child(DEPARTURE)
-                .child(DATE).getValue().toString());
-        txtViewItem.setText(dataSnapshot.child(REQUESTS).child(transactionID).child(ITEMDATA)
-                .child(ITEMNAME).getValue().toString());
-        txtViewSize.setText(dataSnapshot.child(REQUESTS).child(transactionID).child(ITEMDATA)
-                .child(LENGTH).getValue().toString().substring(0, 1) + " x " +
-                dataSnapshot.child(REQUESTS).child(transactionID).child(ITEMDATA).child(WIDTH).getValue()
-                        .toString().substring(0, 1) + " x " + dataSnapshot.child(REQUESTS)
-                .child(transactionID).child(ITEMDATA).child(HEIGHT).getValue().toString()
-                .substring(0, 1));
-        txtViewWeight.setText(dataSnapshot.child(REQUESTS).child(transactionID).child(ITEMDATA)
-                .child(WEIGHT).getValue().toString().substring(0, 1));
 
-        if (mFirebaseAuth.getCurrentUser().getUid().equals(dataSnapshot.child(REQUESTS).child(transactionID)
-                .child(CUSTOMER).getValue().toString())) {
+        txtViewDeparture.setText(myReq.getDeparture().getCity() + ", " + myReq.getDeparture().getCountry());
+        txtViewArrival.setText(myReq.getArrival().getCity() + ", " + myReq.getArrival().getCountry());
+        txtViewDate.setText(myReq.getDeparture().getDate());
+
+        txtViewItem.setText(myReq.getItemData().getName());
+        txtViewSize.setText(Float.toString(myReq.getItemData().getLength())
+                + " x " + Float.toString(myReq.getItemData().getWidth())
+                + " x " + Float.toString(myReq.getItemData().getHeight()));
+        txtViewWeight.setText(Float.toString(myReq.getItemData().getWeight()));
+
+        if (mFirebaseAuth.getCurrentUser().getUid().equals(myReq.getCustomer())) {
             btnCancel.setVisibility(View.VISIBLE);
             btnSignUpOrUnregister.setVisibility(View.GONE);
         } else {
@@ -143,19 +136,16 @@ public class RequestDetailActivity extends BaseMenuActivity {
             btnSignUpOrUnregister.setVisibility(View.GONE);
         }
 
-        if (dataSnapshot.child(REQUESTS).child(transactionID).child(MULE).getValue() == null) {
-            if (!dataSnapshot.child(REQUESTS).child(transactionID).child(CUSTOMER).getValue().toString()
-                    .equals(mFirebaseAuth.getCurrentUser().getUid().toString())) {
+        if (myReq.getMule() == null) {
+            if (!myReq.getCustomer().equals(mFirebaseAuth.getCurrentUser().getUid())) {
+                //I am not the customer, so I can sign up to be the mule
                 btnSignUpOrUnregister.setText("sign up for mule");
                 btnSignUpOrUnregister.setVisibility(View.VISIBLE);
-            } else {
-                btnSignUpOrUnregister.setVisibility(View.GONE);
             }
-        } else if (mFirebaseAuth.getCurrentUser().getUid().toString().equals
-                (dataSnapshot.child(REQUESTS).child(transactionID).child(MULE).getValue().toString())){
+        } else if (mFirebaseAuth.getCurrentUser().getUid().equals(myReq.getMule())){
+            //I am the mule, so I can unregister if I want to
             btnSignUpOrUnregister.setText("unregister");
             btnSignUpOrUnregister.setVisibility(View.VISIBLE);
-
         }
     }
 

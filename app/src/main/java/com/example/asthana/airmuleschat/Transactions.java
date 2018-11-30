@@ -413,11 +413,11 @@ class TransactionHolder extends RecyclerView.ViewHolder {
     }
 
     public void bindTransactionData(String transactionID,
-                                    String fromzCity, String fromCountry,
+                                    String fromCity, String fromCountry,
                                     String toCity, String toCountry,
                                     String arrivalDate, String price) {
         this.transactionID = transactionID;
-        txtFromLocation.setText(fromzCity + ", " + fromCountry);
+        txtFromLocation.setText(fromCity + ", " + fromCountry);
         txtToLocation.setText(toCity + ", " + toCountry);
         txtArrivalDate.setText(arrivalDate);
         txtPostedPrice.setText("$" + price);

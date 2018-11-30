@@ -70,20 +70,20 @@
 
 
     <Button
-        android:id="@+id/btnSeeChat"
+        android:id="@+id/btnSeeMuleJobs"
         android:layout_width="266dp"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/btnSeeRequest"
         android:layout_alignLeft="@+id/btnSeeRequest"
         android:layout_alignRight="@+id/btnSeeRequest"
-        android:layout_below="@+id/btnSeeRequest"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:layout_marginTop="10dp"
         android:background="@color/fbutton_default_color"
         android:fontFamily="serif"
-        android:text="@string/txtSeeChat"
-        android:textColor="@color/white"
 
-        />
+        android:text="@string/txtSeeMuleJobs"
+        android:textColor="@color/white" />
 
     <Button
         android:id="@+id/btnUploadImage"
@@ -91,7 +91,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/btnSeeRequest"
         android:layout_alignRight="@+id/btnSeeRequest"
-        android:layout_below="@+id/btnSeeChat"
+        android:layout_below="@+id/btnSeeMuleJobs"
         android:layout_centerInParent="true"
         android:layout_marginTop="10dp"
         android:background="@color/light_steel_blue"

@@ -29,7 +29,7 @@
     <string name="txtMoneyleft">Money:</string>
     <string name="txtSeeRequest">See all your Requests</string>
     <string name="txtSeeTravel">See all your travels</string>
-    <string name="txtSeeChat">See all your chats</string>
+    <string name="txtSeeMuleJobs">See all your Mule jobs</string>
     <string name="txtSignOut">Sign Out</string>
     <string name="txtDeparture">Departure</string>
     <string name="txtArrival">Arrival</string>

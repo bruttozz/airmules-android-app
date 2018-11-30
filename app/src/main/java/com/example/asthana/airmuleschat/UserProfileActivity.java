@@ -1,20 +1,15 @@
 package com.example.asthana.airmuleschat;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import com.bumptech.glide.annotation.GlideModule;
-import com.bumptech.glide.module.AppGlideModule;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,13 +22,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.payu.india.Model.StoredCard;
 
 
 public class UserProfileActivity extends BaseMenuActivity {
@@ -47,7 +38,7 @@ public class UserProfileActivity extends BaseMenuActivity {
     private TextView userDisplayName;
     private TextView txtViewMoneyLeft;
     private Button btnSeeRequest;
-    private Button btnSeeChat;
+    private Button btnSeeMuleJobs;
     private Button btnUploadImage;
 
     private String userID;
@@ -84,7 +75,7 @@ public class UserProfileActivity extends BaseMenuActivity {
         txtViewMoneyLeft = (TextView) findViewById(R.id.txtViewMoneyLeft);
         btnSeeRequest = (Button) findViewById(R.id.btnSeeRequest);
 
-        btnSeeChat = (Button) findViewById(R.id.btnSeeChat);
+        btnSeeMuleJobs = (Button) findViewById(R.id.btnSeeMuleJobs);
 
 
         mDatabase.addValueEventListener(new ValueEventListener() {
@@ -117,11 +108,11 @@ public class UserProfileActivity extends BaseMenuActivity {
         });
 
 
-        btnSeeChat.setOnClickListener(new View.OnClickListener() {
+        btnSeeMuleJobs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
+                Intent i = AllTransactionsActivity.createIntentForMuleRequests(UserProfileActivity.this);
+                UserProfileActivity.this.startActivity(i);
             }
         });
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UserProfileActivity"
-    android:background="@drawable/image1">
+    android:background="@drawable/userprofilebackground">
 
     <TextView
         android:id="@+id/txtViewUserName"
@@ -27,7 +27,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="40dp"
         android:layout_marginTop="50dp"
-        android:src="@drawable/profileimage" />
+        android:src="@drawable/profileicon" />
 
 
     <TextView

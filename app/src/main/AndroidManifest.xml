@@ -64,6 +64,7 @@
 
         <activity
             android:name=".MapsActivity"
+<<<<<<< HEAD
             android:label="@string/title_activity_maps"></activity>
 
         <receiver
@@ -74,6 +75,10 @@
             </intent-filter>
         </receiver>
 
+=======
+            android:label="@string/title_activity_maps" />
+        <activity android:name=".GeographicalPreferences"></activity>
+>>>>>>> 3aad9a5c1fd0d8a5f4b73e704b829a20884ca270
     </application>
 
 </manifest>

@@ -73,6 +73,9 @@ public class BaseMenuActivity extends AppCompatActivity
                 startActivity(new Intent(this, SignInActivity.class));
                 finish();
                 return true;
+            case R.id.geo_pref_menu:
+                startActivity(new Intent(this, GeographicalPreferences.class));
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

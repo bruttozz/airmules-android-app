@@ -96,7 +96,7 @@ public class PersonalChat extends BaseMenuActivity {
         mPrivateChatID = getIntent().getExtras().getString("chatID");
         mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         mUsername = mFirebaseUser.getDisplayName();
-
+        mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
 
         // Initialize ProgressBar and RecyclerView.
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -239,8 +239,6 @@ public class PersonalChat extends BaseMenuActivity {
 
     }
 
-    //TODO: We should be able to add sign-in checks over here.
-    //TODO:  Stupid to force the user to login every time
     @Override
     public void onStart() {
         super.onStart();

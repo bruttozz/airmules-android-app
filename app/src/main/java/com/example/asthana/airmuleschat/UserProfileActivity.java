@@ -179,7 +179,7 @@ public class UserProfileActivity extends BaseMenuActivity {
                 try {
                     setImageViewWithByteArray(userProfilePicture, bytes);
                 } catch (Exception e) {
-                    userProfilePicture.setImageResource(R.drawable.profileimage);
+                    userProfilePicture.setImageResource(R.drawable.profileicon);
                     Toast.makeText(UserProfileActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
                 }
             }

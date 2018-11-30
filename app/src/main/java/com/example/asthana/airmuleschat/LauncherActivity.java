@@ -34,17 +34,6 @@ public class LauncherActivity extends BaseMenuActivity{
             }
         });
 
-
-
-        Button btnOpenChat = (Button) findViewById(R.id.openChatButton);
-        btnOpenChat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(LauncherActivity.this, PersonalChat.class);
-                myIntent.putExtra("chatID", "A2YQRPCTSoTKZCi18Clz1YE1JkJ3q4RP5s1MHaV5b72EvMpHW5b1GVh2");
-                LauncherActivity.this.startActivity(myIntent);
-            }
-        });
         Button btnOpenPayments = (Button) findViewById(R.id.btnOpenPayment);
         btnOpenPayments.setOnClickListener(new View.OnClickListener() {
             @Override

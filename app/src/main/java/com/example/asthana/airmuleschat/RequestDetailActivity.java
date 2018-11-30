@@ -1,5 +1,6 @@
 package com.example.asthana.airmuleschat;
 
+import android.content.Intent;
 import android.icu.text.UnicodeSetSpanner;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
@@ -36,6 +37,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private Button btnFlight;
     private Button btnPay;
     private String transactionID;
+    private String chatID;
     private static final String REQUESTS = "requests";
     private static final String DEPARTURE = "departure";
     private static final String ARRIVAL = "arrival";
@@ -68,6 +70,15 @@ public class RequestDetailActivity extends BaseMenuActivity {
         txtViewSize = (TextView) findViewById(R.id.textViewSize);
 
         btnChat = (Button) findViewById(R.id.btnChat);
+
+        btnChat.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                Intent i = new Intent(RequestDetailActivity.this, PersonalChat.class);
+                i.putExtra("chatID", transactionID);
+                startActivity(i);
+            }
+        });
         btnCancel = (Button) findViewById(R.id.btnCancelRequest);
 
 

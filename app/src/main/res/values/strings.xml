@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Air Mules</string>
+    <string name="geo_pref_menu">Preferred Locations</string>
+    <string name="addGeoPrefTitle">Add Specified Location</string>
+
     <string name="payment_Mule">Mule:</string>
     <string name="payment_Price">Price:  $</string>
     <string name="payment_Fee">Service Fee:  $</string>

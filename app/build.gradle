@@ -75,10 +75,8 @@ dependencies {
 
     implementation project(':sdkui')
 
-
     // for circle image view
     implementation 'de.hdodenhof:circleimageview:2.2.0'
-
 
 
 }

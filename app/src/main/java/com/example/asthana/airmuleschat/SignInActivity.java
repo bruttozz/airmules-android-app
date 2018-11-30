@@ -9,8 +9,11 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
+import com.annimon.stream.Optional;
+import com.example.asthana.airmuleschat.wxapi.WeChatLoginActivity;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -29,8 +32,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.util.ArrayList;
+
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class SignInActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
@@ -44,11 +52,34 @@ public class SignInActivity extends AppCompatActivity implements
 
     private GoogleApiClient mGoogleApiClient;
 
+    //for WeChat
+    private Unbinder unbinder;
+    private IWXAPI api;
+    private Button launchBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+        unbinder = ButterKnife.bind(this);
+        api = WXAPIFactory.createWXAPI(this, WeChat.APP_ID, false);
+        launchBtn = (Button) findViewById(R.id.wechat_login_btn);
+        launchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //startActivity(new Intent(SignInActivity.this, LauncherActivity.class));
+                if(api.openWXApp() == false){
+                    Toast.makeText(SignInActivity.this, "您还未安装微信客户端", Toast.LENGTH_LONG).show();
+                }
+                Toast.makeText(SignInActivity.this, "success", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(SignInActivity.this, WeChatLoginActivity.class);
+                startActivityForResult(intent, ActivityReqCode.WE_CHAT_LOGIN);
+                //SignInActivity.this.startActivity(new Intent(WeChatLoginActivity.class, LauncherActivity.class)));
+            }
+        });
+
 
         // Assign fields
         mSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
@@ -111,6 +142,21 @@ public class SignInActivity extends AppCompatActivity implements
                 Log.e(TAG, "Google Sign-In failed.");
             }
         }
+
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+
+        if (requestCode == ActivityReqCode.WE_CHAT_LOGIN) {
+            startActivity(new Intent(SignInActivity.this, LauncherActivity.class));
+            Optional.ofNullable(data).ifPresent(intent -> {
+
+                final String code = intent.getStringExtra(IntentKey.WE_CHAT_AUTH_CODE);
+                Toast.makeText(this, code, Toast.LENGTH_SHORT).show();
+
+            });
+            //startActivity(new Intent(SignInActivity.this, LauncherActivity.class));
+        }
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
@@ -137,5 +183,11 @@ public class SignInActivity extends AppCompatActivity implements
                         }
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        Optional.ofNullable(unbinder).ifPresent(Unbinder::unbind);
+        super.onDestroy();
     }
 }

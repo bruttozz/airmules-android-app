@@ -13,14 +13,22 @@
         android:textStyle="bold"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="40dp"
-        android:text="Sign in!"/>
+        android:text="Welcome to Airmules!"/>
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="visible"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:visibility="visible" />
+
+    <Button
+        android:id="@+id/wechat_login_btn"
+        android:layout_width="113dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="50dp"
+        android:text="WECHAT" />
 
 </FrameLayout>

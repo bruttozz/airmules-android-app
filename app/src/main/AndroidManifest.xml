@@ -12,7 +12,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true"/>
+        <activity android:name=".wxapi.WeChatLoginActivity"/>
         <activity android:name=".SignInActivity" />
+        <!-- activity android:name=".SignInActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity-->
         <activity android:name=".PickPersonChat" />
         <activity android:name=".LauncherActivity">
             <intent-filter>
@@ -56,6 +65,15 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"></activity>
+
+        <receiver
+            android:name=".WeChatAppRegister"
+            android:permission="com.tencent.mm.plugin.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

@@ -43,6 +43,12 @@ import java.util.HashMap;
  * A simple {@link Fragment} subclass.
  */
 public class Transactions extends Fragment {
+    public static final String INFO_TYPE = "TYPE";
+    public static final String TYPE_ALL = "ALL";    //no mule attached
+    public static final String TYPE_CUSTOMER = "CUSTOMER";  //I am the customer
+    public static final String TYPE_MULE = "MULE";  //I am the mule
+    private String myType;
+
     private TransactionsListener TL;
 
     //Filter control
@@ -82,6 +88,15 @@ public class Transactions extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //What kind of request data do we want to show?
+        try{
+            Bundle args = getArguments();
+            myType = args.getString(INFO_TYPE, TYPE_ALL);
+        }catch(Exception e){
+            //Data was not set, so default to all requests
+            myType = TYPE_ALL;
+        }
+
         // Inflate the layout for this fragment
         View fragView = inflater.inflate(R.layout.fragment_transactions, container, false);
 
@@ -158,12 +173,24 @@ public class Transactions extends Fragment {
     }
 
     private void createDatabaseQueryAdapter(){
-        //TODO add custom queries depending on the data of interest (ex. requests from specific user)
+        /*
+        //This doesn't pay attention to equalTo for some reason, so we will handle it on the client side
+        DatabaseReference q;
+        if(myType.equals(TYPE_CUSTOMER)){
+            q = mDatabase.child("requests").orderByChild("customer").equalTo(mFirebaseAuth.getCurrentUser().getUid()).getRef();
+        }else if(myType.equals(TYPE_MULE)){
+            q = mDatabase.child("requests").orderByChild("mule").equalTo(mFirebaseAuth.getCurrentUser().getUid()).getRef();
+        }else{
+            q = mDatabase.child("requests").orderByChild("mule").equalTo(null).getRef();
+        }
+        */
+
         DatabaseReference q = mDatabase.child("requests").getRef();
         adapter = new TransactionAdapter(getContext(), q);
     }
 
     /*
+    The Firebase adapter does not give us enough control for filtering the data
     private void createDatabaseQueryAdapter2(){
         //based on https://github.com/firebase/FirebaseUI-Android/blob/master/database/README.md
 
@@ -224,6 +251,21 @@ public class Transactions extends Fragment {
                     requestListAll.clear();
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         Request r = postSnapshot.getValue(Request.class);
+
+                        if(myType.equals(TYPE_CUSTOMER)){
+                            if(!r.getCustomer().equals(mFirebaseAuth.getCurrentUser().getUid())){
+                                continue;
+                            }
+                        }else if(myType.equals(TYPE_MULE)){
+                            if(r.getMule() == null || !r.getMule().equals(mFirebaseAuth.getCurrentUser().getUid())){
+                                continue;
+                            }
+                        }else{
+                            if(r.getMule() != null){
+                                continue;
+                            }
+                        }
+
                         requestListAll.add(r);
                     }
 
@@ -360,20 +402,14 @@ class TransactionHolder extends RecyclerView.ViewHolder {
         txtArrivalDate = (TextView) itemView.findViewById(R.id.txtArrivalDate);
         txtPostedPrice = (TextView) itemView.findViewById(R.id.txtPostedPrice);
 
-        //With the Firebase Adapter, for some reason, we set the listener directly on the view
-        //instead of on the view holder
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO make an intent to start the request details activity
-                Toast.makeText(mContext, transactionID, Toast.LENGTH_SHORT).show();
                 Intent seeRequestDetail = new Intent(mContext, RequestDetailActivity.class);
                 seeRequestDetail.putExtra("transactionID", transactionID);
                 mContext.startActivity(seeRequestDetail);
             }
         });
-
-
     }
 
     public void bindTransactionData(String transactionID,

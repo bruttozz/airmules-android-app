@@ -68,7 +68,7 @@ public class LauncherActivity extends BaseMenuActivity{
         btnTransactions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent viewTransactions = new Intent(LauncherActivity.this, AllTransactionsActivity.class);
+                Intent viewTransactions = AllTransactionsActivity.createIntentForAllRequests(LauncherActivity.this);
                 LauncherActivity.this.startActivity(viewTransactions);
             }
         });

@@ -111,7 +111,7 @@ public class UserProfileActivity extends BaseMenuActivity {
         btnSeeRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(UserProfileActivity.this, SeeRequestActivity.class);
+                Intent i = AllTransactionsActivity.createIntentForCustomerRequests(UserProfileActivity.this);
                 UserProfileActivity.this.startActivity(i);
             }
         });

@@ -94,7 +94,8 @@ public class PersonalChat extends BaseMenuActivity {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         mPrivateChatID = getIntent().getExtras().getString("chatID");
-
+        mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        mUsername = mFirebaseUser.getDisplayName();
 
 
         // Initialize ProgressBar and RecyclerView.

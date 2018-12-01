@@ -18,7 +18,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class LauncherActivity extends BaseMenuActivity{
+public class LauncherActivity extends BaseMenuActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

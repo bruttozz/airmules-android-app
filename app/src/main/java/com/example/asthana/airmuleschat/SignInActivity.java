@@ -177,7 +177,7 @@ public class SignInActivity extends AppCompatActivity implements
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid())
-                                    .setValue(new UserClass(mFirebaseAuth.getCurrentUser().getDisplayName(), 100));
+                                    .setValue(new UserClass(mFirebaseAuth.getCurrentUser().getDisplayName(), 100,0,0));
                             startActivity(new Intent(SignInActivity.this, LauncherActivity.class));
                             finish();
                         }

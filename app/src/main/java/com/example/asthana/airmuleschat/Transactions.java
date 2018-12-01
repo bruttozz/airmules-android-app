@@ -261,7 +261,8 @@ public class Transactions extends Fragment {
                                 continue;
                             }
                         } else {
-                            if (r.getMule() != null) {
+                            if (r.getMule() != null || r.getCustomer().equals(mFirebaseAuth.getCurrentUser().getUid())) {
+                                //There is already a mule or there is no mule but I am the customer (can't sign up for own activity)
                                 continue;
                             }
                         }

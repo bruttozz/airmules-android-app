@@ -1,10 +1,7 @@
 package com.example.asthana.airmuleschat;
 
 import android.content.Intent;
-import android.icu.text.UnicodeSetSpanner;
 import android.os.AsyncTask;
-import android.provider.ContactsContract;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,18 +19,15 @@ import com.google.firebase.database.ValueEventListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import org.w3c.dom.Text;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.ref.ReferenceQueue;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class RequestDetailActivity extends BaseMenuActivity {
-
+    private TextView txtStatus;
     private TextView txtViewDeparture;
     private TextView txtViewArrival;
     private TextView txtViewDate;
@@ -45,7 +39,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private Button btnCancel;
     private Button btnSignUpOrUnregister;
     private Button btnFlight;
-    private Button btnPay;
+    private Button btnPayOrConfirm;
     private String transactionID;
     private String chatID;
     private static final String REQUESTS = "requests";
@@ -63,6 +57,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private static final String WIDTH = "width";
     private static final String CUSTOMER = "customer";
     private static final String MULE = "mule";
+    private static final String STATUS = "status";
     static final String API_URL = "https://aviation-edge.com/v2/public/flights?key=782cbd-deb8af&flightIata=";
     private double latitude;
     private double longitude;
@@ -77,8 +72,11 @@ public class RequestDetailActivity extends BaseMenuActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_detail);
-        txtViewDeparture = (TextView) findViewById(R.id.textViewDeparture);
 
+        transactionID = getIntent().getStringExtra("transactionID").toString();
+
+        txtStatus = (TextView) findViewById(R.id.txtStatus);
+        txtViewDeparture = (TextView) findViewById(R.id.textViewDeparture);
         txtViewArrival = (TextView) findViewById(R.id.textViewArrival);
         txtViewDate = (TextView) findViewById(R.id.textViewDate);
         txtViewItem = (TextView) findViewById(R.id.textViewItem);
@@ -86,7 +84,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
         txtViewSize = (TextView) findViewById(R.id.textViewSize);
 
         btnChat = (Button) findViewById(R.id.btnChat);
-
         btnChat.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -95,10 +92,11 @@ public class RequestDetailActivity extends BaseMenuActivity {
                 startActivity(i);
             }
         });
+
         btnCancel = (Button) findViewById(R.id.btnCancelRequest);
-
-
         btnSignUpOrUnregister = (Button) findViewById(R.id.btnSignUpOrUnregister);
+        btnPayOrConfirm = (Button) findViewById(R.id.btnPayOrConfirm);
+
         btnFlight = (Button) findViewById(R.id.btnFlight);
         btnFlight.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,13 +114,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
             }
         });
 
-        btnPay = (Button) findViewById(R.id.btnPay);
-        // TODO: add function to this button
-
-
-
-        transactionID = getIntent().getStringExtra("transactionID").toString();
-
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         DatabaseReference reqRef = mDatabase.child("requests").child(transactionID).getRef();
@@ -130,8 +121,20 @@ public class RequestDetailActivity extends BaseMenuActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Request req = dataSnapshot.getValue(Request.class);
+                if (req == null || req.getTransactionID() == null) {
+                    RequestDetailActivity.this.finish();
+                    return;
+                }
+
+                //Make sure no one else has already signed up to be the mule
+                if(!req.getCustomer().equals(mFirebaseAuth.getCurrentUser().getUid())
+                        && req.getMule() != null && !req.getMule().equals(mFirebaseAuth.getCurrentUser().getUid())){
+                    RequestDetailActivity.this.finish();
+                    return;
+                }
+
                 setTextAndButton(req);
-                addButtonFunctions(dataSnapshot);
+                addButtonFunctions(req);
             }
 
             @Override
@@ -143,11 +146,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
     }
 
     private void setTextAndButton(Request myReq) {
-        if (myReq.getTransactionID() == null) {
-            RequestDetailActivity.this.finish();
-            return;
-        }
-
+        txtStatus.setText(myReq.getStatus());
         txtViewDeparture.setText(myReq.getDeparture().getCity() + ", " + myReq.getDeparture().getCountry());
         txtViewArrival.setText(myReq.getArrival().getCity() + ", " + myReq.getArrival().getCountry());
         txtViewDate.setText(myReq.getDeparture().getDate());
@@ -164,6 +163,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
         } else {
             btnCancel.setVisibility(View.GONE);
             btnSignUpOrUnregister.setVisibility(View.GONE);
+            btnPayOrConfirm.setVisibility(View.GONE);
         }
 
         if (myReq.getMule() == null) {
@@ -179,57 +179,91 @@ public class RequestDetailActivity extends BaseMenuActivity {
         }
     }
 
-    private void addButtonFunctions(final DataSnapshot dataSnapshot) {
+    private void addButtonFunctions(final Request myReq) {
+        final String status = myReq.getStatus();
 
+        if(status.equals(Request.PAID) || status.equals(Request.COMPLETE)){
+            btnPayOrConfirm.setText("CONFIRM");
+        }
+        if(status.equals(Request.NO_MULE) || status.equals(Request.COMPLETE)){
+            btnPayOrConfirm.setEnabled(false);
+        }
+        else{
+            btnPayOrConfirm.setEnabled(true);
+        }
+        btnPayOrConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                payOrConfirmButtonAction(status);
+            }
+        });
+
+        if(status.equals(Request.COMPLETE)){
+            btnCancel.setEnabled(false);
+        }
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                removeThisRequestFromDatabase(dataSnapshot);
+                removeThisRequestFromDatabase();
             }
         });
 
+        if(status.equals(Request.COMPLETE)){
+            btnSignUpOrUnregister.setEnabled(false);
+        }
         btnSignUpOrUnregister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signUpOrUnregisterForMuleToThisRequest(dataSnapshot);
+                signUpOrUnregisterForMuleToThisRequest(myReq);
             }
         });
-
-
-
-
     }
 
-    private void removeThisRequestFromDatabase(DataSnapshot dataSnapshot) {
-        // TODO: test this function
+    private void payOrConfirmButtonAction(String status){
+        if(status.equals(Request.PAID)){
+            //TODO Deliver money to mule
+            //TODO Rate the mule
+            //complete the transaction
+            mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.COMPLETE);
+        }
+        else{
+            //TODO start payment activity instead
+            mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.PAID);
+        }
+    }
+
+    private void removeThisRequestFromDatabase() {
         try {
             mDatabase.child(REQUESTS).child(transactionID).removeValue();
+            RequestDetailActivity.this.finish();
         } catch (Exception e) {
             Log.e("Error", e.toString());
         }
-
     }
 
-    private void signUpOrUnregisterForMuleToThisRequest(DataSnapshot dataSnapshot) {
-        // TODO: link current userid as mule id in database
+    private void signUpOrUnregisterForMuleToThisRequest(Request myReq) {
         if (btnSignUpOrUnregister.getText().toString().equals("unregister")) {
             try {
                 mDatabase.child(REQUESTS).child(transactionID).child(MULE).removeValue();
+                if(myReq.getStatus().equals(Request.PAID)) {
+                    //TODO refund payment
+                }
+                mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.NO_MULE);
                 Toast.makeText(this, "Unregistered!", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 Log.e("Error", e.toString());
             }
         } else {
-            if (dataSnapshot.child(REQUESTS).child(transactionID).child(MULE).getValue() != null) {
+            if (myReq.getMule() != null) {
                 Toast.makeText(this, "Sorry, someone already signed up", Toast.LENGTH_SHORT).show();
 
             } else {
                 mDatabase.child(REQUESTS).child(transactionID).child(MULE).setValue
                         (mFirebaseAuth.getCurrentUser().getUid().toString());
+                mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.NO_PAYMENT);
                 Toast.makeText(this, "Successfully signed up!", Toast.LENGTH_SHORT).show();
             }
         }
-
     }
 
     public String loadJSONFromAsset(String jsonobject) {

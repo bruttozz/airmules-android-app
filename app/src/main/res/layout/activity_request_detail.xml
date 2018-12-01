@@ -82,7 +82,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/btnChat"
-        android:layout_toRightOf="@+id/btnPay"
+        android:layout_toRightOf="@+id/btnPayOrConfirm"
         android:layout_marginLeft="10dp"
         android:text="Flight"
         android:textSize="10sp" />
@@ -98,7 +98,7 @@
         android:textSize="10sp" />
 
     <Button
-        android:id="@+id/btnPay"
+        android:id="@+id/btnPayOrConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/btnChat"
@@ -122,7 +122,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/txtLabelSize"
         android:layout_marginTop="60dp"
-        android:layout_toLeftOf="@id/btnPay"
+        android:layout_toLeftOf="@id/btnPayOrConfirm"
         android:layout_marginRight="10dp"
         android:text="@string/txtChat"
         android:textSize="10sp" />
@@ -180,4 +180,14 @@
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/txtLabelDeparture"
         android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/txtStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="143dp"
+        android:layout_marginEnd="39dp"
+        android:text="TextView" />
 </RelativeLayout>

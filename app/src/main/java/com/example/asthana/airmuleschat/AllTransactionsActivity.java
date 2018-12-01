@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class AllTransactionsActivity extends BaseMenuActivity implements Transactions.TransactionsListener{
+public class AllTransactionsActivity extends BaseMenuActivity implements Transactions.TransactionsListener {
     private TextView txtRequestTypes;
     private Transactions fragmentReqTransactions;
 
@@ -18,7 +18,7 @@ public class AllTransactionsActivity extends BaseMenuActivity implements Transac
 
         Intent intent = getIntent();
         String myType = intent.getStringExtra(Transactions.INFO_TYPE);
-        if(myType == null){
+        if (myType == null) {
             myType = Transactions.TYPE_ALL;     //Default request display
         }
 
@@ -34,19 +34,19 @@ public class AllTransactionsActivity extends BaseMenuActivity implements Transac
         fragmentTransaction.commit();
     }
 
-    private void setTextByType(String myType){
+    private void setTextByType(String myType) {
         String text;
-        if(myType.equals(Transactions.TYPE_CUSTOMER)){
+        if (myType.equals(Transactions.TYPE_CUSTOMER)) {
             text = getResources().getString(R.string.customer_transactions);
-        }else if(myType.equals(Transactions.TYPE_MULE)){
+        } else if (myType.equals(Transactions.TYPE_MULE)) {
             text = getResources().getString(R.string.mule_transactions);
-        }else{
+        } else {
             text = getResources().getString(R.string.all_transactions);
         }
         txtRequestTypes.setText(text);
     }
 
-    public static Intent createIntentForAllRequests(Context originalActivity){
+    public static Intent createIntentForAllRequests(Context originalActivity) {
         Intent viewTransactions = new Intent(originalActivity, AllTransactionsActivity.class);
         viewTransactions.putExtra(Transactions.INFO_TYPE, Transactions.TYPE_ALL);
         return viewTransactions;
@@ -55,7 +55,7 @@ public class AllTransactionsActivity extends BaseMenuActivity implements Transac
     /**
      * Requests where current user is the customer
      */
-    public static Intent createIntentForCustomerRequests(Context originalActivity){
+    public static Intent createIntentForCustomerRequests(Context originalActivity) {
         Intent viewTransactions = new Intent(originalActivity, AllTransactionsActivity.class);
         viewTransactions.putExtra(Transactions.INFO_TYPE, Transactions.TYPE_CUSTOMER);
         return viewTransactions;
@@ -64,7 +64,7 @@ public class AllTransactionsActivity extends BaseMenuActivity implements Transac
     /**
      * Requests where current user is the mule
      */
-    public static Intent createIntentForMuleRequests(Context originalActivity){
+    public static Intent createIntentForMuleRequests(Context originalActivity) {
         Intent viewTransactions = new Intent(originalActivity, AllTransactionsActivity.class);
         viewTransactions.putExtra(Transactions.INFO_TYPE, Transactions.TYPE_MULE);
         return viewTransactions;

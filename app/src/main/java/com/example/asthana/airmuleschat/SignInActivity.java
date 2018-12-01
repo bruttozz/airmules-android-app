@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -57,6 +58,9 @@ public class SignInActivity extends AppCompatActivity implements
     private IWXAPI api;
     private Button launchBtn;
 
+    private static final String tempWeChatID = "hellothere";
+    private static final String name = "General Kenobi";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,13 +73,19 @@ public class SignInActivity extends AppCompatActivity implements
         launchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
+                Toast.makeText(SignInActivity.this, currentUser.toString()+"hi", Toast.LENGTH_LONG).show();
+                if (currentUser != null)
+                    firebaseAuthWithWeChat(tempWeChatID);
+                else
+                    createUserWithWeChat(tempWeChatID,name);
                 //startActivity(new Intent(SignInActivity.this, LauncherActivity.class));
-                if(api.openWXApp() == false){
-                    Toast.makeText(SignInActivity.this, "您还未安装微信客户端", Toast.LENGTH_LONG).show();
-                }
-                Toast.makeText(SignInActivity.this, "success", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(SignInActivity.this, WeChatLoginActivity.class);
-                startActivityForResult(intent, ActivityReqCode.WE_CHAT_LOGIN);
+//                if(api.openWXApp() == false){
+//                    Toast.makeText(SignInActivity.this, "您还未安装微信客户端", Toast.LENGTH_LONG).show();
+//                }
+//                Toast.makeText(SignInActivity.this, "success", Toast.LENGTH_LONG).show();
+//                Intent intent = new Intent(SignInActivity.this, WeChatLoginActivity.class);
+//                startActivityForResult(intent, ActivityReqCode.WE_CHAT_LOGIN);
                 //SignInActivity.this.startActivity(new Intent(WeChatLoginActivity.class, LauncherActivity.class)));
             }
         });
@@ -176,10 +186,76 @@ public class SignInActivity extends AppCompatActivity implements
                             Toast.makeText(SignInActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
+                            completeSignInProcedureForUser();
+                        }
+                    }
+                });
+    }
+
+    private void completeSignInProcedureForUser(){
+        DatabaseReference ref = mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).getRef();
+        // Attach a listener to read the data at our posts reference
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                UserClass user = dataSnapshot.getValue(UserClass.class);
+                if(user == null || user.getName() == null){
+                    //We don't have this user yet
+                    mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid())
+                            .setValue(new UserClass(mFirebaseAuth.getCurrentUser().getDisplayName(), 0,0,0));
+                }
+
+                startActivity(new Intent(SignInActivity.this, LauncherActivity.class));
+                finish();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("Sign In", "Cannot connect to Firebase");
+            }
+        });
+    }
+
+    private void createUserWithWeChat(String openid, String name){
+        String token = openid+"@gmail.com";
+        mFirebaseAuth.createUserWithEmailAndPassword(token, openid)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "createUserWithEmail:success");
                             mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid())
-                                    .setValue(new UserClass(mFirebaseAuth.getCurrentUser().getDisplayName(), 100,0,0));
+                                    .setValue(new UserClass(name, 100,0,0));
                             startActivity(new Intent(SignInActivity.this, LauncherActivity.class));
                             finish();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(SignInActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                        // ...
+                    }
+                });
+    }
+
+    private void firebaseAuthWithWeChat(String openid){
+        String token = openid+"@gmail.com";
+        mFirebaseAuth.signInWithEmailAndPassword(token, openid)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithEmail:success");
+                            FirebaseUser user = mFirebaseAuth.getCurrentUser();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(SignInActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

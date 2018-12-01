@@ -76,7 +76,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
         transactionID = getIntent().getStringExtra("transactionID").toString();
 
         txtStatus = (TextView) findViewById(R.id.txtStatus);
-        txtViewDeparture = (TextView) findViewById(R.id.textViewDeparture);
+        txtViewDeparture = (TextView) findViewById(R.id.txtViewDeparture);
         txtViewArrival = (TextView) findViewById(R.id.textViewArrival);
         txtViewDate = (TextView) findViewById(R.id.textViewDate);
         txtViewItem = (TextView) findViewById(R.id.textViewItem);
@@ -197,7 +197,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
             }
         });
 
-        if(status.equals(Request.PAID) || status.equals(Request.COMPLETE)){
+        if (status.equals(Request.PAID) || status.equals(Request.COMPLETE)) {
             btnCancel.setEnabled(false);
         }
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -218,8 +218,8 @@ public class RequestDetailActivity extends BaseMenuActivity {
         });
     }
 
-    private void payOrConfirmButtonAction(final Request myReq){
-        if(myReq.getStatus().equals(Request.PAID)){
+    private void payOrConfirmButtonAction(final Request myReq) {
+        if (myReq.getStatus().equals(Request.PAID)) {
             //Deliver money to mule
             DatabaseReference ref = mDatabase.child("users").child(myReq.getMule()).getRef();
             // Attach a listener to read the data at our posts reference
@@ -227,7 +227,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     UserClass user = dataSnapshot.getValue(UserClass.class);
-                    if(user == null || user.getName() == null){
+                    if (user == null || user.getName() == null) {
                         //User was deleted?
                         return;
                     }
@@ -249,8 +249,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
             //complete the transaction
             mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.COMPLETE);
-        }
-        else{
+        } else {
             Intent payIntent = new Intent(this, PaymentActivity.class);
             payIntent.putExtra("transactionID", transactionID);
             this.startActivity(payIntent);
@@ -270,7 +269,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
         if (btnSignUpOrUnregister.getText().toString().equals("unregister")) {
             try {
                 mDatabase.child(REQUESTS).child(transactionID).child(MULE).removeValue();
-                if(myReq.getStatus().equals(Request.PAID)) {
+                if (myReq.getStatus().equals(Request.PAID)) {
                     //refund payment
                     DatabaseReference ref = mDatabase.child("users").child(myReq.getCustomer()).getRef();
                     // Attach a listener to read the data at our posts reference
@@ -278,7 +277,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             UserClass user = dataSnapshot.getValue(UserClass.class);
-                            if(user == null || user.getName() == null){
+                            if (user == null || user.getName() == null) {
                                 //User was deleted?
                                 return;
                             }

@@ -61,5 +61,7 @@
     <string name="reqCountry">Country</string>
     <string name="reqDate">Date</string>
     <string name="title_activity_maps">Map</string>
+    <string name="view_all_requests">View All Requests</string>
+    <string name="view_user_profile">View Profile</string>
 
 </resources>

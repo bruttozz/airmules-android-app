@@ -82,8 +82,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/btnChat"
-        android:layout_toRightOf="@+id/btnPayOrConfirm"
         android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/btnPayOrConfirm"
         android:text="Flight"
         android:textSize="10sp" />
 
@@ -91,9 +91,9 @@
         android:id="@+id/btnCancelRequest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btnSignUpOrUnregister"
         android:layout_alignLeft="@id/btnSignUpOrUnregister"
         android:layout_alignRight="@id/btnSignUpOrUnregister"
+        android:layout_below="@id/btnSignUpOrUnregister"
         android:text="Cancel"
         android:textSize="10sp" />
 
@@ -110,9 +110,9 @@
         android:id="@+id/btnSignUpOrUnregister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btnChat"
         android:layout_alignLeft="@id/btnChat"
         android:layout_alignRight="@id/btnFlight"
+        android:layout_below="@id/btnChat"
         android:textSize="10sp" />
 
 
@@ -121,9 +121,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/txtLabelSize"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="60dp"
         android:layout_toLeftOf="@id/btnPayOrConfirm"
-        android:layout_marginRight="10dp"
         android:text="@string/txtChat"
         android:textSize="10sp" />
 
@@ -132,8 +132,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/txtLabelWeight"
-        android:layout_toRightOf="@+id/txtLabelWeight"
         android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/txtLabelWeight"
         android:textSize="18sp" />
 
     <TextView
@@ -141,8 +141,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/txtLabelSize"
-        android:layout_toRightOf="@+id/txtLabelSize"
         android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/txtLabelSize"
         android:textSize="18sp" />
 
     <TextView
@@ -150,8 +150,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/txtLabelItem"
-        android:layout_toRightOf="@+id/txtLabelItem"
         android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/txtLabelItem"
         android:textSize="18sp" />
 
     <TextView
@@ -159,8 +159,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/txtLabelDate"
-        android:layout_toRightOf="@+id/txtLabelDate"
         android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/txtLabelDate"
         android:textSize="18sp" />
 
     <TextView
@@ -168,8 +168,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/txtLabelArrival"
-        android:layout_toRightOf="@+id/txtLabelArrival"
         android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/txtLabelArrival"
         android:textSize="18sp" />
 
     <TextView
@@ -185,9 +185,9 @@
         android:id="@+id/txtStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="143dp"
+        android:layout_alignParentTop="true"
         android:layout_marginEnd="39dp"
+        android:layout_marginTop="143dp"
         android:text="TextView" />
 </RelativeLayout>

@@ -104,11 +104,11 @@ public class RequestDetailActivity extends BaseMenuActivity {
                 parseAirport(loadJSONFromAsset("flights.json"));
                 parseRealTime(loadJSONFromAsset("realtime.json"));
                 Intent myIntent = new Intent(RequestDetailActivity.this, MapsActivity.class);
-                myIntent.putExtra("Latitude",latitude);
-                myIntent.putExtra("Longitude",longitude);
-                myIntent.putExtra("Direction",planedir);
-                myIntent.putExtra("arrTime",arrive);
-                myIntent.putExtra("depTime",depart);
+                myIntent.putExtra("Latitude", latitude);
+                myIntent.putExtra("Longitude", longitude);
+                myIntent.putExtra("Direction", planedir);
+                myIntent.putExtra("arrTime", arrive);
+                myIntent.putExtra("depTime", depart);
                 RequestDetailActivity.this.startActivity(myIntent);
                 //new getFlightTask().execute();
             }
@@ -127,8 +127,8 @@ public class RequestDetailActivity extends BaseMenuActivity {
                 }
 
                 //Make sure no one else has already signed up to be the mule
-                if(!req.getCustomer().equals(mFirebaseAuth.getCurrentUser().getUid())
-                        && req.getMule() != null && !req.getMule().equals(mFirebaseAuth.getCurrentUser().getUid())){
+                if (!req.getCustomer().equals(mFirebaseAuth.getCurrentUser().getUid())
+                        && req.getMule() != null && !req.getMule().equals(mFirebaseAuth.getCurrentUser().getUid())) {
                     RequestDetailActivity.this.finish();
                     return;
                 }
@@ -172,7 +172,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
                 btnSignUpOrUnregister.setText("sign up for mule");
                 btnSignUpOrUnregister.setVisibility(View.VISIBLE);
             }
-        } else if (mFirebaseAuth.getCurrentUser().getUid().equals(myReq.getMule())){
+        } else if (mFirebaseAuth.getCurrentUser().getUid().equals(myReq.getMule())) {
             //I am the mule, so I can unregister if I want to
             btnSignUpOrUnregister.setText("unregister");
             btnSignUpOrUnregister.setVisibility(View.VISIBLE);
@@ -182,13 +182,12 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private void addButtonFunctions(final Request myReq) {
         final String status = myReq.getStatus();
 
-        if(status.equals(Request.PAID) || status.equals(Request.COMPLETE)){
+        if (status.equals(Request.PAID) || status.equals(Request.COMPLETE)) {
             btnPayOrConfirm.setText("CONFIRM");
         }
-        if(status.equals(Request.NO_MULE) || status.equals(Request.COMPLETE)){
+        if (status.equals(Request.NO_MULE) || status.equals(Request.COMPLETE)) {
             btnPayOrConfirm.setEnabled(false);
-        }
-        else{
+        } else {
             btnPayOrConfirm.setEnabled(true);
         }
         btnPayOrConfirm.setOnClickListener(new View.OnClickListener() {
@@ -198,7 +197,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
             }
         });
 
-        if(status.equals(Request.COMPLETE)){
+        if (status.equals(Request.COMPLETE)) {
             btnCancel.setEnabled(false);
         }
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -208,7 +207,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
             }
         });
 
-        if(status.equals(Request.COMPLETE)){
+        if (status.equals(Request.COMPLETE)) {
             btnSignUpOrUnregister.setEnabled(false);
         }
         btnSignUpOrUnregister.setOnClickListener(new View.OnClickListener() {
@@ -219,14 +218,13 @@ public class RequestDetailActivity extends BaseMenuActivity {
         });
     }
 
-    private void payOrConfirmButtonAction(String status){
-        if(status.equals(Request.PAID)){
+    private void payOrConfirmButtonAction(String status) {
+        if (status.equals(Request.PAID)) {
             //TODO Deliver money to mule
             //TODO Rate the mule
             //complete the transaction
             mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.COMPLETE);
-        }
-        else{
+        } else {
             //TODO start payment activity instead
             mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.PAID);
         }
@@ -245,7 +243,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
         if (btnSignUpOrUnregister.getText().toString().equals("unregister")) {
             try {
                 mDatabase.child(REQUESTS).child(transactionID).child(MULE).removeValue();
-                if(myReq.getStatus().equals(Request.PAID)) {
+                if (myReq.getStatus().equals(Request.PAID)) {
                     //TODO refund payment
                 }
                 mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.NO_MULE);
@@ -283,19 +281,18 @@ public class RequestDetailActivity extends BaseMenuActivity {
     }
 
     protected void parseAirport(String response) {
-        String result= "";
-        if(response == null) {
+        String result = "";
+        if (response == null) {
             response = "Error with processing the request";
         }
-        try{
+        try {
             JSONObject obj = new JSONObject(response);
             JSONObject departure = new JSONObject(obj.getString("departure"));
             JSONObject arrival = new JSONObject(obj.getString("arrival"));
-            result = departure.getString("scheduledTime").substring(11,16) + " to " + arrival.getString("scheduledTime").substring(11,16);
+            result = departure.getString("scheduledTime").substring(11, 16) + " to " + arrival.getString("scheduledTime").substring(11, 16);
             depart = departure.getString("scheduledTime");
             arrive = arrival.getString("scheduledTime");
-        }
-        catch (JSONException e){
+        } catch (JSONException e) {
             result = e.getMessage();
         }
         //progressBar.setVisibility(View.GONE);
@@ -305,18 +302,17 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
     protected void parseRealTime(String response) {
         String result = "";
-        if(response == null) {
+        if (response == null) {
             response = "Error with processing the request";
         }
-        try{
+        try {
             JSONObject obj = new JSONObject(response);
             JSONObject geography = new JSONObject(obj.getString("geography"));
             latitude = Double.parseDouble(geography.getString("latitude"));
             longitude = Double.parseDouble(geography.getString("longitude"));
             planedir = Double.parseDouble(geography.getString("direction"));
             result = geography.getString("longitude");
-        }
-        catch (JSONException e){
+        } catch (JSONException e) {
             result = e.getMessage();
         }
         //progressBar.setVisibility(View.GONE);
@@ -358,13 +354,11 @@ public class RequestDetailActivity extends BaseMenuActivity {
                     }
                     bufferedReader.close();
                     return stringBuilder.toString();
-                }
-                finally{
+                } finally {
                     //close the connection
                     urlConnection.disconnect();
                 }
-            }
-            catch(Exception e) {
+            } catch (Exception e) {
                 Log.e("ERROR", e.getMessage(), e);
                 return null;
             }
@@ -373,7 +367,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
         //returns with errors if couldn't process the http request or returned with nothing and toggles the progress bar
         //sends a Log with the response
         protected void onPostExecute(String response) {
-            if(response == null) {
+            if (response == null) {
                 response = "Error with processing the request";
             }
             //progressBar.setVisibility(View.GONE);

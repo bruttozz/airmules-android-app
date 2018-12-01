@@ -176,13 +176,34 @@ public class SignInActivity extends AppCompatActivity implements
                             Toast.makeText(SignInActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid())
-                                    .setValue(new UserClass(mFirebaseAuth.getCurrentUser().getDisplayName(), 100,0,0));
-                            startActivity(new Intent(SignInActivity.this, LauncherActivity.class));
-                            finish();
+                            completeSignInProcedureForUser();
                         }
                     }
                 });
+    }
+
+    private void completeSignInProcedureForUser(){
+        DatabaseReference ref = mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).getRef();
+        // Attach a listener to read the data at our posts reference
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                UserClass user = dataSnapshot.getValue(UserClass.class);
+                if(user == null || user.getName() == null){
+                    //We don't have this user yet
+                    mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid())
+                            .setValue(new UserClass(mFirebaseAuth.getCurrentUser().getDisplayName(), 0,0,0));
+                }
+
+                startActivity(new Intent(SignInActivity.this, LauncherActivity.class));
+                finish();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("Sign In", "Cannot connect to Firebase");
+            }
+        });
     }
 
     @Override

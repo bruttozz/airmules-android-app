@@ -1,5 +1,6 @@
 package com.example.asthana.airmuleschat;
 
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,6 +46,9 @@ public class FlightActivity extends BaseMenuActivity {
     double planedir;
     String depart;
     String arrive;
+    private String otherUser;
+    private DatabaseReference mDatabase;
+    private FirebaseAuth mFirebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,24 +59,52 @@ public class FlightActivity extends BaseMenuActivity {
         flightNum = (EditText) findViewById(R.id.flightnum);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String uid = dataSnapshot.child("requests").child("CFEngFvb5HZJAVrB5HdHD14or3x21542479029577").child("mule").getValue().toString();
+                otherUser = dataSnapshot.child("users").child(uid).child("name").getValue().toString();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("Error", databaseError.toString());
+            }
+        });
         Button queryButton = (Button) findViewById(R.id.queryButton);
 
         //on a button click, send the HTTP request (using the class getFlightTask)
         queryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                parseAirport(loadJSONFromAsset("flights.json"));
-                parseRealTime(loadJSONFromAsset("realtime.json"));
-                Intent myIntent = new Intent(FlightActivity.this, MapsActivity.class);
-                myIntent.putExtra("Latitude",latitude);
-                myIntent.putExtra("Longitude",longitude);
-                myIntent.putExtra("Direction",planedir);
-                myIntent.putExtra("arrTime",arrive);
-                myIntent.putExtra("depTime",depart);
-                FlightActivity.this.startActivity(myIntent);
+                showDialog(otherUser);
+
+//                DialogFragment newFragment = new RatingFragment();
+//                newFragment.show(getSupportFragmentManager());//, "missiles");
+//                parseAirport(loadJSONFromAsset("flights.json"));
+//                parseRealTime(loadJSONFromAsset("realtime.json"));
+//                Intent myIntent = new Intent(FlightActivity.this, MapsActivity.class);
+//                myIntent.putExtra("Latitude",latitude);
+//                myIntent.putExtra("Longitude",longitude);
+//                myIntent.putExtra("Direction",planedir);
+//                myIntent.putExtra("arrTime",arrive);
+//                myIntent.putExtra("depTime",depart);
+//                FlightActivity.this.startActivity(myIntent);
                 //new getFlightTask().execute();
             }
         });
+    }
+
+    void showDialog(String otherUser) {
+        // Create the fragment and show it as a dialog.
+        Bundle bundle = new Bundle();
+        bundle.putString("otherUser", otherUser);
+        DialogFragment newFragment = new RatingFragment();
+        newFragment.setArguments(bundle);
+        newFragment.show(getFragmentManager(), "ratings");
     }
 
     public String loadJSONFromAsset(String jsonobject) {

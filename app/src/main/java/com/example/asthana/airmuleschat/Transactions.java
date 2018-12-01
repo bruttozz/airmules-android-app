@@ -78,7 +78,7 @@ public class Transactions extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        TL = (TransactionsListener)context;
+        TL = (TransactionsListener) context;
     }
 
     public interface TransactionsListener {
@@ -89,10 +89,10 @@ public class Transactions extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //What kind of request data do we want to show?
-        try{
+        try {
             Bundle args = getArguments();
             myType = args.getString(INFO_TYPE, TYPE_ALL);
-        }catch(Exception e){
+        } catch (Exception e) {
             //Data was not set, so default to all requests
             myType = TYPE_ALL;
         }
@@ -100,23 +100,23 @@ public class Transactions extends Fragment {
         // Inflate the layout for this fragment
         View fragView = inflater.inflate(R.layout.fragment_transactions, container, false);
 
-        layoutButton = (LinearLayout)fragView.findViewById(R.id.layoutButton);
-        btnFilter = (Button)fragView.findViewById(R.id.btnFilter);
-        layoutFilter = (LinearLayout)fragView.findViewById(R.id.layoutFilter);
-        editTextDepCity = (EditText)fragView.findViewById(R.id.editTextDepCity);
-        editTextDepCountry = (EditText)fragView.findViewById(R.id.editTextDepCountry);
-        editTextDepDate = (EditText)fragView.findViewById(R.id.editTextDepDate);
-        editTextArrCity = (EditText)fragView.findViewById(R.id.editTextArrCity);
-        editTextArrCountry = (EditText)fragView.findViewById(R.id.editTextArrCountry);
-        editTextArrDate = (EditText)fragView.findViewById(R.id.editTextArrDate);
-        btnApply = (Button)fragView.findViewById(R.id.btnApply);
-        btnClear = (Button)fragView.findViewById(R.id.btnClear);
+        layoutButton = (LinearLayout) fragView.findViewById(R.id.layoutButton);
+        btnFilter = (Button) fragView.findViewById(R.id.btnFilter);
+        layoutFilter = (LinearLayout) fragView.findViewById(R.id.layoutFilter);
+        editTextDepCity = (EditText) fragView.findViewById(R.id.editTextDepCity);
+        editTextDepCountry = (EditText) fragView.findViewById(R.id.editTextDepCountry);
+        editTextDepDate = (EditText) fragView.findViewById(R.id.editTextDepDate);
+        editTextArrCity = (EditText) fragView.findViewById(R.id.editTextArrCity);
+        editTextArrCountry = (EditText) fragView.findViewById(R.id.editTextArrCountry);
+        editTextArrDate = (EditText) fragView.findViewById(R.id.editTextArrDate);
+        btnApply = (Button) fragView.findViewById(R.id.btnApply);
+        btnClear = (Button) fragView.findViewById(R.id.btnClear);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         //Set-up the recycler view
-        listTransactions = (RecyclerView)fragView.findViewById(R.id.listTransactions);
+        listTransactions = (RecyclerView) fragView.findViewById(R.id.listTransactions);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         listTransactions.setLayoutManager(linearLayoutManager);
@@ -146,7 +146,7 @@ public class Transactions extends Fragment {
                 layoutFilter.setVisibility(LinearLayout.GONE);
                 btnFilter.setVisibility(LinearLayout.VISIBLE);
 
-               adapter.filterRequests();
+                adapter.filterRequests();
             }
         });
 
@@ -172,7 +172,7 @@ public class Transactions extends Fragment {
         layoutFilter.setVisibility(LinearLayout.GONE);
     }
 
-    private void createDatabaseQueryAdapter(){
+    private void createDatabaseQueryAdapter() {
         /*
         //This doesn't pay attention to equalTo for some reason, so we will handle it on the client side
         DatabaseReference q;
@@ -238,7 +238,7 @@ public class Transactions extends Fragment {
         private ArrayList<Request> requestListAll;
         private ArrayList<Request> requestListToShow;
 
-        public TransactionAdapter(Context mContext, DatabaseReference myQuery){
+        public TransactionAdapter(Context mContext, DatabaseReference myQuery) {
             this.mContext = mContext;
             this.myQuery = myQuery;
 
@@ -252,16 +252,16 @@ public class Transactions extends Fragment {
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         Request r = postSnapshot.getValue(Request.class);
 
-                        if(myType.equals(TYPE_CUSTOMER)){
-                            if(!r.getCustomer().equals(mFirebaseAuth.getCurrentUser().getUid())){
+                        if (myType.equals(TYPE_CUSTOMER)) {
+                            if (!r.getCustomer().equals(mFirebaseAuth.getCurrentUser().getUid())) {
                                 continue;
                             }
-                        }else if(myType.equals(TYPE_MULE)){
-                            if(r.getMule() == null || !r.getMule().equals(mFirebaseAuth.getCurrentUser().getUid())){
+                        } else if (myType.equals(TYPE_MULE)) {
+                            if (r.getMule() == null || !r.getMule().equals(mFirebaseAuth.getCurrentUser().getUid())) {
                                 continue;
                             }
-                        }else{
-                            if(r.getMule() != null){
+                        } else {
+                            if (r.getMule() != null) {
                                 continue;
                             }
                         }
@@ -282,12 +282,12 @@ public class Transactions extends Fragment {
                             int compare;
                             //year
                             compare = arrDate1Data[Request.LocationInfo.YEAR_INDEX].compareTo(arrDate2Data[Request.LocationInfo.YEAR_INDEX]);
-                            if(compare != 0){
+                            if (compare != 0) {
                                 return preferLatestFirst * compare;
                             }
                             //month
                             compare = arrDate1Data[Request.LocationInfo.MONTH_INDEX].compareTo(arrDate2Data[Request.LocationInfo.MONTH_INDEX]);
-                            if(compare != 0){
+                            if (compare != 0) {
                                 return preferLatestFirst * compare;
                             }
                             //day
@@ -329,28 +329,28 @@ public class Transactions extends Fragment {
             return requestListToShow.size();
         }
 
-        private void filterRequests(){
+        private void filterRequests() {
             requestListToShow.clear();
 
             //apply the filers
-            for(Request r : requestListAll){
-                if(!dataMatches(editTextDepCity.getText().toString(), r.getDeparture().getCity())){
+            for (Request r : requestListAll) {
+                if (!dataMatches(editTextDepCity.getText().toString(), r.getDeparture().getCity())) {
                     continue;
                 }
-                if(!dataMatches(editTextDepCountry.getText().toString(), r.getDeparture().getCountry())){
+                if (!dataMatches(editTextDepCountry.getText().toString(), r.getDeparture().getCountry())) {
                     continue;
                 }
-                if(!dataMatches(editTextDepDate.getText().toString(), r.getDeparture().getDate())){
+                if (!dataMatches(editTextDepDate.getText().toString(), r.getDeparture().getDate())) {
                     continue;
                 }
 
-                if(!dataMatches(editTextArrCity.getText().toString(), r.getArrival().getCity())){
+                if (!dataMatches(editTextArrCity.getText().toString(), r.getArrival().getCity())) {
                     continue;
                 }
-                if(!dataMatches(editTextArrCountry.getText().toString(), r.getArrival().getCountry())){
+                if (!dataMatches(editTextArrCountry.getText().toString(), r.getArrival().getCountry())) {
                     continue;
                 }
-                if(!dataMatches(editTextArrDate.getText().toString(), r.getArrival().getDate())) {
+                if (!dataMatches(editTextArrDate.getText().toString(), r.getArrival().getDate())) {
                     continue;
                 }
 
@@ -360,20 +360,20 @@ public class Transactions extends Fragment {
             notifyDataSetChanged();
         }
 
-        private boolean dataMatches(String guiData, String requestData){
-            if(guiData == null || guiData.isEmpty()){
+        private boolean dataMatches(String guiData, String requestData) {
+            if (guiData == null || guiData.isEmpty()) {
                 //We don't care to sort on this field
                 return true;
             }
 
-            if(guiData.equals(requestData)){
+            if (guiData.equals(requestData)) {
                 return true;
             }
 
             return false;
         }
 
-        private void clearRequestFilters(){
+        private void clearRequestFilters() {
             requestListToShow.clear();
             requestListToShow.addAll(requestListAll);
 
@@ -381,7 +381,6 @@ public class Transactions extends Fragment {
         }
     }
 }
-
 
 
 class TransactionHolder extends RecyclerView.ViewHolder {
@@ -393,7 +392,7 @@ class TransactionHolder extends RecyclerView.ViewHolder {
 
     private String transactionID;
 
-    public TransactionHolder(Context context, View itemView){
+    public TransactionHolder(Context context, View itemView) {
         super(itemView);
         mContext = context;
 

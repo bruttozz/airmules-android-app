@@ -41,21 +41,20 @@
         android:layout_weight="1">
 
         <TextView
-            android:id="@+id/txtPrice"
+            android:id="@+id/txtPriceLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/payment_Price"
             android:textSize="24sp" />
 
-        <EditText
-            android:id="@+id/edtPrice"
+        <TextView
+            android:id="@+id/txtPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="3dp"
-            android:ems="5"
             android:inputType="numberDecimal"
             android:text="100"
-            android:textSize="24sp"/>
+            android:textSize="24sp" />
 
 
     </LinearLayout>

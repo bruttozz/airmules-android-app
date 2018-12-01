@@ -44,10 +44,10 @@ import java.net.URL;
 import java.util.Iterator;
 
 public class PaymentActivity extends BaseMenuActivity {
-    private static final double SERVICE_FEE = .1;
+    private static final double SERVICE_FEE = .05;
 
     //Original price of transaction
-    private EditText txtPrice;
+    private TextView txtPrice;
 
     //Our service fee amount
     private TextView txtFee;
@@ -83,7 +83,7 @@ public class PaymentActivity extends BaseMenuActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        txtPrice = (EditText) findViewById(R.id.edtPrice);
+        txtPrice = (TextView) findViewById(R.id.txtPrice);
         txtFee = (TextView) findViewById(R.id.txtFeeAmount);
         txtTotalAmount = (TextView)findViewById(R.id.txtTotalAmount);
         setUpPriceListeners();

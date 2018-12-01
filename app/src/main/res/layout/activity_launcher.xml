@@ -7,47 +7,14 @@
     tools:context=".LauncherActivity">
 
     <Button
-        android:id="@+id/btnOpenPayment"
+        android:id="@+id/btnViewAllRequests"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="120dp"
-        android:layout_marginTop="40dp"
-        android:text="Open Payments"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSignIn" />
-
-    <Button
-        android:id="@+id/btnSignIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="28dp"
-        android:text="Start Tracking"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="112dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/view_all_requests"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnSeeUserProfile" />
-
-    <Button
-        android:id="@+id/btnTransactions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="104dp"
-        android:layout_marginTop="24dp"
-        android:text="View Mule Requests"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnOpenPayment" />
-
-    <Button
-        android:id="@+id/btnFlightAPI"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="128dp"
-        android:layout_marginTop="48dp"
-        android:text="Pull API data"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnTransactions" />
 
     <Button
         android:id="@+id/btnSeeUserProfile"
@@ -56,7 +23,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
-        android:text="Profile"
+        android:text="@string/view_user_profile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -65,11 +32,31 @@
         android:id="@+id/btnPostRequest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="128dp"
-        android:layout_marginTop="28dp"
-        android:text="post request"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/createNewReq"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnFlightAPI" />
+        app:layout_constraintTop_toBottomOf="@+id/btnViewPersonalRequests" />
+
+    <Button
+        android:id="@+id/btnViewMuleRequests"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="92dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/txtSeeMuleJobs"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnViewAllRequests" />
+
+    <Button
+        android:id="@+id/btnViewPersonalRequests"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/txtSeeRequest"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnViewMuleRequests" />
 
 
 </android.support.constraint.ConstraintLayout>

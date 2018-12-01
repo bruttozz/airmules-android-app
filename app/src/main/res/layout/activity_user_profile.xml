@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserProfileActivity"
-    android:background="@drawable/userprofilebackground">
+    android:background="@drawable/userprofilebackground"
+    tools:context=".UserProfileActivity">
 
     <TextView
         android:id="@+id/txtViewUserName"
@@ -18,8 +18,8 @@
         android:text="test"
         android:textColor="@color/white"
         android:textSize="24sp" />
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imageViewUserProfile"
         android:layout_width="95dp"
         android:layout_height="95dp"
@@ -32,28 +32,28 @@
 
     <TextView
         android:id="@+id/txtViewMoneyLeft"
-        android:fontFamily="@font/seasrn"
-
-        android:layout_marginLeft="10dp"
         android:layout_width="wrap_content"
+
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtViewUserName"
         android:layout_alignBottom="@id/txtLabelMoney"
-        android:textColor="@color/white"
+        android:layout_alignLeft="@+id/txtViewUserName"
+        android:layout_marginLeft="10dp"
+        android:fontFamily="@font/seasrn"
         android:text="999"
+        android:textColor="@color/white"
         android:textSize="25sp" />
 
     <TextView
         android:id="@+id/txtLabelMoney"
-        android:fontFamily="@font/seasrn"
-
         android:layout_width="wrap_content"
+
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
         android:layout_alignLeft="@+id/imageViewUserProfile"
         android:layout_below="@+id/imageViewUserProfile"
         android:layout_marginTop="30dp"
+        android:fontFamily="@font/seasrn"
         android:text="Balance: "
+        android:textColor="@color/white"
         android:textSize="24sp" />
 
     <Button
@@ -73,9 +73,9 @@
         android:id="@+id/btnSeeMuleJobs"
         android:layout_width="266dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btnSeeRequest"
         android:layout_alignLeft="@+id/btnSeeRequest"
         android:layout_alignRight="@+id/btnSeeRequest"
+        android:layout_below="@+id/btnSeeRequest"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_marginTop="10dp"
@@ -98,8 +98,6 @@
         android:fontFamily="serif"
         android:text="choose a profile image"
         android:textColor="@color/white" />
-
-
 
 
 </RelativeLayout>

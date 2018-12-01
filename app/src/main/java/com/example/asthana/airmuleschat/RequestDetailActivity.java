@@ -194,11 +194,11 @@ public class RequestDetailActivity extends BaseMenuActivity {
         btnPayOrConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                payOrConfirmButtonAction(status);
+                payOrConfirmButtonAction(myReq);
             }
         });
 
-        if(status.equals(Request.COMPLETE)){
+        if(status.equals(Request.PAID) || status.equals(Request.COMPLETE)){
             btnCancel.setEnabled(false);
         }
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -219,16 +219,42 @@ public class RequestDetailActivity extends BaseMenuActivity {
         });
     }
 
-    private void payOrConfirmButtonAction(String status){
-        if(status.equals(Request.PAID)){
-            //TODO Deliver money to mule
+    private void payOrConfirmButtonAction(final Request myReq){
+        if(myReq.getStatus().equals(Request.PAID)){
+            //Deliver money to mule
+            DatabaseReference ref = mDatabase.child("users").child(myReq.getMule()).getRef();
+            // Attach a listener to read the data at our posts reference
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    UserClass user = dataSnapshot.getValue(UserClass.class);
+                    if(user == null || user.getName() == null){
+                        //User was deleted?
+                        return;
+                    }
+
+                    float inAppMoney = user.getMoney();
+                    inAppMoney = inAppMoney + myReq.getReward();
+                    mDatabase.child("users").child(myReq.getMule()).child("money").setValue(inAppMoney);
+
+                    //TODO notify the mule of payment
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.e("Payment", "Cannot connect to Firebase");
+                }
+            });
+
             //TODO Rate the mule
+
             //complete the transaction
             mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.COMPLETE);
         }
         else{
-            //TODO start payment activity instead
-            mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.PAID);
+            Intent payIntent = new Intent(this, PaymentActivity.class);
+            payIntent.putExtra("transactionID", transactionID);
+            this.startActivity(payIntent);
         }
     }
 
@@ -241,12 +267,35 @@ public class RequestDetailActivity extends BaseMenuActivity {
         }
     }
 
-    private void signUpOrUnregisterForMuleToThisRequest(Request myReq) {
+    private void signUpOrUnregisterForMuleToThisRequest(final Request myReq) {
         if (btnSignUpOrUnregister.getText().toString().equals("unregister")) {
             try {
                 mDatabase.child(REQUESTS).child(transactionID).child(MULE).removeValue();
                 if(myReq.getStatus().equals(Request.PAID)) {
-                    //TODO refund payment
+                    //refund payment
+                    DatabaseReference ref = mDatabase.child("users").child(myReq.getCustomer()).getRef();
+                    // Attach a listener to read the data at our posts reference
+                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            UserClass user = dataSnapshot.getValue(UserClass.class);
+                            if(user == null || user.getName() == null){
+                                //User was deleted?
+                                return;
+                            }
+
+                            float inAppMoney = user.getMoney();
+                            inAppMoney = inAppMoney + myReq.getReward();
+                            mDatabase.child("users").child(myReq.getCustomer()).child("money").setValue(inAppMoney);
+
+                            //TODO notify the customer of payment cancellation
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.e("Payment", "Cannot connect to Firebase");
+                        }
+                    });
                 }
                 mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.NO_MULE);
                 Toast.makeText(this, "Unregistered!", Toast.LENGTH_SHORT).show();

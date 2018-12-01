@@ -67,6 +67,7 @@ public class PaymentActivity extends BaseMenuActivity {
     private PayuConfig payuConfig;
 
     //Database stuff
+    private String transactionID;
     private FirebaseAuth mFirebaseAuth;
     private DatabaseReference mDatabase;
 
@@ -78,6 +79,7 @@ public class PaymentActivity extends BaseMenuActivity {
 
         Payu.setInstance(this);
 
+        transactionID = getIntent().getStringExtra("transactionID").toString();
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -85,8 +87,24 @@ public class PaymentActivity extends BaseMenuActivity {
         txtFee = (TextView) findViewById(R.id.txtFeeAmount);
         txtTotalAmount = (TextView)findViewById(R.id.txtTotalAmount);
         setUpPriceListeners();
-        txtPrice.setText("10");    //TODO get this from previous activity
-        //TODO also need to get the actual transaction this applies to, so we can mark the payment as PENDING
+        //Get the price of the transaction
+        DatabaseReference reqRef = mDatabase.child("requests").child(transactionID).getRef();
+        reqRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Request req = dataSnapshot.getValue(Request.class);
+                if (req == null || req.getTransactionID() == null) {
+                    PaymentActivity.this.finish();
+                    return;
+                }
+                txtPrice.setText(Float.toString(req.getReward()));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("Error", databaseError.toString());
+            }
+        });
 
         Button btnPayCredit = (Button) findViewById(R.id.btnPayCredit);
         btnPayCredit.setOnClickListener(new View.OnClickListener() {
@@ -127,13 +145,14 @@ public class PaymentActivity extends BaseMenuActivity {
                             inAppMoney = inAppMoney - totalAmount;
                             //subtract money from user's account
                             mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).child("money").setValue(inAppMoney);
-                            //TODO Update the transaction to indicate payment is PENDING
+                            mDatabase.child("requests").child(transactionID).child("status").setValue(Request.PAID);
                             new AlertDialog.Builder(PaymentActivity.this)
                                     .setCancelable(false)
                                     .setMessage("Payment Confirmed! $" + inAppMoney + " remaining.")
                                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int whichButton) {
                                             dialog.dismiss();
+                                            PaymentActivity.this.finish();
                                         }
                                     }).show();
                         }
@@ -142,7 +161,7 @@ public class PaymentActivity extends BaseMenuActivity {
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         Log.e("Payment", "Cannot connect to Firebase");
-                        //TODO return to transaction data activity?
+                        Toast.makeText(PaymentActivity.this, "Cannot connect, please try again later.", Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -418,7 +437,14 @@ public class PaymentActivity extends BaseMenuActivity {
                     e.printStackTrace();
                 }
 
-                String message = "Status: " + status + "\nTotal: " + amount + "\nCard: " + cardNumber;
+                String message;
+                if(status.equals("success")){
+                    mDatabase.child("requests").child(transactionID).child("status").setValue(Request.PAID);
+                    message = "Payment Confirmed! Charged $" + amount + " to card: " + cardNumber;
+                }
+                else{
+                    message = "Payment Failed!";
+                }
 
                 //Display some basic information from the transaction
                 new AlertDialog.Builder(this)
@@ -429,6 +455,10 @@ public class PaymentActivity extends BaseMenuActivity {
                                 dialog.dismiss();
                             }
                         }).show();
+
+                if(status.equals("success")){
+                    PaymentActivity.this.finish();
+                }
 
             } else {
                 Toast.makeText(this, getString(R.string.could_not_receive_data), Toast.LENGTH_LONG).show();

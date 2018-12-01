@@ -126,6 +126,13 @@ public class RequestDetailActivity extends BaseMenuActivity {
                     return;
                 }
 
+                //Make sure no one else has already signed up to be the mule
+                if(!req.getCustomer().equals(mFirebaseAuth.getCurrentUser().getUid())
+                        && req.getMule() != null && !req.getMule().equals(mFirebaseAuth.getCurrentUser().getUid())){
+                    RequestDetailActivity.this.finish();
+                    return;
+                }
+
                 setTextAndButton(req);
                 addButtonFunctions(req);
             }

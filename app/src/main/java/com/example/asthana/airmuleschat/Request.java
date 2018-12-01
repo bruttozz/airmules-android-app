@@ -3,8 +3,15 @@ package com.example.asthana.airmuleschat;
 import java.util.Date;
 
 public class Request {
+    public static final String NO_MULE = "NO MULE";
+    public static final String NO_PAYMENT = "NO PAYMENT";
+    public static final String PAID = "PAID";
+    public static final String COMPLETE = "COMPLETE";
+
     //Unfortunately we need to track it here, so that we can pass it between activities...
     private String transactionID;
+
+    private String status = NO_MULE;
 
     private String customer;
     private String mule;
@@ -27,6 +34,14 @@ public class Request {
 
     public String getTransactionID(){
         return transactionID;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getCustomer(){

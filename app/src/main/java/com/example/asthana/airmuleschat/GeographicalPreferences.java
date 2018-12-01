@@ -7,6 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -18,7 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class GeographicalPreferences extends AppCompatActivity {
+public class GeographicalPreferences extends BaseMenuActivity {
     private static final String DATABASE_TABLE_NAME = "geoPrefs";
 
     private FloatingActionButton buttonAdd;
@@ -31,7 +34,7 @@ public class GeographicalPreferences extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_geographical_preferences);
-
+        
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -44,6 +47,15 @@ public class GeographicalPreferences extends AppCompatActivity {
         });
 
         listPreferences = (RecyclerView)findViewById(R.id.listPreferences);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        MenuItem item = menu.findItem(R.id.geo_pref_menu);
+        item.setVisible(false);
+        return true;
     }
 
     private void createAddDialog(){

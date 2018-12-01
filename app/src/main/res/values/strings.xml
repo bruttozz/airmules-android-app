@@ -63,5 +63,11 @@
     <string name="title_activity_maps">Map</string>
     <string name="view_all_requests">View All Requests</string>
     <string name="view_user_profile">View Profile</string>
+    <string name="mule_name">Mule</string>
+    <string name="colon">:</string>
+    <string name="rating">Rating</string>
+    <string name="departure_date">Departure Date</string>
+    <string name="destination">Destination</string>
+    <string name="arrival_data_no_colon">Arrive By</string>
 
 </resources>

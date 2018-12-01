@@ -8,17 +8,17 @@
     android:layout_margin="5dp"
     android:theme="@style/AppTheme"
     card_view:cardCornerRadius="4dp"
-    card_view:cardElevation="7dp">
+    card_view:cardElevation="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:background="@color/accent_material_light"></LinearLayout>
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="3dp"-->
+            <!--android:background="@color/accent_material_light"></LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -1,6 +1,4 @@
 // Based on https://github.com/firebase/friendlychat-android and Stack Overflow.
-
-
 package com.example.asthana.airmuleschat;
 
 import android.content.Intent;
@@ -34,8 +32,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.tencent.mm.opensdk.modelbase.BaseReq;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -74,15 +80,15 @@ public class SignInActivity extends AppCompatActivity implements
         launchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firebaseAuthWithWeChat(tempWeChatID, name);
+//                firebaseAuthWithWeChat(tempWeChatID, name);
 
                 //startActivity(new Intent(SignInActivity.this, LauncherActivity.class));
-//                if(api.openWXApp() == false){
-//                    Toast.makeText(SignInActivity.this, "您还未安装微信客户端", Toast.LENGTH_LONG).show();
-//                }
+                if(api.openWXApp() == false){
+                    Toast.makeText(SignInActivity.this, "您还未安装微信客户端", Toast.LENGTH_LONG).show();
+                }
 //                Toast.makeText(SignInActivity.this, "success", Toast.LENGTH_LONG).show();
-//                Intent intent = new Intent(SignInActivity.this, WeChatLoginActivity.class);
-//                startActivityForResult(intent, ActivityReqCode.WE_CHAT_LOGIN);
+                Intent intent = new Intent(SignInActivity.this, WeChatLoginActivity.class);
+                startActivityForResult(intent, ActivityReqCode.WE_CHAT_LOGIN);
                 //SignInActivity.this.startActivity(new Intent(WeChatLoginActivity.class, LauncherActivity.class)));
             }
         });
@@ -160,7 +166,7 @@ public class SignInActivity extends AppCompatActivity implements
 
                 final String code = intent.getStringExtra(IntentKey.WE_CHAT_AUTH_CODE);
                 Toast.makeText(this, code, Toast.LENGTH_SHORT).show();
-
+                getAccessToken(code);
             });
             //startActivity(new Intent(SignInActivity.this, LauncherActivity.class));
         }
@@ -213,48 +219,90 @@ public class SignInActivity extends AppCompatActivity implements
         });
     }
 
-    private void createUserWithWeChat(String openid, final String name){
-        String token = openid+"@gmail.com";
-        mFirebaseAuth.createUserWithEmailAndPassword(token, openid)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mFirebaseAuth.getCurrentUser();
-                            if(user != null) {
-                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                        .setDisplayName(name).build();
-                                user.updateProfile(profileUpdates);
-                            }
-                            completeSignInProcedureForUser();
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(SignInActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
+//    private void createUserWithWeChat(String openid, final String name){
+//        String token = openid+"@gmail.com";
+//        mFirebaseAuth.createUserWithEmailAndPassword(token, openid)
+//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if (task.isSuccessful()) {
+//                            FirebaseUser user = mFirebaseAuth.getCurrentUser();
+//                            if(user != null) {
+//                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+//                                        .setDisplayName(name).build();
+//                                user.updateProfile(profileUpdates);
+//                            }
+//                            completeSignInProcedureForUser();
+//                        } else {
+//                            // If sign in fails, display a message to the user.
+//                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+//                            Toast.makeText(SignInActivity.this, "Authentication failed.",
+//                                    Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
+//    }
 
-    private void firebaseAuthWithWeChat(final String openid, final String name){
-        String token = openid+"@gmail.com";
-        mFirebaseAuth.signInWithEmailAndPassword(token, openid)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mFirebaseAuth.getCurrentUser();
+//    private void firebaseAuthWithWeChat(final String openid, final String name){
+//        String token = openid+"@gmail.com";
+//        mFirebaseAuth.signInWithEmailAndPassword(token, openid)
+//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if (task.isSuccessful()) {
+//                            // Sign in success, update UI with the signed-in user's information
+//                            Log.d(TAG, "signInWithEmail:success");
+//                            FirebaseUser user = mFirebaseAuth.getCurrentUser();
+//
+//                            startActivity(new Intent(SignInActivity.this, LauncherActivity.class));
+//                            finish();
+//                        } else {
+//                            createUserWithWeChat(openid, name);
+//                        }
+//                    }
+//                });
+//    }
 
-                            startActivity(new Intent(SignInActivity.this, LauncherActivity.class));
-                            finish();
-                        } else {
-                            createUserWithWeChat(openid, name);
-                        }
-                    }
-                });
+    private void getAccessToken(String code) {
+        String http = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + WeChat.APP_ID + "&secret=" + WeChat.APP_SECRET + "&code=" + code + "&grant_type=authorization_code";
+        OkHttpUtils.ResultCallback<String> resultCallback = new OkHttpUtils.ResultCallback<String>() {
+            @Override
+            public void onSuccess(String response) {
+                String access = null;
+                String openId = null;
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    access = jsonObject.getString("access_token");
+                    openId = jsonObject.getString("openid");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(SignInActivity.this, access, Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignInActivity.this, openId, Toast.LENGTH_SHORT).show();
+
+//                String getUserInfo = "https://api.weixin.qq.com/sns/userinfo?access_token=" + access + "&openid=" + openId + "";
+//                OkHttpUtils.ResultCallback<WeChatInfo> resultCallback = new OkHttpUtils.ResultCallback<WeChatInfo>() {
+//                    @Override
+//                    public void onSuccess(WeChatInfo response) {
+//                        Log.i("TAG", response.toString());
+//                        Toast.makeText(SignInActivity.this, response.toString(), Toast.LENGTH_LONG).show();
+//                        finish();
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Exception e) {
+//                        Toast.makeText(SignInActivity.this, "登录失败1", Toast.LENGTH_SHORT).show();
+//                    }
+//                };
+//                OkHttpUtils.get(getUserInfo, resultCallback);
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                Toast.makeText(SignInActivity.this, "Auth Failed", Toast.LENGTH_SHORT).show();
+            }
+        };
+        OkHttpUtils.get(http, resultCallback);
     }
 
     @Override

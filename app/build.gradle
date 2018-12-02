@@ -69,6 +69,8 @@ dependencies {
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.0.2'
+    implementation 'com.squareup.okhttp3:okhttp:3.4.2'
+    implementation 'com.google.code.gson:gson:2.2.4'
     //Crashlytics
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.2'
     ext.enableCrashlytics = true

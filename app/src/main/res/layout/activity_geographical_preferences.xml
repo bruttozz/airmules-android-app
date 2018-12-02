@@ -16,7 +16,7 @@
         android:layout_gravity="end|bottom"
         android:clickable="true"
         android:src="@android:drawable/ic_input_add"
-        app:backgroundTint="@android:color/white"
+        app:backgroundTint="@android:color/holo_blue_light"
         app:elevation="4dp"
         app:fabSize="normal" />
 

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.annimon.stream.Optional;
+import com.example.asthana.airmuleschat.bean.WeChatInfo;
 import com.example.asthana.airmuleschat.wxapi.WeChatLoginActivity;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -39,6 +40,7 @@ import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -84,7 +86,7 @@ public class SignInActivity extends AppCompatActivity implements
 
                 //startActivity(new Intent(SignInActivity.this, LauncherActivity.class));
                 if(api.openWXApp() == false){
-                    Toast.makeText(SignInActivity.this, "您还未安装微信客户端", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SignInActivity.this, "Please install WeChat APP first", Toast.LENGTH_LONG).show();
                 }
 //                Toast.makeText(SignInActivity.this, "success", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(SignInActivity.this, WeChatLoginActivity.class);
@@ -270,6 +272,7 @@ public class SignInActivity extends AppCompatActivity implements
             public void onSuccess(String response) {
                 String access = null;
                 String openId = null;
+                String wxusername = null;
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     access = jsonObject.getString("access_token");
@@ -280,21 +283,23 @@ public class SignInActivity extends AppCompatActivity implements
                 Toast.makeText(SignInActivity.this, access, Toast.LENGTH_SHORT).show();
                 Toast.makeText(SignInActivity.this, openId, Toast.LENGTH_SHORT).show();
 
-//                String getUserInfo = "https://api.weixin.qq.com/sns/userinfo?access_token=" + access + "&openid=" + openId + "";
-//                OkHttpUtils.ResultCallback<WeChatInfo> resultCallback = new OkHttpUtils.ResultCallback<WeChatInfo>() {
-//                    @Override
-//                    public void onSuccess(WeChatInfo response) {
-//                        Log.i("TAG", response.toString());
-//                        Toast.makeText(SignInActivity.this, response.toString(), Toast.LENGTH_LONG).show();
-//                        finish();
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Exception e) {
-//                        Toast.makeText(SignInActivity.this, "登录失败1", Toast.LENGTH_SHORT).show();
-//                    }
-//                };
-//                OkHttpUtils.get(getUserInfo, resultCallback);
+                String getUserInfo = "https://api.weixin.qq.com/sns/userinfo?access_token=" + access + "&openid=" + openId + "";
+                OkHttpUtils.ResultCallback<WeChatInfo> resultCallback = new OkHttpUtils.ResultCallback<WeChatInfo>() {
+                    @Override
+                    public void onSuccess(WeChatInfo response) {
+                        Log.i("TAG", response.toString());
+                        Toast.makeText(SignInActivity.this, response.toString(), Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(Exception e) {
+                        Toast.makeText(SignInActivity.this, "Auth Failed", Toast.LENGTH_SHORT).show();
+                    }
+//                    String wxusername = response.toString();
+                };
+
+                OkHttpUtils.get(getUserInfo, resultCallback);
             }
 
             @Override

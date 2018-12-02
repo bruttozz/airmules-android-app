@@ -241,7 +241,9 @@ public class Transactions extends Fragment {
         public TransactionAdapter(Context mContext, DatabaseReference myQuery) {
             this.mContext = mContext;
             this.myQuery = myQuery;
+        }
 
+        protected void updateDataFromFirebase(){
             requestListAll = new ArrayList<Request>();
             requestListToShow = new ArrayList<Request>();
 
@@ -425,6 +427,14 @@ public class Transactions extends Fragment {
 
             notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        //Every time we resume the activity make sure we pull the latest data
+        adapter.updateDataFromFirebase();
     }
 }
 

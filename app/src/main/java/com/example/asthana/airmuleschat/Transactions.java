@@ -369,7 +369,7 @@ public class Transactions extends Fragment {
                     model.getDeparture().getCity(), model.getDeparture().getCountry(),
                     model.getArrival().getCity(), model.getArrival().getCountry(),
                     model.getArrival().getDate(),
-                    Float.toString(model.getReward()));
+                    PaymentActivity.convertToMoneyFormatString(model.getReward()));
         }
 
         @Override

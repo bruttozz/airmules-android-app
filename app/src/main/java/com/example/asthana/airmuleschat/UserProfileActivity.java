@@ -78,12 +78,13 @@ public class UserProfileActivity extends BaseMenuActivity {
         btnSeeMuleJobs = (Button) findViewById(R.id.btnSeeMuleJobs);
 
 
-        mDatabase.addValueEventListener(new ValueEventListener() {
+        DatabaseReference ref = mDatabase.child(USERS).child(mFirebaseAuth.getCurrentUser().getUid()).getRef();
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String moneyLeft = dataSnapshot.child(USERS).child(mFirebaseAuth.getCurrentUser().getUid().toString())
-                        .child(MONEY).getValue().toString();
-                txtViewMoneyLeft.setText(moneyLeft);
+                UserClass me = dataSnapshot.getValue(UserClass.class);
+                float myFunds = me.getMoney();
+                txtViewMoneyLeft.setText(PaymentActivity.convertToMoneyFormatString(myFunds));
             }
 
             @Override

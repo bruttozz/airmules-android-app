@@ -181,7 +181,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
         txtViewArrival.setText(myReq.getArrival().getCity() + ", " + myReq.getArrival().getCountry());
         txtViewDepartureDate.setText(myReq.getDeparture().getDate());
         txtViewArrivalDate.setText(myReq.getArrival().getDate());
-        txtViewReward.setText(Float.toString(myReq.getReward()));
+        txtViewReward.setText(PaymentActivity.convertToMoneyFormatString(myReq.getReward()));
         txtViewItem.setText(myReq.getItemData().getName());
         txtViewSize.setText(Float.toString(myReq.getItemData().getLength())
                 + " x " + Float.toString(myReq.getItemData().getWidth())

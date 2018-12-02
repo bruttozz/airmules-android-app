@@ -20,10 +20,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-/**
- *
- * Description : OkHttp网络连接封装工具类  解析用的是Gson 记得添加Gson依赖 或者jar包
- */
 public class OkHttpUtils {
 
     private static final String TAG = "OkHttpUtils";
@@ -61,7 +57,7 @@ public class OkHttpUtils {
     }
 
     /**
-     * 处理结果
+     * Result
      * @param callback
      * @param request
      */
@@ -79,12 +75,12 @@ public class OkHttpUtils {
                     String str = response.body().string();
                     if (callback.mType == String.class) {
                         /**
-                         * 返回字符串
+                         * Return String
                          */
                         sendSuccessCallBack(callback, str);
                     } else {
                         /**
-                         * 这里处理解析返回对象
+                         * Resolve returned object
                          */
                         Object object = mGson.fromJson(str, callback.mType);
                         sendSuccessCallBack(callback, object);
@@ -130,29 +126,29 @@ public class OkHttpUtils {
     }
 
 
-    /**********************对外接口************************/
+    /**********************Outer interface************************/
 
     /**
-     * get请求
-     * @param url  请求url
-     * @param callback  请求回调
+     * get request
+     * @param url  request url
+     * @param callback  request callback
      */
     public static void get(String url, ResultCallback callback) {
         getmInstance().getRequest(url, callback);
     }
 
     /**
-     * post请求
-     * @param url       请求url
-     * @param callback  请求回调
-     * @param params    请求参数
+     * post request
+     * @param url
+     * @param callback
+     * @param params
      */
     public static void post(String url, final ResultCallback callback, List<Param> params) {
         getmInstance().postRequest(url, callback, params);
     }
 
     /**
-     * http请求回调类,回调方法在UI线程中执行
+     * http request callback class, request method processed in UI thread
      * @param <T>
      */
     public static abstract class ResultCallback<T> {
@@ -173,20 +169,20 @@ public class OkHttpUtils {
         }
 
         /**
-         * 请求成功回调
+         * callback success
          * @param response
          */
         public abstract void onSuccess(T response);
 
         /**
-         * 请求失败回调
+         * callback failed
          * @param e
          */
         public abstract void onFailure(Exception e);
     }
 
     /**
-     * post请求参数类   这里可以根据项目抽取成泛型
+     * post request param class
      */
     public static class Param {
 

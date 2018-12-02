@@ -197,6 +197,10 @@ public class Request {
             this.country = country;
         }
 
+        public String getLocationString(){
+            return getCity() + ", " + getCountry();
+        }
+
         public String getDate() {
             return date;
         }

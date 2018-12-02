@@ -248,63 +248,108 @@ public class Transactions extends Fragment {
             myQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    requestListAll.clear();
-                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        Request r = postSnapshot.getValue(Request.class);
+                    ArrayList<GeoPref> userGeoPrefs = new ArrayList<GeoPref>();
+                    if(myType.equals(TYPE_ALL)){
+                        //Apply the users geo prefs
+                        Query myGeoPrefsQuery = mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid())
+                                .child(GeographicalPreferences.DATABASE_TABLE_NAME).getRef();
+                        myGeoPrefsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot2) {
+                                for (DataSnapshot postSnapshot : dataSnapshot2.getChildren()) {
+                                    GeoPref geoPref = postSnapshot.getValue(GeoPref.class);
+                                    userGeoPrefs.add(geoPref);
+                                }
 
-                        if (myType.equals(TYPE_CUSTOMER)) {
-                            if (!r.getCustomer().equals(mFirebaseAuth.getCurrentUser().getUid())) {
-                                continue;
+                                setUpDataForAdapter(dataSnapshot, userGeoPrefs);
                             }
-                        } else if (myType.equals(TYPE_MULE)) {
-                            if (r.getMule() == null || !r.getMule().equals(mFirebaseAuth.getCurrentUser().getUid())) {
-                                continue;
-                            }
-                        } else {
-                            if (r.getMule() != null || r.getCustomer().equals(mFirebaseAuth.getCurrentUser().getUid())) {
-                                //There is already a mule or there is no mule but I am the customer (can't sign up for own activity)
-                                continue;
-                            }
-                        }
 
-                        requestListAll.add(r);
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                Log.e("Transactions_GeoPrefs", "The Geo Prefs read failed: " + databaseError.getMessage());
+                            }
+                        });
                     }
-
-                    //Sort by arrive date
-                    final int preferLatestFirst = -1;
-                    Collections.sort(requestListAll, new Comparator<Request>() {
-                        @Override
-                        public int compare(Request r1, Request r2) {
-                            String arrDate1 = r1.getArrival().getDate();
-                            String[] arrDate1Data = arrDate1.split(Request.LocationInfo.DATE_DELIMITER);
-                            String arrDate2 = r2.getArrival().getDate();
-                            String[] arrDate2Data = arrDate2.split(Request.LocationInfo.DATE_DELIMITER);
-
-                            int compare;
-                            //year
-                            compare = arrDate1Data[Request.LocationInfo.YEAR_INDEX].compareTo(arrDate2Data[Request.LocationInfo.YEAR_INDEX]);
-                            if (compare != 0) {
-                                return preferLatestFirst * compare;
-                            }
-                            //month
-                            compare = arrDate1Data[Request.LocationInfo.MONTH_INDEX].compareTo(arrDate2Data[Request.LocationInfo.MONTH_INDEX]);
-                            if (compare != 0) {
-                                return preferLatestFirst * compare;
-                            }
-                            //day
-                            compare = arrDate1Data[Request.LocationInfo.DAY_INDEX].compareTo(arrDate2Data[Request.LocationInfo.DAY_INDEX]);
-                            return preferLatestFirst * compare;
-                        }
-                    });
-
-                    clearRequestFilters();
+                    else{
+                        setUpDataForAdapter(dataSnapshot, userGeoPrefs);
+                    }
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    System.out.println("The request read failed: " + databaseError.getMessage());
+                    Log.e("Transactions", "The request read failed: " + databaseError.getMessage());
                 }
             });
+        }
+
+        private void setUpDataForAdapter(DataSnapshot dataSnapshot, ArrayList<GeoPref> userGeoPrefs){
+            requestListAll.clear();
+            for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                Request r = postSnapshot.getValue(Request.class);
+
+                if (myType.equals(TYPE_CUSTOMER)) {
+                    if (!r.getCustomer().equals(mFirebaseAuth.getCurrentUser().getUid())) {
+                        continue;
+                    }
+                } else if (myType.equals(TYPE_MULE)) {
+                    if (r.getMule() == null || !r.getMule().equals(mFirebaseAuth.getCurrentUser().getUid())) {
+                        continue;
+                    }
+                } else {
+                    if (r.getMule() != null || r.getCustomer().equals(mFirebaseAuth.getCurrentUser().getUid())) {
+                        //There is already a mule or there is no mule but I am the customer (can't sign up for own activity)
+                        continue;
+                    }
+
+                    if(!userGeoPrefs.isEmpty()) {
+                        boolean geoPrefMatch = false;
+                        for (GeoPref geoPref : userGeoPrefs) {
+                            if (geoPref.prefMatches(r.getDeparture().getCity(), r.getDeparture().getCountry())
+                                    || geoPref.prefMatches(r.getArrival().getCity(), r.getArrival().getCountry())) {
+                                //The request matches a geo preference
+                                geoPrefMatch = true;
+                                break;
+                            }
+                        }
+                        if (!geoPrefMatch) {
+                            //Did not match a geo pref, so skip the request
+                            continue;
+                        }
+                    }
+                }
+
+                //Request is good to add
+                requestListAll.add(r);
+            }
+
+            //Sort by arrive date
+            final int preferLatestFirst = -1;
+            Collections.sort(requestListAll, new Comparator<Request>() {
+                @Override
+                public int compare(Request r1, Request r2) {
+                    String arrDate1 = r1.getArrival().getDate();
+                    String[] arrDate1Data = arrDate1.split(Request.LocationInfo.DATE_DELIMITER);
+                    String arrDate2 = r2.getArrival().getDate();
+                    String[] arrDate2Data = arrDate2.split(Request.LocationInfo.DATE_DELIMITER);
+
+                    int compare;
+                    //year
+                    compare = arrDate1Data[Request.LocationInfo.YEAR_INDEX].compareTo(arrDate2Data[Request.LocationInfo.YEAR_INDEX]);
+                    if (compare != 0) {
+                        return preferLatestFirst * compare;
+                    }
+                    //month
+                    compare = arrDate1Data[Request.LocationInfo.MONTH_INDEX].compareTo(arrDate2Data[Request.LocationInfo.MONTH_INDEX]);
+                    if (compare != 0) {
+                        return preferLatestFirst * compare;
+                    }
+                    //day
+                    compare = arrDate1Data[Request.LocationInfo.DAY_INDEX].compareTo(arrDate2Data[Request.LocationInfo.DAY_INDEX]);
+                    return preferLatestFirst * compare;
+                }
+            });
+
+            clearRequestFilters();
         }
 
         @NonNull

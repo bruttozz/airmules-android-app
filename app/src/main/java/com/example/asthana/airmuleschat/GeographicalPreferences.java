@@ -216,6 +216,19 @@ class GeoPref{
     public void setCountry(String country) {
         this.country = country;
     }
+
+    public String getLocationString(){
+        return createKey(getCity(), getCountry());
+    }
+
+    public boolean prefMatches(String cityToCheck, String countryToCheck){
+        if(city != null){
+            return getLocationString().equals(createKey(cityToCheck, countryToCheck));
+        }
+        else{
+            return country.equals(countryToCheck);
+        }
+    }
 }
 
 class GeoPrefHolder extends RecyclerView.ViewHolder {
@@ -233,12 +246,12 @@ class GeoPrefHolder extends RecyclerView.ViewHolder {
     public void bindTransactionData(GeoPref gP) {
         geoPref = gP;
 
-        txtLocation.setText(GeoPref.createKey(geoPref.getCity(), geoPref.getCountry()));
+        txtLocation.setText(geoPref.getLocationString());
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                        .child(GeographicalPreferences.DATABASE_TABLE_NAME).child(GeoPref.createKey(geoPref.getCity(), geoPref.getCountry())).removeValue();
+                        .child(GeographicalPreferences.DATABASE_TABLE_NAME).child(geoPref.getLocationString()).removeValue();
             }
         });
     }

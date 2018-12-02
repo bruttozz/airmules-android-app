@@ -44,7 +44,9 @@ import java.net.URL;
 import java.util.Iterator;
 
 public class PaymentActivity extends BaseMenuActivity {
-    private static final double SERVICE_FEE = .05;
+    private static final float SERVICE_FEE = .05f;
+
+    private TextView txtMuleName;
 
     //Original price of transaction
     private TextView txtPrice;
@@ -83,13 +85,15 @@ public class PaymentActivity extends BaseMenuActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        txtMuleName = (TextView)findViewById(R.id.txtMuleName);
+        txtMuleName.setText("");
         txtPrice = (TextView) findViewById(R.id.txtPrice);
         txtFee = (TextView) findViewById(R.id.txtFeeAmount);
         txtTotalAmount = (TextView)findViewById(R.id.txtTotalAmount);
         setUpPriceListeners();
         //Get the price of the transaction
         DatabaseReference reqRef = mDatabase.child("requests").child(transactionID).getRef();
-        reqRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        reqRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Request req = dataSnapshot.getValue(Request.class);
@@ -97,7 +101,33 @@ public class PaymentActivity extends BaseMenuActivity {
                     PaymentActivity.this.finish();
                     return;
                 }
-                txtPrice.setText(Float.toString(req.getReward()));
+                if(req.getMule() == null){
+                    Toast.makeText(PaymentActivity.this, "The mule has unregistered.", Toast.LENGTH_LONG).show();
+                    PaymentActivity.this.finish();
+                    return;
+                }
+
+                DatabaseReference userRef = mDatabase.child("users").child(req.getMule()).getRef();
+                userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        UserClass mule = dataSnapshot.getValue(UserClass.class);
+                        if (mule != null) {
+                            txtMuleName.setText(mule.getName());
+                        } else {
+                            Log.e( "Error","Could not find mule.");
+                            PaymentActivity.this.finish();
+                            return;
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.e("Error", databaseError.toString());
+                    }
+                });
+
+                txtPrice.setText(convertToMoneyFormatString(req.getReward()));
             }
 
             @Override
@@ -119,7 +149,7 @@ public class PaymentActivity extends BaseMenuActivity {
             @Override
             public void onClick(View v) {
                 String totalAmountString = txtTotalAmount.getText().toString();
-                final float totalAmount = Float.parseFloat(totalAmountString);
+                final float totalAmount = convertMoneyStringToFloat(totalAmountString);
 
                 //Get the amount of money the user has in account and compare to total
                 DatabaseReference ref = mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).getRef();
@@ -129,7 +159,7 @@ public class PaymentActivity extends BaseMenuActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         UserClass user = dataSnapshot.getValue(UserClass.class);
                         float inAppMoney = user.getMoney();
-                        String inAppMoneyString = Float.toString(inAppMoney);
+                        String inAppMoneyString = convertToMoneyFormatString(inAppMoney);
 
                         if(inAppMoney < totalAmount){
                             new AlertDialog.Builder(PaymentActivity.this)
@@ -143,16 +173,18 @@ public class PaymentActivity extends BaseMenuActivity {
                         }
                         else{
                             inAppMoney = inAppMoney - totalAmount;
+                            inAppMoneyString = convertToMoneyFormatString(inAppMoney);
                             //subtract money from user's account
                             mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).child("money").setValue(inAppMoney);
                             mDatabase.child("requests").child(transactionID).child("status").setValue(Request.PAID);
                             new AlertDialog.Builder(PaymentActivity.this)
                                     .setCancelable(false)
-                                    .setMessage("Payment Confirmed! $" + inAppMoney + " remaining.")
+                                    .setMessage("Payment Confirmed! $" + inAppMoneyString + " remaining.")
                                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int whichButton) {
                                             dialog.dismiss();
                                             PaymentActivity.this.finish();
+                                            return;
                                         }
                                     }).show();
                         }
@@ -169,20 +201,21 @@ public class PaymentActivity extends BaseMenuActivity {
     }
 
     private void setUpPriceListeners(){
+        //We can no longer edit the price, so this is less important to be a listener, but still good to keep
         txtPrice.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
-                double price = 0;
+                float price = 0;
                 try {
-                    price = Double.parseDouble(txtPrice.getText().toString());
+                    price = convertMoneyStringToFloat(txtPrice.getText().toString());
                 }catch(Exception e){
-                    txtPrice.setText(Double.toString(price));
+                    txtPrice.setText(convertToMoneyFormatString(0));
                     return;
                 }
 
-                double serviceFee = roundToDeciDollars(price * SERVICE_FEE);
-                double total = roundToDeciDollars(price + serviceFee);
-                txtFee.setText(Double.toString(serviceFee));
-                txtTotalAmount.setText(Double.toString(total));
+                float serviceFee = price * SERVICE_FEE;
+                float total = price + serviceFee;
+                txtFee.setText(convertToMoneyFormatString(serviceFee));
+                txtTotalAmount.setText(convertToMoneyFormatString(total));
             }
             public void beforeTextChanged(CharSequence s, int start,
                                           int count, int after) {}
@@ -192,12 +225,22 @@ public class PaymentActivity extends BaseMenuActivity {
 
     }
 
-    /**
-     * Round to two decimal places
-     */
-    private double roundToDeciDollars(double amount){
-        double roundedAmount = ((int)(amount * 100)) / 100.0;
-        return roundedAmount;
+    public static String convertToMoneyFormatString(float money){
+        return convertToMoneyFormatString(money, true);
+    }
+
+    public static String convertToMoneyFormatString(float money, boolean addCommas){
+        String format = "%,.2f";
+        if(!addCommas){
+            format.replace(",", "");
+        }
+        String moneyString = String.format(format, money);
+        return moneyString;
+    }
+
+    public static float convertMoneyStringToFloat(String moneyString){
+        moneyString = moneyString.replace(",", "");
+        return Float.parseFloat(moneyString);
     }
 
     /**
@@ -205,7 +248,7 @@ public class PaymentActivity extends BaseMenuActivity {
      */
     public void navigateToBaseActivity() {
         merchantKey = "gtKFFx";
-        String amount = txtTotalAmount.getText().toString();
+        String amount = txtTotalAmount.getText().toString().replace(",", "");
         String email = "test@gmail.com";
 
         //Environment for testing the API with the provided test card
@@ -432,6 +475,8 @@ public class PaymentActivity extends BaseMenuActivity {
                     json = new JSONObject(resultJSON);
                     status = json.getString("status");
                     amount = json.getString("amount");
+                    //Actually just show the total
+                    amount = txtTotalAmount.getText().toString();
                     cardNumber = json.getString("cardnum");
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -443,8 +488,9 @@ public class PaymentActivity extends BaseMenuActivity {
                     message = "Payment Confirmed! Charged $" + amount + " to card: " + cardNumber;
                 }
                 else{
-                    message = "Payment Failed!";
+                    message = "Payment Failed...";
                 }
+                final String statusFinal = status;
 
                 //Display some basic information from the transaction
                 new AlertDialog.Builder(this)
@@ -453,13 +499,12 @@ public class PaymentActivity extends BaseMenuActivity {
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.dismiss();
+                                if(statusFinal.equals("success")){
+                                    PaymentActivity.this.finish();
+                                    return;
+                                }
                             }
                         }).show();
-
-                if(status.equals("success")){
-                    PaymentActivity.this.finish();
-                }
-
             } else {
                 Toast.makeText(this, getString(R.string.could_not_receive_data), Toast.LENGTH_LONG).show();
             }

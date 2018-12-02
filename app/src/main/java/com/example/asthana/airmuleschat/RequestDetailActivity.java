@@ -217,6 +217,9 @@ public class RequestDetailActivity extends BaseMenuActivity {
         if (status.equals(Request.PAID) || status.equals(Request.COMPLETE)) {
             btnPayOrConfirm.setText("CONFIRM");
         }
+        else{
+            btnPayOrConfirm.setText("PAY");
+        }
         if (status.equals(Request.NO_MULE) || status.equals(Request.COMPLETE)) {
             btnPayOrConfirm.setEnabled(false);
         } else {
@@ -232,6 +235,9 @@ public class RequestDetailActivity extends BaseMenuActivity {
         if (status.equals(Request.PAID) || status.equals(Request.COMPLETE)) {
             btnCancel.setEnabled(false);
         }
+        else{
+            btnCancel.setEnabled(true);
+        }
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -241,6 +247,9 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
         if (status.equals(Request.COMPLETE)) {
             btnSignUpOrUnregister.setEnabled(false);
+        }
+        else{
+            btnSignUpOrUnregister.setEnabled(true);
         }
         btnSignUpOrUnregister.setOnClickListener(new View.OnClickListener() {
             @Override

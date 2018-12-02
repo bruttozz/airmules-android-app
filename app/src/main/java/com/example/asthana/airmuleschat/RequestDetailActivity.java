@@ -30,10 +30,13 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private TextView txtStatus;
     private TextView txtViewDeparture;
     private TextView txtViewArrival;
-    private TextView txtViewDate;
+    private TextView txtViewDepartureDate;
+    private TextView txtViewArrivalDate;
     private TextView txtViewItem;
     private TextView txtViewWeight;
     private TextView txtViewSize;
+    private TextView txtViewMule;
+    private TextView txtViewReward;
 
     private Button btnChat;
     private Button btnCancel;
@@ -64,6 +67,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private double planedir;
     private String depart;
     private String arrive;
+    private UserClass mule;
 
     private DatabaseReference mDatabase;
     private FirebaseAuth mFirebaseAuth;
@@ -76,9 +80,12 @@ public class RequestDetailActivity extends BaseMenuActivity {
         transactionID = getIntent().getStringExtra("transactionID").toString();
 
         txtStatus = (TextView) findViewById(R.id.txtStatus);
-        txtViewDeparture = (TextView) findViewById(R.id.textViewDeparture);
+        txtViewMule = (TextView) findViewById(R.id.txtViewMule);
+        txtViewDeparture = (TextView) findViewById(R.id.txtViewDeparture);
         txtViewArrival = (TextView) findViewById(R.id.textViewArrival);
-        txtViewDate = (TextView) findViewById(R.id.textViewDate);
+        txtViewDepartureDate = (TextView) findViewById(R.id.textViewDepartureDate);
+        txtViewArrivalDate = (TextView) findViewById(R.id.textViewArrivalDate);
+        txtViewReward = (TextView) findViewById(R.id.txtViewReward);
         txtViewItem = (TextView) findViewById(R.id.textViewItem);
         txtViewWeight = (TextView) findViewById(R.id.textViewWeight);
         txtViewSize = (TextView) findViewById(R.id.textViewSize);
@@ -146,16 +153,41 @@ public class RequestDetailActivity extends BaseMenuActivity {
     }
 
     private void setTextAndButton(Request myReq) {
+
+        if (myReq.getMule() != null) {
+            DatabaseReference userRef = mDatabase.child("users").child(myReq.getMule()).getRef();
+            userRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    mule = dataSnapshot.getValue(UserClass.class);
+                    if (mule != null) {
+                        txtViewMule.setText(mule.getName());
+                    } else {
+                        txtViewMule.setText("No Mule");
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.w("Error", databaseError.toString());
+                }
+            });
+        } else {
+            txtViewMule.setText("No Mule");
+        }
+
         txtStatus.setText(myReq.getStatus());
         txtViewDeparture.setText(myReq.getDeparture().getCity() + ", " + myReq.getDeparture().getCountry());
         txtViewArrival.setText(myReq.getArrival().getCity() + ", " + myReq.getArrival().getCountry());
-        txtViewDate.setText(myReq.getDeparture().getDate());
-
+        txtViewDepartureDate.setText(myReq.getDeparture().getDate());
+        txtViewArrivalDate.setText(myReq.getArrival().getDate());
+        txtViewReward.setText(Float.toString(myReq.getReward()));
         txtViewItem.setText(myReq.getItemData().getName());
         txtViewSize.setText(Float.toString(myReq.getItemData().getLength())
                 + " x " + Float.toString(myReq.getItemData().getWidth())
                 + " x " + Float.toString(myReq.getItemData().getHeight()));
         txtViewWeight.setText(Float.toString(myReq.getItemData().getWeight()));
+
 
         if (mFirebaseAuth.getCurrentUser().getUid().equals(myReq.getCustomer())) {
             btnCancel.setVisibility(View.VISIBLE);
@@ -197,7 +229,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
             }
         });
 
-        if(status.equals(Request.PAID) || status.equals(Request.COMPLETE)){
+        if (status.equals(Request.PAID) || status.equals(Request.COMPLETE)) {
             btnCancel.setEnabled(false);
         }
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -218,8 +250,8 @@ public class RequestDetailActivity extends BaseMenuActivity {
         });
     }
 
-    private void payOrConfirmButtonAction(final Request myReq){
-        if(myReq.getStatus().equals(Request.PAID)){
+    private void payOrConfirmButtonAction(final Request myReq) {
+        if (myReq.getStatus().equals(Request.PAID)) {
             //Deliver money to mule
             DatabaseReference ref = mDatabase.child("users").child(myReq.getMule()).getRef();
             // Attach a listener to read the data at our posts reference
@@ -227,7 +259,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     UserClass user = dataSnapshot.getValue(UserClass.class);
-                    if(user == null || user.getName() == null){
+                    if (user == null || user.getName() == null) {
                         //User was deleted?
                         return;
                     }
@@ -249,8 +281,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
             //complete the transaction
             mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.COMPLETE);
-        }
-        else{
+        } else {
             Intent payIntent = new Intent(this, PaymentActivity.class);
             payIntent.putExtra("transactionID", transactionID);
             this.startActivity(payIntent);
@@ -270,7 +301,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
         if (btnSignUpOrUnregister.getText().toString().equals("unregister")) {
             try {
                 mDatabase.child(REQUESTS).child(transactionID).child(MULE).removeValue();
-                if(myReq.getStatus().equals(Request.PAID)) {
+                if (myReq.getStatus().equals(Request.PAID)) {
                     //refund payment
                     DatabaseReference ref = mDatabase.child("users").child(myReq.getCustomer()).getRef();
                     // Attach a listener to read the data at our posts reference
@@ -278,7 +309,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             UserClass user = dataSnapshot.getValue(UserClass.class);
-                            if(user == null || user.getName() == null){
+                            if (user == null || user.getName() == null) {
                                 //User was deleted?
                                 return;
                             }

@@ -26,6 +26,7 @@ allprojects {
         google()
         maven { url 'https://maven.google.com'}
         maven { url "https://phonepe.bintray.com/PhonePeIntentSDK"}
+        maven { url "https://dl.bintray.com/dqzhai/payelves-maven" }
         mavenLocal()
         jcenter()
     }

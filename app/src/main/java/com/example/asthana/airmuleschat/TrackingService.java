@@ -81,6 +81,8 @@ public class TrackingService extends Service {
 //Stop the Service//
 
             stopSelf();
+            stopForeground(true);
+            android.os.Process.killProcess(android.os.Process.myPid());
         }
     };
 
@@ -120,14 +122,21 @@ public class TrackingService extends Service {
 
 //Save the location data to the database//
 
-                        mDatabase.child("users")
-                                .child(mFirebaseAuth.getCurrentUser().getUid())
-                                .child("location")
-                                .child("Latitude").setValue(location.getLatitude());
-                        mDatabase.child("users")
-                                .child(mFirebaseAuth.getCurrentUser().getUid())
-                                .child("location")
-                                .child("Longitude").setValue(location.getLongitude());
+//                        mDatabase.child("users")
+//                                .child(mFirebaseAuth.getCurrentUser().getUid())
+//                                .child("location")
+//                                .child("latitude").setValue(location.getLatitude());
+//                        mDatabase.child("users")
+//                                .child(mFirebaseAuth.getCurrentUser().getUid())
+//                                .child("location")
+//                                .child("longitude").setValue(location.getLongitude());
+
+                        LocationClass userLocation = new LocationClass(location.getLatitude(), location.getLongitude());
+                        if (mFirebaseAuth.getCurrentUser() == null) {
+                            return;
+                        }
+                        mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid())
+                                .child("location").setValue(userLocation);
                     }
                 }
             }, null);

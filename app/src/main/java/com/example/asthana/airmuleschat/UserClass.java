@@ -5,6 +5,7 @@ public class UserClass {
     private float money;
     private float rating;
     private int numRatings;
+    private LocationClass location;
 
     public UserClass() {
         
@@ -37,6 +38,20 @@ public class UserClass {
         this.rating = (this.rating+newRating)/((float)(this.numRatings+1));
         return this.rating;
     }
+
+    public void setLocation(double[] location) {
+        this.location.setLatitude(location[0]);
+        this.location.setLongitude(location[1]);
+    }
+
+    public double getLatitude() {
+        return this.location.getLatitude();
+    }
+
+    public double getLongitude() {
+        return this.location.getLongitude();
+    }
+
 
 }
 

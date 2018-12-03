@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,8 @@ import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.w3c.dom.Text;
+
 
 public class UserProfileActivity extends BaseMenuActivity {
     // User Profile main page
@@ -37,9 +40,10 @@ public class UserProfileActivity extends BaseMenuActivity {
     private ImageView userProfilePicture;
     private TextView userDisplayName;
     private TextView txtViewMoneyLeft;
-    private Button btnSeeRequest;
-    private Button btnSeeMuleJobs;
-    private Button btnUploadImage;
+    private RatingBar ratingAsMule;
+    private RatingBar ratingAsCustomer;
+    private TextView txtViewRatingAsMule;
+    private TextView txtViewRatingAsCustimer;
 
     private String userID;
     private static final String USERS = "users";
@@ -64,8 +68,7 @@ public class UserProfileActivity extends BaseMenuActivity {
         StorageReference storageReference = storage.getReference().child(path);
         downloadProfileImage(storageReference);
 
-        btnUploadImage = (Button) findViewById(R.id.btnUploadImage);
-        btnUploadImage.setOnClickListener(new View.OnClickListener() {
+        userProfilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openFileChooser();
@@ -73,18 +76,24 @@ public class UserProfileActivity extends BaseMenuActivity {
         });
         userDisplayName = (TextView) findViewById(R.id.txtViewUserName);
         txtViewMoneyLeft = (TextView) findViewById(R.id.txtViewMoneyLeft);
-        btnSeeRequest = (Button) findViewById(R.id.btnSeeRequest);
+        txtViewRatingAsMule = (TextView) findViewById(R.id.txtViewRateAsMule);
+        // todo display rating number according to database
 
-        btnSeeMuleJobs = (Button) findViewById(R.id.btnSeeMuleJobs);
+        txtViewRatingAsCustimer = (TextView) findViewById(R.id.txtViewRateAsCustomer);
+        // todo display rating number according to database
 
 
-        DatabaseReference ref = mDatabase.child(USERS).child(mFirebaseAuth.getCurrentUser().getUid()).getRef();
-        ref.addValueEventListener(new ValueEventListener() {
+        ratingAsMule = (RatingBar) findViewById(R.id.ratingBarAsMule);
+        // todo set up the stars according to rating as mule stored database
+        ratingAsCustomer = (RatingBar) findViewById(R.id.ratingBarAsCustomer);
+        // todo set up the start according to rating as customer database
+
+        mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                UserClass me = dataSnapshot.getValue(UserClass.class);
-                float myFunds = me.getMoney();
-                txtViewMoneyLeft.setText(PaymentActivity.convertToMoneyFormatString(myFunds));
+                String moneyLeft = dataSnapshot.child(USERS).child(mFirebaseAuth.getCurrentUser().getUid().toString())
+                        .child(MONEY).getValue().toString();
+                txtViewMoneyLeft.setText(moneyLeft);
             }
 
             @Override
@@ -97,25 +106,30 @@ public class UserProfileActivity extends BaseMenuActivity {
         Log.w("USERID", userID);
 
         userDisplayName.setText(mFirebaseAuth.getCurrentUser().getDisplayName().toString());
-        // TODO: set user profile image in imageView
 
-
-        btnSeeRequest.setOnClickListener(new View.OnClickListener() {
+        txtViewMoneyLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = AllTransactionsActivity.createIntentForCustomerRequests(UserProfileActivity.this);
-                UserProfileActivity.this.startActivity(i);
+                depositMoneyIntoAccount();
             }
         });
 
-
-        btnSeeMuleJobs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = AllTransactionsActivity.createIntentForMuleRequests(UserProfileActivity.this);
-                UserProfileActivity.this.startActivity(i);
-            }
-        });
+        //        btnSeeRequest.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i = AllTransactionsActivity.createIntentForCustomerRequests(UserProfileActivity.this);
+//                UserProfileActivity.this.startActivity(i);
+//            }
+//        });
+//
+//
+//        btnSeeMuleJobs.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i = AllTransactionsActivity.createIntentForMuleRequests(UserProfileActivity.this);
+//                UserProfileActivity.this.startActivity(i);
+//            }
+//        });
 
 
     }
@@ -190,6 +204,15 @@ public class UserProfileActivity extends BaseMenuActivity {
                 // Handle any errors
             }
         });
+    }
+
+    private void depositMoneyIntoAccount() {
+        double money = 0.00;
+
+        // todo: implement this function
+
+
+        Toast.makeText(this, money + " has been added to your account", Toast.LENGTH_SHORT).show();
     }
 
 }

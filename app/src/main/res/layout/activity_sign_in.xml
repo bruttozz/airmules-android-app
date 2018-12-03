@@ -1,34 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:id="@+id/sign_in_layout"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:gravity="center"
-             android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/userprofilebackground">
 
     <TextView
+        android:id="@+id/txtViewWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/welcomeImage"
+        android:layout_marginBottom="30dp"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/dancing"
+        android:text="Welcome to Airmules!"
+        android:textColor="@color/white"
         android:textSize="30sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="40dp"
-        android:text="Welcome to Airmules!"/>
+        android:textStyle="bold" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/welcomeImage"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/mainicon"
+        android:duration="1000"
+        android:fromAlpha="0.0"
+        android:toAlpha="1.0"/>
+
+
+
+
+    <Button
+        android:id="@+id/wechat_login_btn"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignStart="@+id/txtViewWelcome"
+        android:layout_alignEnd="@+id/txtViewWelcome"
+        android:text="WECHAT"
+        android:layout_below="@+id/welcomeImage"
+        android:layout_marginTop="30dp"/>
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center"
-        android:visibility="visible" />
+        android:layout_below="@+id/wechat_login_btn"
+        android:layout_alignStart="@+id/wechat_login_btn"
+        android:layout_alignEnd="@+id/wechat_login_btn"/>
 
-    <Button
-        android:id="@+id/wechat_login_btn"
-        android:layout_width="113dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="50dp"
-        android:text="WECHAT" />
 
-</FrameLayout>
+
+
+</RelativeLayout>

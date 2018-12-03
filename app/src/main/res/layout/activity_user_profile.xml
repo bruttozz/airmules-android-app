@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/userprofilebackground"
-    tools:context=".UserProfileActivity">
+    tools:context=".UserProfileActivity"
+    android:background="@drawable/userprofilebackground">
 
     <TextView
         android:id="@+id/txtViewUserName"
@@ -18,86 +18,109 @@
         android:text="test"
         android:textColor="@color/white"
         android:textSize="24sp" />
-
-    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imageViewUserProfile"
         android:layout_width="95dp"
         android:layout_height="95dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="50dp"
-        android:src="@drawable/profileicon" />
+        android:layout_alignLeft="@+id/txtLabelMoney"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/profileicon"
+        />
 
 
     <TextView
         android:id="@+id/txtViewMoneyLeft"
-        android:layout_width="wrap_content"
-
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/txtLabelMoney"
-        android:layout_alignLeft="@+id/txtViewUserName"
-        android:layout_marginLeft="10dp"
         android:fontFamily="@font/seasrn"
-        android:text="999"
+
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/txtLabelMoney"
+        android:layout_toRightOf="@+id/txtLabelMoney"
         android:textColor="@color/white"
+        android:text="999"
         android:textSize="25sp" />
+
 
     <TextView
         android:id="@+id/txtLabelMoney"
+        android:fontFamily="@font/seasrn"
         android:layout_width="wrap_content"
-
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/imageViewUserProfile"
+        android:textColor="@color/white"
+        android:layout_alignLeft="@+id/ratingBarAsMule"
         android:layout_below="@+id/imageViewUserProfile"
         android:layout_marginTop="30dp"
-        android:fontFamily="@font/seasrn"
         android:text="Balance: "
-        android:textColor="@color/white"
         android:textSize="24sp" />
 
-    <Button
-        android:id="@+id/btnSeeRequest"
-        android:layout_width="261dp"
+    <TextView
+        android:id="@+id/txtLabelRateAsMule"
+        android:fontFamily="serif"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:layout_alignLeft="@+id/imageViewUserProfile"
         android:layout_below="@+id/txtLabelMoney"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="70dp"
-        android:background="@color/fbutton_color_green_sea"
-        android:fontFamily="serif"
-        android:text="@string/txtSeeRequest"
-        android:textColor="@color/white" />
+        android:layout_marginTop="30dp"
+        android:text="Rate as mule: "
+        android:textSize="22sp" />
 
-
-    <Button
-        android:id="@+id/btnSeeMuleJobs"
-        android:layout_width="266dp"
+    <TextView
+        android:id="@+id/txtLabelRateAsCustomer"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/btnSeeRequest"
-        android:layout_alignRight="@+id/btnSeeRequest"
-        android:layout_below="@+id/btnSeeRequest"
+        android:layout_alignStart="@+id/imageViewUserProfile"
+        android:fontFamily="serif"
+        android:text="Rate as customer: "
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:layout_below="@+id/ratingBarAsMule"
+        android:layout_marginTop="20dp"/>
+
+    <RatingBar
+        android:id="@+id/ratingBarAsMule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtLabelRateAsMule"
+        android:isIndicator="true"
+        android:numStars="5"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="10dp"
-        android:background="@color/fbutton_default_color"
-        android:fontFamily="serif"
+        android:layout_marginTop="20dp"
+        android:rating="5" />
 
-        android:text="@string/txtSeeMuleJobs"
-        android:textColor="@color/white" />
-
-    <Button
-        android:id="@+id/btnUploadImage"
-        android:layout_width="266dp"
+    <RatingBar
+        android:id="@+id/ratingBarAsCustomer"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/btnSeeRequest"
-        android:layout_alignRight="@+id/btnSeeRequest"
-        android:layout_below="@+id/btnSeeMuleJobs"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="10dp"
-        android:background="@color/light_steel_blue"
+        android:isIndicator="true"
+        android:numStars="5"
+        android:rating="5"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/txtLabelRateAsCustomer"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/txtViewRateAsMule"
         android:fontFamily="serif"
-        android:text="choose a profile image"
-        android:textColor="@color/white" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/txtLabelRateAsCustomer"
+        android:layout_toRightOf="@+id/txtLabelRateAsCustomer"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:text="5.0" />
+    <TextView
+        android:id="@+id/txtViewRateAsCustomer"
+        android:fontFamily="serif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:layout_toRightOf="@+id/txtLabelRateAsMule"
+        android:layout_alignTop="@+id/txtLabelRateAsMule"
+        android:text="5.0" />
 
 
 </RelativeLayout>

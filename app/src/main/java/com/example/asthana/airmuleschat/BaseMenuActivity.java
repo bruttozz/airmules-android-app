@@ -76,6 +76,9 @@ public class BaseMenuActivity extends AppCompatActivity
             case R.id.geo_pref_menu:
                 startActivity(new Intent(this, GeographicalPreferences.class));
                 return true;
+            case R.id.start_tracking_menu:
+                startActivity(new Intent(this, TrackingActivity.class));
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -44,7 +44,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
     public void onResp(BaseResp baseResp) {
         switch (baseResp.errCode) {
             case BaseResp.ErrCode.ERR_OK :
-                Toast.makeText(this, "OK", Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, "OK", Toast.LENGTH_LONG).show();
                 if (baseResp instanceof SendAuth.Resp) {
                     sendAuthResult(((SendAuth.Resp)baseResp));
                 }

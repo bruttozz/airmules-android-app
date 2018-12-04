@@ -73,9 +73,6 @@ public class SignInActivity extends AppCompatActivity implements
     private IWXAPI api;
     private Button launchBtn;
 
-//    private static final String tempWeChatID = "hellothere";
-//    private static final String name = "General Kenobi";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,13 +90,10 @@ public class SignInActivity extends AppCompatActivity implements
         launchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                firebaseAuthWithWeChat(tempWeChatID, name);
-
-                //startActivity(new Intent(SignInActivity.this, LauncherActivity.class));
                 if(api.openWXApp() == false){
                     Toast.makeText(SignInActivity.this, "Please install WeChat APP first", Toast.LENGTH_LONG).show();
                 }
-//                Toast.makeText(SignInActivity.this, "success", Toast.LENGTH_LONG).show();
+                Toast.makeText(SignInActivity.this, "success", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(SignInActivity.this, WeChatLoginActivity.class);
                 startActivityForResult(intent, ActivityReqCode.WE_CHAT_LOGIN);
                 //SignInActivity.this.startActivity(new Intent(WeChatLoginActivity.class, LauncherActivity.class)));
@@ -178,7 +172,7 @@ public class SignInActivity extends AppCompatActivity implements
             Optional.ofNullable(data).ifPresent(intent -> {
 
                 final String code = intent.getStringExtra(IntentKey.WE_CHAT_AUTH_CODE);
-                Toast.makeText(this, code, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, code, Toast.LENGTH_SHORT).show();
                 getAccessToken(code);
             });
             //startActivity(new Intent(SignInActivity.this, LauncherActivity.class));
@@ -291,8 +285,8 @@ public class SignInActivity extends AppCompatActivity implements
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Toast.makeText(SignInActivity.this, access, Toast.LENGTH_SHORT).show();
-                Toast.makeText(SignInActivity.this, openId, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(SignInActivity.this, access, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(SignInActivity.this, openId, Toast.LENGTH_SHORT).show();
 
                 String getUserInfo = "https://api.weixin.qq.com/sns/userinfo?access_token=" + access + "&openid=" + openId + "";
                 final String opid = openId;
@@ -302,19 +296,16 @@ public class SignInActivity extends AppCompatActivity implements
                     public void onSuccess(WeChatInfo response) {
                         final String wxusername = response.toString();
                         Log.i("TAG", wxusername);
-                        Toast.makeText(SignInActivity.this, wxusername, Toast.LENGTH_LONG).show();
+//                        Toast.makeText(SignInActivity.this, wxusername, Toast.LENGTH_LONG).show();
 
                         firebaseAuthWithWeChat(opid, wxusername);
-                        finish();
+//                        finish();
                     }
 
                     @Override
                     public void onFailure(Exception e) {
                         Toast.makeText(SignInActivity.this, "Auth Failed", Toast.LENGTH_SHORT).show();
                     }
-//                    String wxusername = response.toString();
-
-
                 };
 
                 OkHttpUtils.get(getUserInfo, resultCallback);

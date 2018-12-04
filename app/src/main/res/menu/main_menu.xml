@@ -6,12 +6,12 @@
         android:title="@string/geo_pref_menu"
         app:showAsAction="never" />
     <item
+        android:id="@+id/start_tracking_menu"
+        android:title="Start Tracking"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/sign_out_menu"
         android:title="Sign out"
-        app:showAsAction="never"/>
-
-    <item android:id="@+id/start_tracking_menu"
-        android:title="Start Tracking"
         app:showAsAction="never"/>
 
 </menu>

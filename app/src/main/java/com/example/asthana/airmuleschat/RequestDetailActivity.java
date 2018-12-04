@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,6 +72,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private String arrive;
     private UserClass mule;
 
+    private RatingBar muleRating;
     private DatabaseReference mDatabase;
     private FirebaseAuth mFirebaseAuth;
 
@@ -92,6 +94,8 @@ public class RequestDetailActivity extends BaseMenuActivity {
         txtViewWeight = (TextView) findViewById(R.id.textViewWeight);
         txtViewSize = (TextView) findViewById(R.id.textViewSize);
         flightNum = (EditText) findViewById(R.id.flightIata);
+
+        muleRating = (RatingBar) findViewById(R.id.muleRating);
 
         btnChat = (Button) findViewById(R.id.btnChat);
         btnChat.setOnClickListener(new View.OnClickListener() {
@@ -166,6 +170,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
                     mule = dataSnapshot.getValue(UserClass.class);
                     if (mule != null) {
                         txtViewMule.setText(mule.getName());
+                        muleRating.setRating(mule.getRating());
                     } else {
                         txtViewMule.setText("No Mule");
                     }

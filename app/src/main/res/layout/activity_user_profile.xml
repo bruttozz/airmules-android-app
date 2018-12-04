@@ -57,27 +57,27 @@
 
     <TextView
         android:id="@+id/txtLabelRateAsMule"
-        android:fontFamily="serif"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:layout_alignLeft="@+id/imageViewUserProfile"
         android:layout_below="@+id/txtLabelMoney"
+        android:layout_alignLeft="@+id/imageViewUserProfile"
         android:layout_marginTop="30dp"
-        android:text="Rate as mule: "
+        android:fontFamily="serif"
+        android:text="Rating as mule: "
+        android:textColor="@color/white"
         android:textSize="22sp" />
 
     <TextView
         android:id="@+id/txtLabelRateAsCustomer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/imageViewUserProfile"
-        android:fontFamily="serif"
-        android:text="Rate as customer: "
-        android:textColor="@color/white"
-        android:textSize="22sp"
         android:layout_below="@+id/ratingBarAsMule"
-        android:layout_marginTop="20dp"/>
+        android:layout_alignStart="@+id/imageViewUserProfile"
+        android:layout_marginTop="20dp"
+        android:fontFamily="serif"
+        android:text="Rating as customer: "
+        android:textColor="@color/white"
+        android:textSize="22sp" />
 
     <RatingBar
         android:id="@+id/ratingBarAsMule"

@@ -21,319 +21,317 @@
             android:text="TextView" />
     </android.support.v7.widget.LinearLayoutCompat>
 
-    <ScrollView
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical">-->
+
+        <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <android.support.v7.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/txtLabelMule"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:text="@string/mule_name"
+                android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/txtLabelMule"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/mule_name"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/txtLabelMuleColon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.9"
-                    android:text="@string/colon"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/txtViewMule"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="18sp" />
-
-            </android.support.v7.widget.LinearLayoutCompat>
-
-            <android.support.v7.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/txtLabelRating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/rating"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/txtLabelRatingColon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.9"
-                    android:text="@string/colon"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/txtViewRating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="INSERT STARS HERE"
-                    android:textSize="18sp" />
-
-            </android.support.v7.widget.LinearLayoutCompat>
-
-            <android.support.v7.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/txtLabelReward"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_weight="1"
-                    android:text="@string/reqReward"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/txtLabelRewardColon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.9"
-                    android:text="@string/colon"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/txtViewReward"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="18sp" />
-            </android.support.v7.widget.LinearLayoutCompat>
-
-            <android.support.v7.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/txtLabelMuleColon"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_weight="1.9"
+                android:text="@string/colon"
+                android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/txtLabelItem"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/txtItem"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/txtLabelItemColon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.9"
-                    android:text="@string/colon"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/textViewItem"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="18sp" />
-
-            </android.support.v7.widget.LinearLayoutCompat>
-
-            <android.support.v7.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/txtLabelDeparture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_weight="1"
-                    android:text="@string/txtDeparture"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/txtLabelDepartureColon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.9"
-                    android:text="@string/colon"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/txtViewDeparture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="18sp" />
-            </android.support.v7.widget.LinearLayoutCompat>
-
-            <android.support.v7.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/txtViewMule"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/txtLabelDepartureDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/departure_date"
-                    android:textSize="18sp" />
+        </TableRow>
 
-                <TextView
-                    android:id="@+id/txtLabelDepartureDatColon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.9"
-                    android:text="@string/colon"
-                    android:textSize="18sp" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/textViewDepartureDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/txtLabelDate"
-                    android:layout_weight="1"
-                    android:textSize="18sp" />
-            </android.support.v7.widget.LinearLayoutCompat>
-
-            <android.support.v7.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/txtLabelRating"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:text="@string/rating"
+                android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/txtLabelArrival"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/destination"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/txtLabelArrivalColon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.9"
-                    android:text="@string/colon"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/textViewArrival"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="18sp" />
-
-            </android.support.v7.widget.LinearLayoutCompat>
-
-            <android.support.v7.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/txtLabelRatingColon"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_weight="1.9"
+                android:text="@string/colon"
+                android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/txtLabelArrivalDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/arrival_data_no_colon"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/txtLabelArrivalDateColon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.9"
-                    android:text="@string/colon"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/textViewArrivalDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/txtLabelDate"
-                    android:layout_weight="1"
-                    android:textSize="18sp" />
-            </android.support.v7.widget.LinearLayoutCompat>
-
-            <android.support.v7.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/txtViewRating"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:text="INSERT STARS HERE"
+                android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/txtLabelSize"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/txtSize"
-                    android:textSize="18sp" />
+        </TableRow>
 
-                <TextView
-                    android:id="@+id/txtLabelSizeColon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.9"
-                    android:text="@string/colon"
-                    android:textSize="18sp" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/textViewSize"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="18sp" />
-            </android.support.v7.widget.LinearLayoutCompat>
-
-            <android.support.v7.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/txtLabelReward"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_alignParentStart="true"
+                android:layout_weight="1"
+                android:text="@string/reqReward"
+                android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/txtLabelWeight"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/txtLabelItem"
-                    android:layout_weight="1"
-                    android:text="@string/txtWeight"
-                    android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtLabelRewardColon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.9"
+                android:text="@string/colon"
+                android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/txtLabelWeightColon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.9"
-                    android:text="@string/colon"
-                    android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtViewReward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18sp" />
+        </TableRow>
 
-                <TextView
-                    android:id="@+id/textViewWeight"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/txtLabelWeight"
-                    android:layout_weight="1"
-                    android:textSize="18sp" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            </android.support.v7.widget.LinearLayoutCompat>
+            <TextView
+                android:id="@+id/txtLabelItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/txtItem"
+                android:textSize="18sp" />
 
+            <TextView
+                android:id="@+id/txtLabelItemColon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.9"
+                android:text="@string/colon"
+                android:textSize="18sp" />
 
-        </LinearLayout>
-    </ScrollView>
+            <TextView
+                android:id="@+id/textViewItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18sp" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtLabelDeparture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_weight="1"
+                android:text="@string/txtDeparture"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txtLabelDepartureColon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.9"
+                android:text="@string/colon"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txtViewDeparture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtLabelDepartureDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/departure_date"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txtLabelDepartureDatColon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.9"
+                android:text="@string/colon"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textViewDepartureDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/txtLabelDate"
+                android:layout_weight="1"
+                android:textSize="18sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtLabelArrival"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/destination"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txtLabelArrivalColon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.9"
+                android:text="@string/colon"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textViewArrival"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18sp" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtLabelArrivalDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/arrival_data_no_colon"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txtLabelArrivalDateColon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.9"
+                android:text="@string/colon"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textViewArrivalDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/txtLabelDate"
+                android:layout_weight="1"
+                android:textSize="18sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtLabelSize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/txtSize"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txtLabelSizeColon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.9"
+                android:text="@string/colon"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textViewSize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtLabelWeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtLabelItem"
+                android:layout_weight="1"
+                android:text="@string/txtWeight"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txtLabelWeightColon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.9"
+                android:text="@string/colon"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textViewWeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/txtLabelWeight"
+                android:layout_weight="1"
+                android:textSize="18sp" />
+
+        </TableRow>
+
+    </TableLayout>
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"

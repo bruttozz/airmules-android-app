@@ -5,7 +5,8 @@ public class UserClass {
     private float money;
     private float rating;
     private int numRatings;
-    private LocationClass location;
+    private double latitude;
+    private double longitude;
 
     public UserClass() {
         
@@ -16,6 +17,8 @@ public class UserClass {
         this.money = money;
         this.rating = rating;
         this.numRatings = numRatings;
+        this.latitude = 0;
+        this.longitude = 0;
     }
 
     public String getName() {
@@ -39,18 +42,26 @@ public class UserClass {
         return this.rating;
     }
 
-    public void setLocation(double[] location) {
-        this.location.setLatitude(location[0]);
-        this.location.setLongitude(location[1]);
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public double getLatitude() {
-        return this.location.getLatitude();
+        return this.latitude;
     }
 
     public double getLongitude() {
-        return this.location.getLongitude();
+        return this.longitude;
     }
+
+
+
+
+
 
 
 }

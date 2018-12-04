@@ -131,12 +131,14 @@ public class TrackingService extends Service {
 //                                .child("location")
 //                                .child("longitude").setValue(location.getLongitude());
 
-                        LocationClass userLocation = new LocationClass(location.getLatitude(), location.getLongitude());
                         if (mFirebaseAuth.getCurrentUser() == null) {
                             return;
                         }
                         mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid())
-                                .child("location").setValue(userLocation);
+                                .child("latitude").setValue(location.getLatitude());
+                        mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid())
+                                .child("longitude").setValue(location.getLongitude());
+
                     }
                 }
             }, null);

@@ -29,15 +29,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     double planedir;
     String depart;
     String arrive;
+    String flightnum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         mContext = getBaseContext();
-        latitude = this.getIntent().getDoubleExtra("Latitude",latitude);
-        longitude = this.getIntent().getDoubleExtra("Latitude",longitude);
-        planedir = this.getIntent().getDoubleExtra("Direction",planedir);
+        flightnum = this.getIntent().getStringExtra("Flightnum");
+        latitude = this.getIntent().getDoubleExtra("Latitude",0.0);
+        longitude = this.getIntent().getDoubleExtra("Longitude",0.0);
+        planedir = this.getIntent().getDoubleExtra("Direction",0.0);
         depart = this.getIntent().getStringExtra("depTime");
         arrive = this.getIntent().getStringExtra("arrTime");
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -56,7 +58,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions()
                 .position(mulepos)
                 .title("Mule Position")
-                .snippet("Departed at: " + depart + "\n"+ "Arrives at: " + arrive)
+                .snippet(flightnum+ "\n" + "Latitude: " + latitude + "\n"+ "Longitude: " + longitude + "\n"+ "Direction: " + planedir)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_plane))
                 .rotation((float)(planedir)));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(mulepos));

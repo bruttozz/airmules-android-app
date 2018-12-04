@@ -16,7 +16,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class BaseMenuActivity extends AppCompatActivity
+public abstract class BaseMenuActivity extends AppCompatActivity
         implements  GoogleApiClient.OnConnectionFailedListener{
 
     protected FirebaseAuth mFirebaseAuth;
@@ -29,7 +29,7 @@ public class BaseMenuActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base_menu);
+        //setContentView(R.layout.activity_base_menu);
 
         // Set default username to anonymous.
         mUsername = ANONYMOUS;

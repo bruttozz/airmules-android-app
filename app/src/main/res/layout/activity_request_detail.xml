@@ -84,9 +84,11 @@
                 android:id="@+id/muleRating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:clickable="false"
-                android:isIndicator="false"
-                android:longClickable="false" />
+                android:isIndicator="true"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
+                android:transformPivotX="0dp"
+                android:transformPivotY="7dp" />
 
         </TableRow>
 
@@ -330,81 +332,54 @@
                 android:textSize="18sp" />
 
         </TableRow>
-
-    </TableLayout>
-
-    <android.support.v7.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <android.support.v7.widget.LinearLayoutCompat
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
+            <Button
+                android:id="@+id/btnSignUpOrUnregister"
+                android:layout_alignParentLeft="true"
+                android:text="sign up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/btnPayOrConfirm"
+                android:text="@string/txtPay"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/btnChat"
+                android:layout_centerHorizontal="true"
+                android:text="@string/txtChat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             <Button
                 android:id="@+id/btnFlight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginBottom="144dp"
-                android:layout_marginEnd="42dp"
+                android:layout_below="@+id/btnChat"
                 android:text="Flight"
-                android:textSize="10sp" />
-
+                />
             <EditText
                 android:id="@+id/flightIata"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/btnFlight"
+                android:layout_alignBottom="@id/btnFlight"
                 android:ems="10"
                 android:inputType="textPersonName" />
-        </android.support.v7.widget.LinearLayoutCompat>
-
-        <android.support.v7.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
             <Button
                 android:id="@+id/btnCancelRequest"
-                android:layout_width="wrap_content"
+                android:layout_below="@id/btnFlight"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignStart="@+id/btnSignUpOrUnregister"
-                android:layout_marginBottom="71dp"
                 android:text="Cancel"
-                android:textSize="10sp" />
+                />
+        </RelativeLayout>
 
-            <Button
-                android:id="@+id/btnPayOrConfirm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@id/btnChat"
-                android:layout_centerHorizontal="true"
-                android:text="@string/txtPay"
-                android:textSize="10sp" />
-
-            <Button
-                android:id="@+id/btnSignUpOrUnregister"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="34dp"
-                android:textSize="10sp" />
+    </TableLayout>
 
 
-            <Button
-                android:id="@+id/btnChat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/txtLabelDeparture"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="79dp"
-                android:text="@string/txtChat"
-                android:textSize="10sp" />
-        </android.support.v7.widget.LinearLayoutCompat>
-    </android.support.v7.widget.LinearLayoutCompat>
 
 
 </LinearLayout>

@@ -53,6 +53,7 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SignInActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
@@ -62,7 +63,7 @@ public class SignInActivity extends AppCompatActivity implements
     private FirebaseAuth mFirebaseAuth;
     private SignInButton mSignInButton;
     private DatabaseReference mDatabase;
-    private ImageView welcomeImage;
+    private CircleImageView welcomeImage;
 
 
     private GoogleApiClient mGoogleApiClient;
@@ -84,7 +85,7 @@ public class SignInActivity extends AppCompatActivity implements
         unbinder = ButterKnife.bind(this);
         api = WXAPIFactory.createWXAPI(this, WeChat.APP_ID, false);
         launchBtn = (Button) findViewById(R.id.wechat_login_btn);
-        welcomeImage = findViewById(R.id.welcomeImage);
+        welcomeImage = (CircleImageView) findViewById(R.id.welcomeImage);
         Animation animation1 =
                 AnimationUtils.loadAnimation(getApplicationContext(),
                         R.anim.rotate);

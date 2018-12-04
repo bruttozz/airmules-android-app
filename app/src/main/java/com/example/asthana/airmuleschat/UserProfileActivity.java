@@ -44,6 +44,8 @@ public class UserProfileActivity extends BaseMenuActivity {
     private RatingBar ratingAsCustomer;
     private TextView txtViewRatingAsMule;
     private TextView txtViewRatingAsCustimer;
+    private Button btnAddMoney;
+    private Button btnWithdrawMoney;
 
     private String userID;
     private static final String USERS = "users";
@@ -108,29 +110,26 @@ public class UserProfileActivity extends BaseMenuActivity {
 
         userDisplayName.setText(mFirebaseAuth.getCurrentUser().getDisplayName().toString());
 
-        txtViewMoneyLeft.setOnClickListener(new View.OnClickListener() {
+
+        btnAddMoney = (Button) findViewById(R.id.btnAddMoney);
+        btnWithdrawMoney = (Button) findViewById(R.id.btnWithdrawMoney);
+
+        btnAddMoney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                depositMoneyIntoAccount();
+                // todo add money into account
+                Toast.makeText(getBaseContext(), "0.0 has been added to your account", Toast.LENGTH_SHORT).show();
             }
         });
 
-        //        btnSeeRequest.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent i = AllTransactionsActivity.createIntentForCustomerRequests(UserProfileActivity.this);
-//                UserProfileActivity.this.startActivity(i);
-//            }
-//        });
-//
-//
-//        btnSeeMuleJobs.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent i = AllTransactionsActivity.createIntentForMuleRequests(UserProfileActivity.this);
-//                UserProfileActivity.this.startActivity(i);
-//            }
-//        });
+        btnWithdrawMoney.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // todo withdraw money from account
+                Toast.makeText(getBaseContext(), "0.0 has been withdrawn from your account", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
 
     }
@@ -207,13 +206,5 @@ public class UserProfileActivity extends BaseMenuActivity {
         });
     }
 
-    private void depositMoneyIntoAccount() {
-        double money = 0.00;
-
-        // todo: implement this function
-
-
-        Toast.makeText(this, money + " has been added to your account", Toast.LENGTH_SHORT).show();
-    }
 
 }

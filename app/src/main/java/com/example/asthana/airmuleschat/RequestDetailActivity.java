@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +37,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private TextView txtViewSize;
     private TextView txtViewMule;
     private TextView txtViewReward;
-    private EditText flightNum;
 
     private Button btnChat;
     private Button btnCancel;
@@ -91,7 +89,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
         txtViewItem = (TextView) findViewById(R.id.textViewItem);
         txtViewWeight = (TextView) findViewById(R.id.textViewWeight);
         txtViewSize = (TextView) findViewById(R.id.textViewSize);
-        flightNum = (EditText) findViewById(R.id.flightIata);
 
         btnChat = (Button) findViewById(R.id.btnChat);
         btnChat.setOnClickListener(new View.OnClickListener() {
@@ -111,17 +108,16 @@ public class RequestDetailActivity extends BaseMenuActivity {
         btnFlight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new getFlightTask().execute();
-//                parseAirport(loadJSONFromAsset("flights.json"));
-//                parseRealTime(loadJSONFromAsset("realtime.json"));
-//                Log.i("INFO", latitude+", "+longitude);
-//                Intent myIntent = new Intent(RequestDetailActivity.this, MapsActivity.class);
-//                myIntent.putExtra("Latitude", latitude);
-//                myIntent.putExtra("Longitude", longitude);
-//                myIntent.putExtra("Direction", planedir);
-//                myIntent.putExtra("arrTime", arrive);
-//                myIntent.putExtra("depTime", depart);
-//                RequestDetailActivity.this.startActivity(myIntent);
+                parseAirport(loadJSONFromAsset("flights.json"));
+                parseRealTime(loadJSONFromAsset("realtime.json"));
+                Intent myIntent = new Intent(RequestDetailActivity.this, MapsActivity.class);
+                myIntent.putExtra("Latitude", latitude);
+                myIntent.putExtra("Longitude", longitude);
+                myIntent.putExtra("Direction", planedir);
+                myIntent.putExtra("arrTime", arrive);
+                myIntent.putExtra("depTime", depart);
+                RequestDetailActivity.this.startActivity(myIntent);
+                //new getFlightTask().execute();
             }
         });
 
@@ -395,6 +391,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
     }
 
     protected void parseRealTime(String response) {
+        String result = "";
         if (response == null) {
             response = "Error with processing the request";
         }
@@ -404,8 +401,9 @@ public class RequestDetailActivity extends BaseMenuActivity {
             latitude = Double.parseDouble(geography.getString("latitude"));
             longitude = Double.parseDouble(geography.getString("longitude"));
             planedir = Double.parseDouble(geography.getString("direction"));
+            result = geography.getString("longitude");
         } catch (JSONException e) {
-
+            result = e.getMessage();
         }
         //progressBar.setVisibility(View.GONE);
         Log.i("INFO", response);
@@ -428,12 +426,12 @@ public class RequestDetailActivity extends BaseMenuActivity {
         protected String doInBackground(Void... urls) {
             //get the flight number from user input
             //UNCOMMENT HERE WHEN TESTING API need to get this from user data
-            String flight = flightNum.getText().toString();
+            //String flight = flightNum.getText().toString();
 
             try {
                 //formats the URL containing the API key to add in the flight number (IATA)
                 //UNCOMMENT HERE WHEN TESTING API
-                URL url = new URL(API_URL+flight);
+                URL url = new URL(API_URL);//+flight);
                 //open the connection
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 try {
@@ -459,22 +457,11 @@ public class RequestDetailActivity extends BaseMenuActivity {
         //returns with errors if couldn't process the http request or returned with nothing and toggles the progress bar
         //sends a Log with the response
         protected void onPostExecute(String response) {
-            String flight = flightNum.getText().toString();
             if (response == null) {
                 response = "Error with processing the request";
             }
             //progressBar.setVisibility(View.GONE);
             Log.i("INFO", response);
-            String formatted_response = response.substring(1,response.length()-1);
-            parseRealTime(formatted_response);
-            Intent myIntent = new Intent(RequestDetailActivity.this, MapsActivity.class);
-            myIntent.putExtra("Flightnum", flight);
-            myIntent.putExtra("Latitude", latitude);
-            myIntent.putExtra("Longitude", longitude);
-            myIntent.putExtra("Direction", planedir);
-            myIntent.putExtra("arrTime", arrive);
-            myIntent.putExtra("depTime", depart);
-            RequestDetailActivity.this.startActivity(myIntent);
             //responseView.setText(response);
         }
     }

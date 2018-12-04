@@ -1,142 +1,142 @@
 {
 
 
-  "geography": {
+    "geography": {
 
 
 
-    "latitude": 41.1472,
+      "latitude": 57.7561,
 
 
 
-    "longitude": -74.4648,
+      "longitude": 100.923,
 
 
 
-    "altitude": 2118.9,
+      "altitude": 11270,
 
 
 
-    "direction": 215
+      "direction": 143
 
 
-  },
+    },
 
 
-  "speed": {
+    "speed": {
 
 
 
-    "horizontal": 521.242,
+      "horizontal": 935.26,
 
 
 
-    "isGround": 0,
+      "isGround": 0,
 
 
 
-    "vertical": 0.65024
+      "vertical": 0
 
 
-  },
+    },
 
 
-  "departure": {
+    "departure": {
 
 
 
-    "iataCode": "BOS",
+      "iataCode": "BOS",
 
 
 
-    "icaoCode": "KBOS"
+      "icaoCode": "KBOS"
 
 
-  },
+    },
 
 
-  "arrival": {
+    "arrival": {
 
 
 
-    "iataCode": "EWR",
+      "iataCode": "PEK",
 
 
 
-    "icaoCode": "KEWR"
+      "icaoCode": "ZBAA"
 
 
-  },
+    },
 
 
-  "aircraft": {
+    "aircraft": {
 
 
 
-    "regNumber": "N69829",
+      "regNumber": "B2739",
 
 
 
-    "icaoCode": "B739",
+      "icaoCode": "B788",
 
 
 
-    "icao24": "A94B2E",
+      "icao24": "780BDF",
 
 
 
-    "iataCode": "B739"
+      "iataCode": "B788"
 
 
-  },
+    },
 
 
-  "airline": {
+    "airline": {
 
 
 
-    "iataCode": "UA",
+      "iataCode": "HU",
 
 
 
-    "icaoCode": "UAL"
+      "icaoCode": "CHH"
 
 
-  },
+    },
 
 
-  "flight": {
+    "flight": {
 
 
 
-    "iataNumber": "UA2394",
+      "iataNumber": "HU482",
 
 
 
-    "icaoNumber": "UAL2394",
+      "icaoNumber": "CHH482",
 
 
 
-    "number": "2394"
+      "number": "482"
 
 
-  },
+    },
 
 
-  "system": {
+    "system": {
 
 
 
-    "updated": "1543941300",
+      "updated": "1541317116",
 
 
 
-    "squawk": "2007"
+      "squawk": "227"
 
 
-  },
+    },
 
 
-  "status": "en-route"
+    "status": "en-route"
 
-}
+  }

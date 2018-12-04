@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Context;
+import android.os.Handler;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,6 +28,15 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import com.payelves.sdk.EPay;
+import com.payelves.sdk.bean.QueryOrderModel;
+import com.payelves.sdk.enums.EPayResult;
+import com.payelves.sdk.listener.ConfigResultListener;
+import com.payelves.sdk.listener.PayResultListener;
+import com.payelves.sdk.listener.QueryOrderListener;
+
+import java.util.UUID;
 
 import org.w3c.dom.Text;
 
@@ -50,6 +61,11 @@ public class UserProfileActivity extends BaseMenuActivity {
     private String userID;
     private static final String USERS = "users";
     private static final String MONEY = "money";
+
+    String openId = "tZmNIobZL";
+    String token = "77cd7a5ef528400aac865e2a001a6432";
+    String appId = "6623341290717185";
+    String channel = "xiaomi";
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri mImageUri;
@@ -110,15 +126,61 @@ public class UserProfileActivity extends BaseMenuActivity {
 
         userDisplayName.setText(mFirebaseAuth.getCurrentUser().getDisplayName().toString());
 
+        //init Epay
+        EPay.getInstance(UserProfileActivity.this).init(openId, token, appId, channel);
+
+        //Config key
+        EPay.getInstance(getApplicationContext()).loadConfig("KEY1", new ConfigResultListener() {
+            @Override
+            public void onSuccess(String value) {
+                Log.e("e", value);
+            }
+        });
+
+
 
         btnAddMoney = (Button) findViewById(R.id.btnAddMoney);
         btnWithdrawMoney = (Button) findViewById(R.id.btnWithdrawMoney);
 
         btnAddMoney.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                // todo add money into account
-                Toast.makeText(getBaseContext(), "0.0 has been added to your account", Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {
+
+                String subject = "Airmules";
+                String body = "In APP Payment";
+                String orderId = UUID.randomUUID().toString().replace("-", "");
+                String payUserId = orderId;
+                String backPara = "";
+
+                EPay.getInstance(UserProfileActivity.this).pay(subject, body, 1, orderId, payUserId, backPara, new PayResultListener() {
+                    @Override
+                    public void onFinish(Context context, Long payId, String orderId, String payUserId, EPayResult payResult, int payType, Integer amount) {
+                        EPay.getInstance(context).closePayView();
+                        if (payResult.getCode() == EPayResult.SUCCESS_CODE.getCode()) {
+                            Toast.makeText(UserProfileActivity.this, "Payment Success", Toast.LENGTH_SHORT).show();
+                            //Check the payment result
+                            EPay.getInstance(context).queryOrder(payId, new QueryOrderListener() {
+                                @Override
+                                public void onFinish(boolean isSuccess, String msg, QueryOrderModel model) {
+                                    if (isSuccess) {
+                                        Toast.makeText(UserProfileActivity.this, "Payment Success", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(UserProfileActivity.this, "Payment Failed", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                }
+                            });
+                            topupSuccess();
+                            Toast.makeText(UserProfileActivity.this, "Payment Success", Toast.LENGTH_SHORT).show();
+                        } else if (payResult.getCode() == EPayResult.FAIL_CODE.getCode()) {
+
+                            Toast.makeText(UserProfileActivity.this, "Payment Failed", Toast.LENGTH_SHORT).show(); //payResult.getMsg()
+//                            topupSuccess();
+                        }
+                    }
+
+                });
+
             }
         });
 
@@ -158,13 +220,31 @@ public class UserProfileActivity extends BaseMenuActivity {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     Toast.makeText(UserProfileActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
-                    ;
+
                 }
             });
 
         }
 
 
+    }
+
+    private void topupSuccess() {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int money = Integer.parseInt(dataSnapshot.child(USERS).child(mFirebaseAuth.getCurrentUser().getUid().toString())
+                        .child(MONEY).getValue().toString()) + 1;
+                String newbalance = Integer.toString(money);
+                txtViewMoneyLeft.setText(newbalance);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("Error", databaseError.toString());
+            }
+        });
     }
 
     private void openFileChooser() {

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/userprofilebackground">
+    android:background="@drawable/bgi8">
 
     <TextView
         android:id="@+id/txtViewWelcome"
@@ -11,10 +11,10 @@
         android:layout_above="@+id/welcomeImage"
         android:layout_marginBottom="30dp"
         android:layout_centerHorizontal="true"
-        android:fontFamily="@font/dancing"
-        android:text="Welcome to Airmules!"
-        android:textColor="@color/white"
-        android:textSize="30sp"
+        android:fontFamily="@font/seasrn"
+        android:text="Welcome to Airmules"
+        android:textColor="@color/fbutton_color_wet_asphalt"
+        android:textSize="22sp"
         android:textStyle="bold" />
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -23,6 +23,7 @@
         android:layout_height="200dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:alpha="0.88"
         android:src="@drawable/mainicon" />
 
 
@@ -35,6 +36,8 @@
         android:layout_alignStart="@+id/txtViewWelcome"
         android:layout_alignEnd="@+id/txtViewWelcome"
         android:text="WECHAT"
+        android:drawableLeft="@drawable/ic_sms_black_24dp"
+        android:backgroundTint="@color/fbutton_color_green_sea"
         android:layout_below="@+id/welcomeImage"
         android:layout_marginTop="30dp"/>
 

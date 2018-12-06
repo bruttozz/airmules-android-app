@@ -5,380 +5,495 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".RequestDetailActivity"
-    android:background="@drawable/userprofilebackground">
+    android:background="@drawable/bgi7">
 
-
-        <TextView
-            android:id="@+id/txtStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_vertical"
-            android:layout_margin="10dp"
-            android:textSize="18sp"
-            android:text="Status"
-            android:fontFamily="serif"/>
-
-    <TableLayout
-        android:layout_margin="10dp"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="0dp"
+        android:alpha="0.85"
+        android:background="@color/white"
+        android:orientation="vertical">
 
-        <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="vertical">-->
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/txtLabelMule"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/mule_name"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/txtLabelMuleColon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.9"
-                android:text="@string/colon"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/txtViewMule"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="18sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/txtLabelRating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/rating"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/txtLabelRatingColon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.9"
-                android:text="@string/colon"
-                android:textSize="18sp" />
-
-            <RatingBar
-                android:id="@+id/muleRating"
-                android:theme="@style/RatingBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:isIndicator="true"
-                android:scaleX="0.7"
-                android:scaleY="0.7"
-                android:rating="2"
-                android:transformPivotX="0dp"
-                android:transformPivotY="7dp" />
-
-        </TableRow>
-
-        <TableRow
+        <TableLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_margin="10dp">
 
-            <TextView
-                android:id="@+id/txtLabelReward"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_weight="1"
-                android:text="@string/reqReward"
-                android:textSize="18sp" />
+            <TableRow
+                android:layout_marginTop="2dp"
 
-            <TextView
-                android:id="@+id/txtLabelRewardColon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.9"
-                android:text="@string/colon"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/txtViewReward"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="18sp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/txtLabelItem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/txtItem"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/txtLabelItemColon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.9"
-                android:text="@string/colon"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/textViewItem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="18sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/txtLabelDeparture"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_weight="1"
-                android:text="@string/txtDeparture"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/txtLabelDepartureColon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.9"
-                android:text="@string/colon"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/txtViewDeparture"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="18sp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/txtLabelDepartureDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/departure_date"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/txtLabelDepartureDatColon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.9"
-                android:text="@string/colon"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/textViewDepartureDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/txtLabelDate"
-                android:layout_weight="1"
-                android:textSize="18sp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/txtLabelArrival"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/destination"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/txtLabelArrivalColon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.9"
-                android:text="@string/colon"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/textViewArrival"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="18sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/txtLabelArrivalDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/arrival_data_no_colon"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/txtLabelArrivalDateColon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.9"
-                android:text="@string/colon"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/textViewArrivalDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/txtLabelDate"
-                android:layout_weight="1"
-                android:textSize="18sp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/txtLabelSize"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/txtSize"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/txtLabelSizeColon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.9"
-                android:text="@string/colon"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/textViewSize"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="18sp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/txtLabelWeight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/txtLabelItem"
-                android:layout_weight="1"
-                android:text="@string/txtWeight"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/txtLabelWeightColon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.9"
-                android:text="@string/colon"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/textViewWeight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/txtLabelWeight"
-                android:layout_weight="1"
-                android:textSize="18sp" />
-
-        </TableRow>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Button
-                android:id="@+id/btnSignUpOrUnregister"
-                android:layout_alignParentLeft="true"
-                android:text="sign up"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <Button
-                android:id="@+id/btnPayOrConfirm"
-                android:text="@string/txtPay"
-                android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <Button
-                android:id="@+id/btnChat"
-                android:layout_centerHorizontal="true"
-                android:text="@string/txtChat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <Button
-                android:id="@+id/btnFlight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/btnChat"
-                android:text="Flight"
-                />
-            <EditText
-                android:id="@+id/flightIata"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/btnFlight"
-                android:layout_alignBottom="@id/btnFlight"
-                android:ems="10"
-                android:inputType="textPersonName" />
-            <Button
-                android:id="@+id/btnCancelRequest"
-                android:layout_below="@id/btnFlight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Cancel"
-                />
-        </RelativeLayout>
+                android:orientation="horizontal">
 
-    </TableLayout>
+                <TextView
+                    android:id="@+id/txtStatus"
+                    android:layout_width="135dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="serif"
+                    android:text="Status"
+                    android:textSize="16sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_marginTop="2dp"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtLabelMule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="serif"
+                    android:text="@string/mule_name"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/txtLabelMuleColon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.9"
+                    android:fontFamily="serif"
+                    android:text="@string/colon"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/txtViewMule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="serif"
+                    android:textSize="16sp" />
+
+            </TableRow>
+
+
+            <TableRow
+                android:layout_marginTop="2dp"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtLabelReward"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_weight="1"
+                    android:fontFamily="serif"
+                    android:text="@string/reqReward"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/txtLabelRewardColon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.9"
+                    android:fontFamily="serif"
+                    android:text="@string/colon"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/txtViewReward"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="serif"
+                    android:textSize="16sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_marginTop="2dp"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtLabelItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="serif"
+                    android:text="@string/txtItem"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/txtLabelItemColon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.9"
+                    android:fontFamily="serif"
+                    android:text="@string/colon"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/textViewItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="serif"
+                    android:textSize="16sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_marginTop="2dp"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtLabelDeparture"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_weight="1"
+                    android:fontFamily="serif"
+                    android:text="@string/txtDeparture"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/txtLabelDepartureColon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.9"
+                    android:fontFamily="serif"
+                    android:text="@string/colon"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/txtViewDeparture"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="serif"
+                    android:textSize="16sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_marginTop="2dp"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtLabelDepartureDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="serif"
+                    android:text="Dep date"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/txtLabelDepartureDatColon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.9"
+                    android:fontFamily="serif"
+                    android:text="@string/colon"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/textViewDepartureDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/txtLabelDate"
+
+                    android:layout_weight="1"
+                    android:fontFamily="serif"
+                    android:textSize="16sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_marginTop="2dp"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtLabelArrival"
+                    android:layout_width="178dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="serif"
+                    android:text="@string/destination"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/txtLabelArrivalColon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.9"
+                    android:fontFamily="serif"
+                    android:text="@string/colon"
+
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/textViewArrival"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+
+                    android:fontFamily="serif"
+                    android:textSize="16sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_marginTop="2dp"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtLabelArrivalDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+
+                    android:fontFamily="serif"
+                    android:text="@string/arrival_data_no_colon"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/txtLabelArrivalDateColon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.9"
+
+                    android:fontFamily="serif"
+                    android:text="@string/colon"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/textViewArrivalDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/txtLabelDate"
+
+                    android:layout_weight="1"
+                    android:fontFamily="serif"
+                    android:textSize="16sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_marginTop="2dp"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtLabelSize"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="serif"
+
+                    android:text="@string/txtSize"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/txtLabelSizeColon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.9"
+                    android:text="@string/colon"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/textViewSize"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+
+                    android:fontFamily="serif"
+                    android:textSize="16sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_marginTop="2dp"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtLabelWeight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtLabelItem"
+                    android:layout_weight="1"
+
+                    android:fontFamily="serif"
+                    android:text="@string/txtWeight"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/txtLabelWeightColon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.9"
+                    android:fontFamily="serif"
+                    android:text="@string/colon"
+
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/textViewWeight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/txtLabelWeight"
+                    android:layout_weight="1"
+
+                    android:fontFamily="serif"
+                    android:textSize="16sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txtLabelRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:fontFamily="serif"
+                    android:text="@string/rating"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/txtLabelRatingColon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1.9"
+                    android:fontFamily="serif"
+                    android:text="@string/colon"
+                    android:textSize="16sp" />
+
+                <RatingBar
+                    android:id="@+id/muleRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:rating="0"
+                    android:scaleX="0.6"
+                    android:scaleY="0.6"
+                    android:theme="@style/RatingBar"
+                    android:transformPivotX="10dp"
+                    android:transformPivotY="20dp" />
+
+            </TableRow>
+        </TableLayout>
+
+    </LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="0dp">
+    <RelativeLayout
+        android:layout_margin="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:id="@+id/btnSignUpOrUnregister"
+            android:text="sign up"
+            android:textSize="11dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"/>
+        <Button
+            android:id="@+id/btnPayOrConfirm"
+            android:text="@string/txtPay"
+            android:textSize="11dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnSignUpOrUnregister"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            />
+
+        <Button
+            android:id="@+id/btnChat"
+            android:text="@string/txtChat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnPayOrConfirm"
+            android:layout_marginLeft="10dp"
+            android:textSize="11dp"
+            android:layout_marginRight="10dp"
+            android:backgroundTint="@color/steel_blue"
+            android:minHeight="0dp"
+            android:minWidth="0dp"/>
+        <Button
+            android:id="@+id/btnFlight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textSize="11dp"
+            android:layout_below="@id/btnChat"
+            android:text="Flight"
+            android:backgroundTint="@color/cadet_blue"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            />
+        <EditText
+            android:id="@+id/flightIata"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/btnFlight"
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@id/btnFlight"
+            android:textSize="11dp"
+
+            android:ems="10"
+            android:inputType="textPersonName"/>
+        <Button
+            android:id="@+id/btnCancelRequest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="Cancel"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:textSize="11dp"
+            android:backgroundTint="@color/light_slate_gray"
+            android:layout_below="@id/btnFlight"
+            />
+    </RelativeLayout>
+</LinearLayout>
+
+
+
+
 
 
 

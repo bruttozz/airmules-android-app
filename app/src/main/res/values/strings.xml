@@ -44,7 +44,7 @@
     <string name="txtPay">Pay</string>
 
     <!--For creating a request START-->
-    <string name="createNewReq">Create A New Request!</string>
+    <string name="createNewReq">Create A New Request</string>
 
     <string name="itemInfo">Item Information</string>
     <string name="itemName">Name</string>

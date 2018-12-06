@@ -22,7 +22,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/createNewReq"
-            android:textSize="24sp" />
+            android:textSize="22sp"
+            android:fontFamily="serif"
+            android:textColor="@color/cb_grey"/>
     </LinearLayout>
 
     <ScrollView

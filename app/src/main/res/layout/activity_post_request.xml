@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".PostRequestActivity">
+    tools:context=".PostRequestActivity"
+    >
 
 
     <LinearLayout
@@ -25,7 +26,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8">
+        android:layout_weight="8"
+        android:alpha="0.7">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -226,7 +228,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:text="18-11-2018"
+                        android:hint="click to choose date"
                         android:textAppearance="@android:style/TextAppearance.Material.Large" />
                 </LinearLayout>
 
@@ -300,7 +302,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:text="18-11-2018"
+                        android:hint="click to choose date"
                         android:textAppearance="@android:style/TextAppearance.Material.Large" />
                 </LinearLayout>
 

@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Transactions">
+    tools:context=".Transactions"
+    android:background="@drawable/userprofilebackground">
 
     <LinearLayout
         android:id="@+id/layoutButton"
@@ -29,7 +30,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/border"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:alpha="0.6">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -86,7 +88,7 @@
                     android:layout_weight="1"
                     android:text="@string/reqDate" />
 
-                <EditText
+                <TextView
                     android:id="@+id/editTextDepDate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -97,6 +99,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:alpha="0.6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/border"
@@ -157,7 +160,7 @@
                     android:layout_weight="1"
                     android:text="@string/reqDate" />
 
-                <EditText
+                <TextView
                     android:id="@+id/editTextArrDate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -192,5 +195,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/listTransactions"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:alpha="0.6"/>
 </LinearLayout>

@@ -96,7 +96,6 @@ public class SignInActivity extends AppCompatActivity implements
                 Toast.makeText(SignInActivity.this, "success", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(SignInActivity.this, WeChatLoginActivity.class);
                 startActivityForResult(intent, ActivityReqCode.WE_CHAT_LOGIN);
-                //SignInActivity.this.startActivity(new Intent(WeChatLoginActivity.class, LauncherActivity.class)));
             }
         });
 
@@ -170,12 +169,9 @@ public class SignInActivity extends AppCompatActivity implements
         if (requestCode == ActivityReqCode.WE_CHAT_LOGIN) {
             startActivity(new Intent(SignInActivity.this, LauncherActivity.class));
             Optional.ofNullable(data).ifPresent(intent -> {
-
                 final String code = intent.getStringExtra(IntentKey.WE_CHAT_AUTH_CODE);
-//                Toast.makeText(this, code, Toast.LENGTH_SHORT).show();
                 getAccessToken(code);
             });
-            //startActivity(new Intent(SignInActivity.this, LauncherActivity.class));
         }
     }
 
@@ -260,7 +256,7 @@ public class SignInActivity extends AppCompatActivity implements
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mFirebaseAuth.getCurrentUser();
-
+                            mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).child("name").setValue(name);
                             startActivity(new Intent(SignInActivity.this, LauncherActivity.class));
                             finish();
                         } else {
@@ -297,8 +293,9 @@ public class SignInActivity extends AppCompatActivity implements
                         final String wxusername = response.toString();
                         Log.i("TAG", wxusername);
 //                        Toast.makeText(SignInActivity.this, wxusername, Toast.LENGTH_LONG).show();
-
                         firebaseAuthWithWeChat(opid, wxusername);
+//                        mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).child("name").setValue(wxusername);
+
 //                        finish();
                     }
 

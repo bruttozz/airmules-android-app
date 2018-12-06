@@ -176,6 +176,7 @@ public class UserProfileActivity extends BaseMenuActivity {
 
                             Toast.makeText(UserProfileActivity.this, "Payment Failed", Toast.LENGTH_SHORT).show(); //payResult.getMsg()
 //                            topupSuccess();
+
                         }
                     }
 
@@ -194,6 +195,25 @@ public class UserProfileActivity extends BaseMenuActivity {
 
 
 
+    }
+
+    private void topupSuccess() {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference ref = mDatabase.child(USERS).child(mFirebaseAuth.getCurrentUser().getUid()).getRef();
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                UserClass me = dataSnapshot.getValue(UserClass.class);
+                float myFunds = me.getMoney() + 100;
+                txtViewMoneyLeft.setText(PaymentActivity.convertToMoneyFormatString(myFunds));
+                mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).child("money").setValue(myFunds);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("Error", databaseError.toString());
+            }
+        });
     }
 
     @Override
@@ -227,24 +247,6 @@ public class UserProfileActivity extends BaseMenuActivity {
         }
 
 
-    }
-
-    private void topupSuccess() {
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                int money = Integer.parseInt(dataSnapshot.child(USERS).child(mFirebaseAuth.getCurrentUser().getUid().toString())
-                        .child(MONEY).getValue().toString()) + 1;
-                String newbalance = Integer.toString(money);
-                txtViewMoneyLeft.setText(newbalance);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w("Error", databaseError.toString());
-            }
-        });
     }
 
     private void openFileChooser() {

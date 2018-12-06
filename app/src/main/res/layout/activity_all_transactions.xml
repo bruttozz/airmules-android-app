@@ -5,20 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".AllTransactionsActivity">
+    tools:context=".AllTransactionsActivity"
+    android:background="@drawable/userprofilebackground">
 
     <TextView
         android:id="@+id/txtRequestTypes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_margin="5dp"
         android:text="@string/all_transactions"
+        android:fontFamily="serif"
         android:textAppearance="@android:style/TextAppearance.Material.Large" />
 
     <LinearLayout
         android:id="@+id/fragment_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"></LinearLayout>
+        android:orientation="vertical"
+        android:background="@drawable/userprofilebackground"></LinearLayout>
 
 </LinearLayout>

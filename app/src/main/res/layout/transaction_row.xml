@@ -8,12 +8,14 @@
     android:layout_margin="5dp"
     android:theme="@style/AppTheme"
     card_view:cardCornerRadius="4dp"
-    card_view:cardElevation="5dp">
+    card_view:cardElevation="5dp"
+    card_view:cardBackgroundColor="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_margin="5dp">
 
         <!--<LinearLayout-->
         <!--android:layout_width="match_parent"-->

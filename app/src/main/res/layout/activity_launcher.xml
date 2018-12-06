@@ -1,43 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/userprofilebackground"
     tools:context=".LauncherActivity">
 
-    <Button
-        android:id="@+id/btnViewAllRequests"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/view_all_requests"
-        android:layout_marginTop="50dp" />
-    <Button
-        android:id="@+id/btnSeeUserProfile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/view_user_profile"
-        android:layout_below="@id/btnViewAllRequests" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/headerimage"></LinearLayout>
 
-    <Button
-        android:id="@+id/btnPostRequest"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/createNewReq"
-        android:layout_below="@id/btnSeeUserProfile" />
-    <Button
-        android:id="@+id/btnViewMuleRequests"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/txtSeeMuleJobs"
-        android:layout_below="@id/btnPostRequest" />
+        android:layout_height="0dp"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btnViewPersonalRequests"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/txtSeeRequest"
-        android:layout_below="@id/btnViewMuleRequests" />
+        <Button
+            android:id="@+id/btnViewAllRequests"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/steel_blue"
+            android:text="@string/view_all_requests"
+            android:drawableLeft="@drawable/ic_content_paste_black_24dp"/>
+
+        <Button
+            android:id="@+id/btnSeeUserProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/dark_cyan"
+            android:drawableLeft="@drawable/ic_person_black_24dp"
+            android:text="@string/view_user_profile" />
+
+        <Button
+            android:id="@+id/btnPostRequest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/fbutton_color_green_sea"
+            android:drawableLeft="@drawable/ic_announcement_black_24dp"
+            android:text="@string/createNewReq" />
+
+        <Button
+            android:id="@+id/btnViewMuleRequests"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/cadet_blue"
+            android:drawableLeft="@drawable/ic_archive_black_24dp"
+            android:text="@string/txtSeeMuleJobs" />
+
+        <Button
+            android:id="@+id/btnViewPersonalRequests"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/slate_gray"
+            android:drawableLeft="@drawable/ic_art_track_black_24dp"
+            android:text="@string/txtSeeRequest" />
+
+    </LinearLayout>
 
 
-</RelativeLayout>
+
+
+</LinearLayout>

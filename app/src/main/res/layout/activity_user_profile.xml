@@ -14,7 +14,7 @@
         android:layout_alignBottom="@+id/imageViewUserProfile"
         android:layout_marginLeft="50dp"
         android:layout_toRightOf="@+id/imageViewUserProfile"
-        android:fontFamily="@font/seasrn"
+        android:fontFamily="@font/dancing"
         android:text="test"
         android:textColor="@color/white"
         android:textSize="24sp" />
@@ -24,14 +24,14 @@
         android:layout_width="95dp"
         android:layout_height="95dp"
         android:layout_alignLeft="@+id/txtLabelMoney"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="33dp"
         android:src="@drawable/profileicon"
         />
 
 
     <TextView
         android:id="@+id/txtViewMoneyLeft"
-        android:fontFamily="@font/seasrn"
+        android:fontFamily="@font/dancing"
 
         android:layout_marginLeft="10dp"
         android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
 
     <TextView
         android:id="@+id/txtLabelMoney"
-        android:fontFamily="@font/seasrn"
+        android:fontFamily="@font/dancing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
@@ -83,7 +83,7 @@
         android:fontFamily="serif"
         android:text="Rating as mule: "
         android:textColor="@color/white"
-        android:textSize="20sp" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/txtLabelRateAsCustomer"
@@ -91,31 +91,41 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ratingBarAsMule"
         android:layout_alignStart="@+id/imageViewUserProfile"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:fontFamily="serif"
         android:text="Rating as customer: "
         android:textColor="@color/white"
-        android:textSize="20sp" />
+        android:textSize="16sp" />
 
     <RatingBar
         android:id="@+id/ratingBarAsMule"
+        android:theme="@style/RatingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtLabelRateAsMule"
         android:isIndicator="true"
         android:numStars="5"
+        android:scaleX="0.7"
+        android:scaleY="0.7"
+        android:transformPivotX="0dp"
+        android:transformPivotY="7dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:rating="5" />
+        android:rating="2" />
 
     <RatingBar
         android:id="@+id/ratingBarAsCustomer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:theme="@style/RatingBar"
         android:isIndicator="true"
         android:numStars="5"
-        android:rating="5"
+        android:rating="2"
         android:layout_centerHorizontal="true"
+        android:scaleX="0.7"
+        android:scaleY="0.7"
+        android:transformPivotX="0dp"
+        android:transformPivotY="7dp"
         android:layout_below="@+id/txtLabelRateAsCustomer"
         android:layout_marginTop="20dp"/>
 
@@ -127,7 +137,7 @@
         android:layout_alignTop="@+id/txtLabelRateAsCustomer"
         android:layout_toRightOf="@+id/txtLabelRateAsCustomer"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:text="5.0" />
     <TextView
         android:id="@+id/txtViewRateAsCustomer"
@@ -135,7 +145,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:layout_toRightOf="@+id/txtLabelRateAsMule"
         android:layout_alignTop="@+id/txtLabelRateAsMule"
         android:text="5.0" />

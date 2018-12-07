@@ -58,6 +58,7 @@
     <string name="reqDeparture">Departure</string>
     <string name="reqArrival">Arrival</string>
     <string name="reqCity">City</string>
+    <string name="reqCityOptional">City (Optional)</string>
     <string name="reqCountry">Country</string>
     <string name="reqDate">Date</string>
     <string name="title_activity_maps">Map</string>

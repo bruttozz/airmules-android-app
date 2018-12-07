@@ -1,0 +1,6 @@
+The world-cities.csv dataset came from https://datahub.io/core/world-cities.
+
+All data is licensed under the Creative Common Attribution License as is the original data from geonames, which receives the credit for the data. 
+Credit is also given to Lexman and the Open Knowledge Foundation
+
+All source code is licensed under the MIT licence.

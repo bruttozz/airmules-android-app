@@ -46,12 +46,13 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/depCityLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/reqCity" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/editTextDepCity"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -70,7 +71,7 @@
                     android:layout_weight="1"
                     android:text="@string/reqCountry" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/editTextDepCountry"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -119,12 +120,13 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/arrCityLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/reqCity" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/editTextArrCity"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -143,7 +145,7 @@
                     android:layout_weight="1"
                     android:text="@string/reqCountry" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/editTextArrCountry"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

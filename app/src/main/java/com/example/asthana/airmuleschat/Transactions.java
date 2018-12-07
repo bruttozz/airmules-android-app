@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.DatePicker;
@@ -60,11 +61,11 @@ public class Transactions extends Fragment {
     private LinearLayout layoutButton;
     private Button btnFilter;
     private LinearLayout layoutFilter;
-    private EditText editTextDepCity;
-    private EditText editTextDepCountry;
+    private AutoCompleteTextView editTextDepCity;
+    private AutoCompleteTextView editTextDepCountry;
     private TextView editTextDepDate;
-    private EditText editTextArrCity;
-    private EditText editTextArrCountry;
+    private AutoCompleteTextView editTextArrCity;
+    private AutoCompleteTextView editTextArrCountry;
     private TextView editTextArrDate;
     private Button btnApply;
     private Button btnClear;
@@ -113,11 +114,11 @@ public class Transactions extends Fragment {
         layoutButton = (LinearLayout) fragView.findViewById(R.id.layoutButton);
         btnFilter = (Button) fragView.findViewById(R.id.btnFilter);
         layoutFilter = (LinearLayout) fragView.findViewById(R.id.layoutFilter);
-        editTextDepCity = (EditText) fragView.findViewById(R.id.editTextDepCity);
-        editTextDepCountry = (EditText) fragView.findViewById(R.id.editTextDepCountry);
+        editTextDepCity = (AutoCompleteTextView) fragView.findViewById(R.id.editTextDepCity);
+        editTextDepCountry = (AutoCompleteTextView) fragView.findViewById(R.id.editTextDepCountry);
         editTextDepDate = (TextView) fragView.findViewById(R.id.editTextDepDate);
-        editTextArrCity = (EditText) fragView.findViewById(R.id.editTextArrCity);
-        editTextArrCountry = (EditText) fragView.findViewById(R.id.editTextArrCountry);
+        editTextArrCity = (AutoCompleteTextView) fragView.findViewById(R.id.editTextArrCity);
+        editTextArrCountry = (AutoCompleteTextView) fragView.findViewById(R.id.editTextArrCountry);
         editTextArrDate = (TextView) fragView.findViewById(R.id.editTextArrDate);
         btnApply = (Button) fragView.findViewById(R.id.btnApply);
         btnClear = (Button) fragView.findViewById(R.id.btnClear);
@@ -200,6 +201,14 @@ public class Transactions extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //add any listeners to the views (except the handler, which is assigned below)
+
+        ((BaseMenuActivity)TL).syncUpCityAndCountry(getContext(),
+                view.findViewById(R.id.depCityLabel),
+                editTextDepCity, editTextDepCountry);
+        ((BaseMenuActivity)TL).syncUpCityAndCountry(getContext(),
+                view.findViewById(R.id.arrCityLabel),
+                editTextArrCity, editTextArrCountry);
+
         btnFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

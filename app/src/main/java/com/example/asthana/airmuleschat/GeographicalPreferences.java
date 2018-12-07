@@ -16,6 +16,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -115,8 +117,11 @@ public class GeographicalPreferences extends BaseMenuActivity {
         builder.setTitle(getResources().getString(R.string.addGeoPrefTitle));
 
         View content = getLayoutInflater().inflate(R.layout.add_geo_pref, null);
-        final EditText edtTxtCity = (EditText) content.findViewById(R.id.edtTxtCity);
-        final EditText edtTxtCountry = (EditText) content.findViewById(R.id.edtTxtCountry);
+        final AutoCompleteTextView edtTxtCity = (AutoCompleteTextView) content.findViewById(R.id.edtTxtCity);
+        final AutoCompleteTextView edtTxtCountry = (AutoCompleteTextView) content.findViewById(R.id.edtTxtCountry);
+        syncUpCityAndCountry(getBaseContext(),
+                content.findViewById(R.id.cityLabel),
+                edtTxtCity, edtTxtCountry);
         builder.setView(content);
 
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -133,12 +138,17 @@ public class GeographicalPreferences extends BaseMenuActivity {
         });
 
         final AlertDialog dialog = builder.create();
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         dialog.show();
 
         //Base on https://stackoverflow.com/questions/40261250/validation-on-edittext-in-alertdialog
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Perform a final check of the city/country data
+                edtTxtCity.performValidation();
+                edtTxtCountry.performValidation();
+
                 if(edtTxtCountry.getText().toString().isEmpty()){
                     Toast toast = Toast.makeText(getApplicationContext(),"Country is required", Toast.LENGTH_SHORT);
                     toast.show();

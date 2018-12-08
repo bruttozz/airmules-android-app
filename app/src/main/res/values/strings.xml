@@ -70,4 +70,11 @@
     <string name="destination">Destination</string>
     <string name="arrival_data_no_colon">Arrive By</string>
 
+    <string name="deposit_spinner">Deposit Method</string>
+    <string-array name="methods">
+        <item>Venmo</item>
+        <item>PayPal</item>
+        <item>Alipay</item>
+    </string-array>
+
 </resources>

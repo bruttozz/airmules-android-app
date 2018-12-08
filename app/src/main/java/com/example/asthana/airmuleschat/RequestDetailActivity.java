@@ -1,5 +1,6 @@
 package com.example.asthana.airmuleschat;
 
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -71,6 +72,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private String depart;
     private String arrive;
     private UserClass mule;
+    private String otherUser;
 
     private RatingBar muleRating;
     private DatabaseReference mDatabase;
@@ -136,6 +138,8 @@ public class RequestDetailActivity extends BaseMenuActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Request req = dataSnapshot.getValue(Request.class);
+;
+
                 if (req == null || req.getTransactionID() == null) {
                     RequestDetailActivity.this.finish();
                     return;
@@ -147,6 +151,8 @@ public class RequestDetailActivity extends BaseMenuActivity {
                     RequestDetailActivity.this.finish();
                     return;
                 }
+
+                otherUser = req.getMule();
 
                 setTextAndButton(req);
                 addButtonFunctions(req);
@@ -299,11 +305,21 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
             //complete the transaction
             mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.COMPLETE);
+            showDialog(otherUser);
         } else {
             Intent payIntent = new Intent(this, PaymentActivity.class);
             payIntent.putExtra("transactionID", transactionID);
             this.startActivity(payIntent);
         }
+    }
+
+    void showDialog(String otherUser) {
+        // Create the fragment and show it as a dialog.
+        Bundle bundle = new Bundle();
+        bundle.putString("otherUser", otherUser);
+        DialogFragment newFragment = new RatingFragment();
+        newFragment.setArguments(bundle);
+        newFragment.show(getFragmentManager(), "ratings");
     }
 
     private void removeThisRequestFromDatabase() {

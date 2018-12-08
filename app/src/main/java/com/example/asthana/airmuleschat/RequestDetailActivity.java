@@ -1,5 +1,9 @@
 package com.example.asthana.airmuleschat;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -46,22 +50,10 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private Button btnSignUpOrUnregister;
     private Button btnFlight;
     private Button btnPayOrConfirm;
+    private Button btnViewMules;
     private String transactionID;
     private String chatID;
     private static final String REQUESTS = "requests";
-    private static final String DEPARTURE = "departure";
-    private static final String ARRIVAL = "arrival";
-    private static final String CITY = "city";
-    private static final String COUNTRY = "country";
-    private static final String DATE = "date";
-    private static final String ITEMDATA = "itemData";
-    private static final String ITEMNAME = "name";
-    private static final String REWARD = "reward";
-    private static final String LENGTH = "length";
-    private static final String WEIGHT = "weight";
-    private static final String HEIGHT = "height";
-    private static final String WIDTH = "width";
-    private static final String CUSTOMER = "customer";
     private static final String MULE = "mule";
     private static final String STATUS = "status";
     static final String API_URL = "https://aviation-edge.com/v2/public/flights?key=782cbd-deb8af&flightIata=";
@@ -71,6 +63,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private String depart;
     private String arrive;
     private UserClass mule;
+    private String otherUser;
 
     private RatingBar muleRating;
     private DatabaseReference mDatabase;
@@ -98,6 +91,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
         muleRating = (RatingBar) findViewById(R.id.muleRating);
 
         btnChat = (Button) findViewById(R.id.btnChat);
+
         btnChat.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -107,6 +101,18 @@ public class RequestDetailActivity extends BaseMenuActivity {
             }
         });
 
+        btnViewMules = (Button) findViewById(R.id.btnViewMules);
+        btnViewMules.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                final AlertDialog dialog = new AlertDialog.Builder(RequestDetailActivity.this)
+                        .setTitle("Available Mules")
+                        .setView(R.layout.dialog_mules)
+                        .create();
+                dialog.show();
+                ((TextView)dialog.findViewById(R.id.dialogTxtMuleName)).setText("Food bar");
+                ((RatingBar)dialog.findViewById(R.id.dialogMuleRating)).setRating(3);
+            }
+        });
         btnCancel = (Button) findViewById(R.id.btnCancelRequest);
         btnSignUpOrUnregister = (Button) findViewById(R.id.btnSignUpOrUnregister);
         btnPayOrConfirm = (Button) findViewById(R.id.btnPayOrConfirm);
@@ -136,6 +142,8 @@ public class RequestDetailActivity extends BaseMenuActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Request req = dataSnapshot.getValue(Request.class);
+;
+
                 if (req == null || req.getTransactionID() == null) {
                     RequestDetailActivity.this.finish();
                     return;
@@ -147,6 +155,8 @@ public class RequestDetailActivity extends BaseMenuActivity {
                     RequestDetailActivity.this.finish();
                     return;
                 }
+
+                otherUser = req.getMule();
 
                 setTextAndButton(req);
                 addButtonFunctions(req);
@@ -250,7 +260,20 @@ public class RequestDetailActivity extends BaseMenuActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                removeThisRequestFromDatabase();
+                new AlertDialog.Builder(RequestDetailActivity.this)
+                        .setMessage("Are you sure you want to cancel this request?")
+                        .setCancelable(true)
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.dismiss();
+                                removeThisRequestFromDatabase();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            } })
+                        .show();
             }
         });
 
@@ -299,11 +322,21 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
             //complete the transaction
             mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.COMPLETE);
+            showDialog(otherUser);
         } else {
             Intent payIntent = new Intent(this, PaymentActivity.class);
             payIntent.putExtra("transactionID", transactionID);
             this.startActivity(payIntent);
         }
+    }
+
+    void showDialog(String otherUser) {
+        // Create the fragment and show it as a dialog.
+        Bundle bundle = new Bundle();
+        bundle.putString("otherUser", otherUser);
+        DialogFragment newFragment = new RatingFragment();
+        newFragment.setArguments(bundle);
+        newFragment.show(getFragmentManager(), "ratings");
     }
 
     private void removeThisRequestFromDatabase() {

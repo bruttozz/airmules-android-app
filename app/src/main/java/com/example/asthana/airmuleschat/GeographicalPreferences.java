@@ -113,7 +113,6 @@ public class GeographicalPreferences extends BaseMenuActivity {
 
     private void createAddDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
         builder.setTitle(getResources().getString(R.string.addGeoPrefTitle));
 
         View content = getLayoutInflater().inflate(R.layout.add_geo_pref, null);

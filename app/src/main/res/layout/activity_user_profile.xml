@@ -28,8 +28,8 @@
             android:id="@+id/imageViewUserProfile"
             android:layout_width="95dp"
             android:layout_height="95dp"
+            android:layout_above="@+id/txtLabelMoney"
             android:layout_alignLeft="@+id/txtLabelMoney"
-            android:layout_marginTop="33dp"
             android:src="@drawable/profileicon"
             />
 
@@ -55,9 +55,10 @@
             android:layout_height="wrap_content"
             android:textColor="@color/cb_dark_grey"
             android:layout_alignLeft="@+id/ratingBarAsMule"
-            android:layout_below="@+id/imageViewUserProfile"
+            android:layout_above="@+id/btnAddMoney"
             android:text="Balance: "
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:textSize="24sp" />
 
         <Button
@@ -66,8 +67,7 @@
             android:layout_height="wrap_content"
             android:text="add money"
             android:layout_alignStart="@+id/txtLabelMoney"
-            android:layout_below="@+id/txtLabelMoney"
-            android:layout_marginTop="10dp"
+            android:layout_centerVertical="true"
             android:layout_marginBottom="10dp"
             android:backgroundTint="@color/fbutton_default_color"
             android:fontFamily="serif"/>
@@ -86,6 +86,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/btnAddMoney"
+            android:layout_centerVertical="true"
             android:layout_alignLeft="@+id/imageViewUserProfile"
             android:fontFamily="serif"
             android:text="Rating as mule: "
@@ -106,19 +107,19 @@
 
         <RatingBar
             android:id="@+id/ratingBarAsMule"
-            android:theme="@style/RatingBar"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:layout_below="@+id/txtLabelRateAsMule"
-            android:isIndicator="true"
-            android:numStars="5"
-            android:scaleX="0.7"
-            android:scaleY="0.7"
-            android:transformPivotX="0dp"
-            android:transformPivotY="7dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:rating="2" />
+            android:isIndicator="true"
+            android:numStars="5"
+            android:rating="2"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:theme="@style/RatingBar"
+            android:transformPivotX="0dp"
+            android:transformPivotY="7dp" />
 
         <RatingBar
             android:id="@+id/ratingBarAsCustomer"
@@ -134,7 +135,7 @@
             android:transformPivotX="0dp"
             android:transformPivotY="7dp"
             android:layout_below="@+id/txtLabelRateAsCustomer"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="15dp"/>
 
         <TextView
             android:id="@+id/txtViewRateAsMule"

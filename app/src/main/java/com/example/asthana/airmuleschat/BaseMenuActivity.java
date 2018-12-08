@@ -2,6 +2,7 @@ package com.example.asthana.airmuleschat;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -48,7 +49,9 @@ public abstract class BaseMenuActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_base_menu);
+        setContentView(R.layout.activity_base_menu);
+
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         // Set default username to anonymous.
         mUsername = ANONYMOUS;

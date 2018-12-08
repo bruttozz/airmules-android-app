@@ -362,6 +362,8 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private void signUpOrUnregisterForMuleToThisRequest(final Request myReq) {
         if (btnSignUpOrUnregister.getText().toString().equals("unregister")) {
             try {
+                String key = transactionID + mFirebaseAuth.getCurrentUser().getUid();
+                mDatabase.child("potentialMules").child(key).removeValue();
                 mDatabase.child(REQUESTS).child(transactionID).child(MULE).removeValue();
                 if (myReq.getStatus().equals(Request.PAID)) {
                     //refund payment
@@ -399,9 +401,16 @@ public class RequestDetailActivity extends BaseMenuActivity {
                 Toast.makeText(this, "Sorry, someone already signed up", Toast.LENGTH_SHORT).show();
 
             } else {
+                //TODO remove this
                 mDatabase.child(REQUESTS).child(transactionID).child(MULE).setValue
                         (mFirebaseAuth.getCurrentUser().getUid().toString());
                 mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.NO_PAYMENT);
+
+                //TODO keep this and move the set status of no payment when customer selects mule
+                String key = transactionID + mFirebaseAuth.getCurrentUser().getUid();
+                mDatabase.child("potentialMules").child(key)
+                        .setValue(new PotentialMule(transactionID, mFirebaseAuth.getCurrentUser().getUid()));
+
                 Toast.makeText(this, "Successfully signed up!", Toast.LENGTH_SHORT).show();
             }
         }

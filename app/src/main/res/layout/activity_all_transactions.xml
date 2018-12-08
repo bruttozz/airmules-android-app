@@ -5,20 +5,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".AllTransactionsActivity">
+    tools:context=".AllTransactionsActivity"
+    android:background="@drawable/userprofilebackground"
+    >
 
-    <TextView
-        android:id="@+id/txtRequestTypes"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="@string/all_transactions"
-        android:textAppearance="@android:style/TextAppearance.Material.Large" />
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/txtRequestTypes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@string/all_transactions"
+            android:textColor="@color/cb_grey"
+            android:fontFamily="serif"
+            android:textAppearance="@android:style/TextAppearance.Material.Large" />
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/fragment_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"></LinearLayout>
+        android:orientation="vertical"
+        android:background="@drawable/userprofilebackground"
+        ></LinearLayout>
 
 </LinearLayout>

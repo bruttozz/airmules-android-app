@@ -7,6 +7,15 @@
     </style>
 
     <style name="ButtonStyle" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:fontFamily">serif</item>
+    </style>
 
+    <style name="FontIsSerif">
+        <item name="android:fontFamily">serif</item>
+    </style>
+
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/goldenrod</item>
+        <item name="colorControlActivated">@color/yellow</item>
     </style>
 </resources>

@@ -2,15 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_margin="5dp">
 
     <TextView
+        android:id="@+id/cityLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="City (Optional)"
         android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/edtTxtCity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,13 +20,12 @@
         android:inputType="textPersonName" />
 
     <TextView
-        android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/reqCountry"
         android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/edtTxtCountry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

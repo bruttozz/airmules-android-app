@@ -1,62 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/userprofilebackground"
     tools:context=".LauncherActivity">
 
-    <Button
-        android:id="@+id/btnViewAllRequests"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="112dp"
-        android:layout_marginTop="12dp"
-        android:text="@string/view_all_requests"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSeeUserProfile" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/headerimage"></LinearLayout>
 
-    <Button
-        android:id="@+id/btnSeeUserProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:text="@string/view_user_profile"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btnPostRequest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="96dp"
-        android:layout_marginTop="12dp"
-        android:text="@string/createNewReq"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnViewPersonalRequests" />
+        <Button
+            android:id="@+id/btnViewAllRequests"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/steel_blue"
+            android:text="@string/view_all_requests"
+            android:drawableLeft="@drawable/ic_content_paste_black_24dp"/>
 
-    <Button
-        android:id="@+id/btnViewMuleRequests"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="92dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/txtSeeMuleJobs"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnViewAllRequests" />
+        <Button
+            android:id="@+id/btnSeeUserProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/dark_cyan"
+            android:drawableLeft="@drawable/ic_person_black_24dp"
+            android:text="@string/view_user_profile" />
 
-    <Button
-        android:id="@+id/btnViewPersonalRequests"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="96dp"
-        android:layout_marginTop="4dp"
-        android:text="@string/txtSeeRequest"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnViewMuleRequests" />
+        <Button
+            android:id="@+id/btnPostRequest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/fbutton_color_green_sea"
+            android:drawableLeft="@drawable/ic_announcement_black_24dp"
+            android:text="@string/createNewReq" />
+
+        <Button
+            android:id="@+id/btnViewMuleRequests"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/cadet_blue"
+            android:drawableLeft="@drawable/ic_archive_black_24dp"
+            android:text="@string/txtSeeMuleJobs" />
+
+        <Button
+            android:id="@+id/btnViewPersonalRequests"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/slate_gray"
+            android:drawableLeft="@drawable/ic_art_track_black_24dp"
+            android:text="@string/txtSeeRequest" />
+
+    </LinearLayout>
 
 
-</android.support.constraint.ConstraintLayout>
+
+
+</LinearLayout>

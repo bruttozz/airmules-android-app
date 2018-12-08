@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -35,12 +36,12 @@ public class PostRequestActivity extends BaseMenuActivity {
 
     private EditText editTextReward;
 
-    private EditText editTextDepCity;
-    private EditText editTextDepCountry;
+    private AutoCompleteTextView editTextDepCity;
+    private AutoCompleteTextView editTextDepCountry;
     private TextView txtDepDate;
 
-    private EditText editTextArrCity;
-    private EditText editTextArrCountry;
+    private AutoCompleteTextView editTextArrCity;
+    private AutoCompleteTextView editTextArrCountry;
     private TextView txtArrDate;
 
     private Calendar myCalendar;
@@ -83,12 +84,12 @@ public class PostRequestActivity extends BaseMenuActivity {
 
         editTextReward = (EditText) findViewById(R.id.editTextReward);
 
-        editTextDepCity = (EditText) findViewById(R.id.editTextDepCity);
-        editTextDepCountry = (EditText) findViewById(R.id.editTextDepCountry);
+        editTextDepCity = (AutoCompleteTextView) findViewById(R.id.editTextDepCity);
+        editTextDepCountry = (AutoCompleteTextView) findViewById(R.id.editTextDepCountry);
         txtDepDate = (TextView) findViewById(R.id.txtDepDate);
 
-        editTextArrCity = (EditText) findViewById(R.id.editTextArrCity);
-        editTextArrCountry = (EditText) findViewById(R.id.editTextArrCountry);
+        editTextArrCity = (AutoCompleteTextView) findViewById(R.id.editTextArrCity);
+        editTextArrCountry = (AutoCompleteTextView) findViewById(R.id.editTextArrCountry);
         txtArrDate = (TextView) findViewById(R.id.txtArrDate);
 
         allEditTexts = new ArrayList<TextView>();
@@ -161,6 +162,13 @@ public class PostRequestActivity extends BaseMenuActivity {
         for(TextView et : allEditTexts){
             et.setText("");
         }
+
+        syncUpCityAndCountry(getBaseContext(),
+                findViewById(R.id.depCityLabel),
+                editTextDepCity, editTextDepCountry);
+        syncUpCityAndCountry(getBaseContext(),
+                findViewById(R.id.arrCityLabel),
+                editTextArrCity, editTextArrCountry);
     }
 
     private boolean saveRequestToDatabase() {
@@ -201,6 +209,12 @@ public class PostRequestActivity extends BaseMenuActivity {
     }
 
     private Request readReqDataFromGUI(){
+        //Perform a final check of the city/country data
+        editTextDepCity.performValidation();
+        editTextDepCountry.performValidation();
+        editTextArrCity.performValidation();
+        editTextArrCountry.performValidation();
+
         //Is there data set?
         for(TextView et : allEditTexts){
             if(et.getText().toString().isEmpty()){

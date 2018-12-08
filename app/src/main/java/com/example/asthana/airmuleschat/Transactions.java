@@ -2,6 +2,7 @@ package com.example.asthana.airmuleschat;
 
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,8 +16,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,10 +36,13 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.phonepe.intent.sdk.ui.TransactionActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Locale;
 
 
 /**
@@ -55,12 +61,12 @@ public class Transactions extends Fragment {
     private LinearLayout layoutButton;
     private Button btnFilter;
     private LinearLayout layoutFilter;
-    private EditText editTextDepCity;
-    private EditText editTextDepCountry;
-    private EditText editTextDepDate;
-    private EditText editTextArrCity;
-    private EditText editTextArrCountry;
-    private EditText editTextArrDate;
+    private AutoCompleteTextView editTextDepCity;
+    private AutoCompleteTextView editTextDepCountry;
+    private TextView editTextDepDate;
+    private AutoCompleteTextView editTextArrCity;
+    private AutoCompleteTextView editTextArrCountry;
+    private TextView editTextArrDate;
     private Button btnApply;
     private Button btnClear;
 
@@ -70,6 +76,11 @@ public class Transactions extends Fragment {
     private RecyclerView listTransactions;
     private TransactionAdapter adapter;
     //private FirebaseRecyclerAdapter adapter;
+
+    // calendar
+    private Calendar myCalendar;
+    private DatePickerDialog.OnDateSetListener dateDep;
+    private DatePickerDialog.OnDateSetListener dateArr;
 
     public Transactions() {
         // Required empty public constructor
@@ -103,12 +114,12 @@ public class Transactions extends Fragment {
         layoutButton = (LinearLayout) fragView.findViewById(R.id.layoutButton);
         btnFilter = (Button) fragView.findViewById(R.id.btnFilter);
         layoutFilter = (LinearLayout) fragView.findViewById(R.id.layoutFilter);
-        editTextDepCity = (EditText) fragView.findViewById(R.id.editTextDepCity);
-        editTextDepCountry = (EditText) fragView.findViewById(R.id.editTextDepCountry);
-        editTextDepDate = (EditText) fragView.findViewById(R.id.editTextDepDate);
-        editTextArrCity = (EditText) fragView.findViewById(R.id.editTextArrCity);
-        editTextArrCountry = (EditText) fragView.findViewById(R.id.editTextArrCountry);
-        editTextArrDate = (EditText) fragView.findViewById(R.id.editTextArrDate);
+        editTextDepCity = (AutoCompleteTextView) fragView.findViewById(R.id.editTextDepCity);
+        editTextDepCountry = (AutoCompleteTextView) fragView.findViewById(R.id.editTextDepCountry);
+        editTextDepDate = (TextView) fragView.findViewById(R.id.editTextDepDate);
+        editTextArrCity = (AutoCompleteTextView) fragView.findViewById(R.id.editTextArrCity);
+        editTextArrCountry = (AutoCompleteTextView) fragView.findViewById(R.id.editTextArrCountry);
+        editTextArrDate = (TextView) fragView.findViewById(R.id.editTextArrDate);
         btnApply = (Button) fragView.findViewById(R.id.btnApply);
         btnClear = (Button) fragView.findViewById(R.id.btnClear);
 
@@ -124,7 +135,65 @@ public class Transactions extends Fragment {
         createDatabaseQueryAdapter();
         listTransactions.setAdapter(adapter);
 
+        //add pop-up date picker
+        myCalendar = Calendar.getInstance();
+        editTextDepDate.setClickable(true);
+        dateDep = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel("dep");
+            }
+
+        };
+        editTextDepDate.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(getContext(), dateDep, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+        editTextArrDate.setClickable(true);
+        dateArr = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel("arr");
+            }
+        };
+        editTextArrDate.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(getContext(), dateArr, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+
         return fragView;
+    }
+    private void updateLabel(String type) {
+        String myFormat = "dd" + Request.LocationInfo.DATE_DELIMITER + "MM" + Request.LocationInfo.DATE_DELIMITER + "yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        if (type.equals("arr"))
+            editTextArrDate.setText(sdf.format(myCalendar.getTime()));
+        else
+            editTextDepDate.setText(sdf.format(myCalendar.getTime()));
     }
 
     @Override
@@ -132,6 +201,14 @@ public class Transactions extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //add any listeners to the views (except the handler, which is assigned below)
+
+        ((BaseMenuActivity)TL).syncUpCityAndCountry(getContext(),
+                view.findViewById(R.id.depCityLabel),
+                editTextDepCity, editTextDepCountry);
+        ((BaseMenuActivity)TL).syncUpCityAndCountry(getContext(),
+                view.findViewById(R.id.arrCityLabel),
+                editTextArrCity, editTextArrCountry);
+
         btnFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

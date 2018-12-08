@@ -3,6 +3,7 @@ package com.example.asthana.airmuleschat;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -259,7 +260,20 @@ public class RequestDetailActivity extends BaseMenuActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                removeThisRequestFromDatabase();
+                new AlertDialog.Builder(RequestDetailActivity.this)
+                        .setMessage("Are you sure you want to cancel this request?")
+                        .setCancelable(true)
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.dismiss();
+                                removeThisRequestFromDatabase();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            } })
+                        .show();
             }
         });
 

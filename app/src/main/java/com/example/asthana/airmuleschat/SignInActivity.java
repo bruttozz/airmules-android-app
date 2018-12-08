@@ -2,6 +2,7 @@
 package com.example.asthana.airmuleschat;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -79,6 +80,8 @@ public class SignInActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         unbinder = ButterKnife.bind(this);
         api = WXAPIFactory.createWXAPI(this, WeChat.APP_ID, false);
         launchBtn = (Button) findViewById(R.id.wechat_login_btn);
@@ -92,8 +95,9 @@ public class SignInActivity extends AppCompatActivity implements
             public void onClick(View v) {
                 if(api.openWXApp() == false){
                     Toast.makeText(SignInActivity.this, "Please install WeChat APP first", Toast.LENGTH_LONG).show();
+                    return;
                 }
-                Toast.makeText(SignInActivity.this, "success", Toast.LENGTH_LONG).show();
+                //Toast.makeText(SignInActivity.this, "success", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(SignInActivity.this, WeChatLoginActivity.class);
                 startActivityForResult(intent, ActivityReqCode.WE_CHAT_LOGIN);
             }

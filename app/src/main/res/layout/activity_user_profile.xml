@@ -156,12 +156,6 @@
             android:layout_toRightOf="@+id/txtLabelRateAsMule"
             android:layout_alignTop="@+id/txtLabelRateAsMule"
             android:text="5.0" />
-
-        <!--<Button-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/topup_btn"-->
-        <!--android:text="TOP UP"/>-->
     </RelativeLayout>
 
 

@@ -69,7 +69,7 @@
         </receiver>
 
         <activity android:name=".GeographicalPreferences" />
-        <activity android:name=".Deposit"></activity>
+        <activity android:name=".Withdraw"></activity>
     </application>
 
 </manifest>

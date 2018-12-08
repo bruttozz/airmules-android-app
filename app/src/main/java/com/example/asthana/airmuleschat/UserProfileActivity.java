@@ -1,7 +1,5 @@
 package com.example.asthana.airmuleschat;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,7 +14,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Context;
-import android.os.Handler;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,8 +36,6 @@ import com.payelves.sdk.listener.PayResultListener;
 import com.payelves.sdk.listener.QueryOrderListener;
 
 import java.util.UUID;
-
-import org.w3c.dom.Text;
 
 
 public class UserProfileActivity extends BaseMenuActivity {
@@ -172,12 +167,12 @@ public class UserProfileActivity extends BaseMenuActivity {
 
                                 }
                             });
-//                            topupSuccess();
+                            topupSuccess();
                             Toast.makeText(UserProfileActivity.this, "Payment Success", Toast.LENGTH_SHORT).show();
                         } else if (payResult.getCode() == EPayResult.FAIL_CODE.getCode()) {
 
                             Toast.makeText(UserProfileActivity.this, "Payment Failed", Toast.LENGTH_SHORT).show(); //payResult.getMsg()
-                            topupSuccess();
+//                            topupSuccess();
 
                         }
                     }
@@ -192,7 +187,7 @@ public class UserProfileActivity extends BaseMenuActivity {
             public void onClick(View view) {
                 // todo withdraw money from account
 //                Toast.makeText(getBaseContext(), "0.0 has been withdrawn from your account", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(UserProfileActivity.this, Deposit.class));
+                startActivity(new Intent(UserProfileActivity.this, Withdraw.class));
             }
         });
 

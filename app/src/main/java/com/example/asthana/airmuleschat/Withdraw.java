@@ -16,7 +16,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.content.Context;
-import android.support.annotation.NonNull;
+import android.app.AlertDialog;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -29,16 +29,7 @@ import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import com.payelves.sdk.EPay;
-import com.payelves.sdk.bean.QueryOrderModel;
-import com.payelves.sdk.enums.EPayResult;
-import com.payelves.sdk.listener.ConfigResultListener;
-import com.payelves.sdk.listener.PayResultListener;
-import com.payelves.sdk.listener.QueryOrderListener;
-
-import java.util.UUID;
-
-public class Deposit extends AppCompatActivity {
+public class Withdraw extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
     private FirebaseAuth mFirebaseAuth;
@@ -48,21 +39,15 @@ public class Deposit extends AppCompatActivity {
     private EditText amountInput;
     private EditText accountInfo;
     private Button withdrawbtn;
-    private Button thirdparty;
 
     private String userID;
     private static final String USERS = "users";
     private static final String MONEY = "money";
 
-    String openId = "tZmNIobZL";
-    String token = "77cd7a5ef528400aac865e2a001a6432";
-    String appId = "6623341290717185";
-    String channel = "xiaomi";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_deposit);
+        setContentView(R.layout.activity_withdraw);
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -78,7 +63,6 @@ public class Deposit extends AppCompatActivity {
         accountInfo = (EditText) findViewById(R.id.account_info);
 
         withdrawbtn = (Button) findViewById(R.id.submit_btn);
-        thirdparty = (Button) findViewById(R.id.thirdpartypay_btn);
 
         DatabaseReference ref = mDatabase.child(USERS).child(mFirebaseAuth.getCurrentUser().getUid()).getRef();
         ref.addValueEventListener(new ValueEventListener() {
@@ -101,93 +85,36 @@ public class Deposit extends AppCompatActivity {
                 float amount = Float.parseFloat(amountInput.getText().toString());
                 String account = accountInfo.getText().toString();
 //                accountInfo.setText(amt);
-                depositSuccess(amount);
+                withdrawSuccess(amount);
 //                startActivity(new Intent(Withdraw.this, UserProfileActivity.class));
             }
         });
+    }
 
-        //init Epay
-        EPay.getInstance(Deposit.this).init(openId, token, appId, channel);
-
-        //Config key
-        EPay.getInstance(getApplicationContext()).loadConfig("KEY1", new ConfigResultListener() {
+    private void withdrawSuccess(float num) {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference ref = mDatabase.child(USERS).child(mFirebaseAuth.getCurrentUser().getUid()).getRef();
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onSuccess(String value) {
-                Log.e("e", value);
-            }
-        });
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                UserClass user = dataSnapshot.getValue(UserClass.class);
+                float inAppMoney = user.getMoney();
+                String inAppMoneyString = convertToMoneyFormatString(inAppMoney);
 
-        thirdparty.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String subject = "Airmules";
-                String body = "In APP Payment";
-                String orderId = UUID.randomUUID().toString().replace("-", "");
-                String payUserId = orderId;
-                String backPara = "";
-
-                EPay.getInstance(Deposit.this).pay(subject, body, 1, orderId, payUserId, backPara, new PayResultListener() {
-                    @Override
-                    public void onFinish(Context context, Long payId, String orderId, String payUserId, EPayResult payResult, int payType, Integer amount) {
-                        EPay.getInstance(context).closePayView();
-                        if (payResult.getCode() == EPayResult.SUCCESS_CODE.getCode()) {
-                            Toast.makeText(Deposit.this, "Payment Success", Toast.LENGTH_SHORT).show();
-                            //Check the payment result
-                            EPay.getInstance(context).queryOrder(payId, new QueryOrderListener() {
-                                @Override
-                                public void onFinish(boolean isSuccess, String msg, QueryOrderModel model) {
-                                    if (isSuccess) {
-                                        Toast.makeText(Deposit.this, "Payment Success", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Toast.makeText(Deposit.this, "Payment Failed", Toast.LENGTH_SHORT).show();
-                                    }
-
+                if(inAppMoney < num){
+                    new AlertDialog.Builder(Withdraw.this)
+                            .setCancelable(false)
+                            .setMessage("Not enough funds, have only $" + inAppMoneyString)
+                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    dialog.dismiss();
                                 }
-                            });
-                            topupSuccess();
-                            Toast.makeText(Deposit.this, "Payment Success", Toast.LENGTH_SHORT).show();
-                        } else if (payResult.getCode() == EPayResult.FAIL_CODE.getCode()) {
-
-                            Toast.makeText(Deposit.this, "Payment Failed", Toast.LENGTH_SHORT).show(); //payResult.getMsg()
-//                            topupSuccess();
-
-                        }
-                    }
-
-                });
-            }
-        });
-    }
-
-    private void topupSuccess() {
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference ref = mDatabase.child(USERS).child(mFirebaseAuth.getCurrentUser().getUid()).getRef();
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                UserClass user = dataSnapshot.getValue(UserClass.class);
-                float inAppMoney = user.getMoney();
-                inAppMoney = inAppMoney + 100;
-                mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).child("money").setValue(inAppMoney);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w("Error", databaseError.toString());
-            }
-        });
-    }
-
-    private void depositSuccess(float num) {
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference ref = mDatabase.child(USERS).child(mFirebaseAuth.getCurrentUser().getUid()).getRef();
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                UserClass user = dataSnapshot.getValue(UserClass.class);
-                float inAppMoney = user.getMoney();
-                inAppMoney = inAppMoney + num;
-                mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).child("money").setValue(inAppMoney);
+                            }).show();
+                }
+                else{
+                    inAppMoney = inAppMoney - num;
+                    mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).child("money").setValue(inAppMoney);
+                }
 
             }
 
@@ -210,4 +137,5 @@ public class Deposit extends AppCompatActivity {
         String moneyString = String.format(format, money);
         return moneyString;
     }
+
 }

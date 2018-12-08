@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_deposit"
+    android:id="@+id/activity_withdraw"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -10,7 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".Deposit">
+    tools:context=".Withdraw">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -88,16 +88,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="400dp"
-            android:layout_marginLeft="200dp"
-            android:text="DEPOSIT" />
-
-        <Button
-            android:id="@+id/thirdpartypay_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="400dp"
-            android:layout_marginLeft="0dp"
-            android:text="3PartyPay" />
+            android:layout_marginLeft="180dp"
+            android:text="WITHDRAW" />
     </RelativeLayout>
 
 

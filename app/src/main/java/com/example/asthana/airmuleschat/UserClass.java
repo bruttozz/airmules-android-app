@@ -37,11 +37,6 @@ public class UserClass {
 
     public int getNumRatings(){return this.numRatings;}
 
-    public float updateRating(float newRating){
-        this.rating = (this.rating+newRating)/((float)(this.numRatings+1));
-        return this.rating;
-    }
-
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }

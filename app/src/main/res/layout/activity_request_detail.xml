@@ -9,7 +9,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="2"
         android:layout_marginBottom="0dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -22,11 +23,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp">
-
             <TableRow
                 android:layout_width="match_parent"
-
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:layout_marginTop="2dp"
                 android:orientation="horizontal">
 
@@ -43,7 +43,8 @@
             <TableRow
                 android:layout_width="match_parent"
 
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:layout_marginTop="2dp"
                 android:orientation="horizontal">
 
@@ -79,7 +80,8 @@
             <TableRow
                 android:layout_width="match_parent"
 
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:layout_marginTop="2dp"
                 android:orientation="horizontal">
 
@@ -114,7 +116,8 @@
             <TableRow
                 android:layout_width="match_parent"
 
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:layout_marginTop="2dp"
                 android:orientation="horizontal">
 
@@ -149,7 +152,8 @@
             <TableRow
                 android:layout_width="match_parent"
 
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:layout_marginTop="2dp"
                 android:orientation="horizontal">
 
@@ -184,7 +188,8 @@
             <TableRow
                 android:layout_width="match_parent"
 
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:layout_marginTop="2dp"
                 android:orientation="horizontal">
 
@@ -220,13 +225,14 @@
             <TableRow
                 android:layout_width="match_parent"
 
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:layout_marginTop="2dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/txtLabelArrival"
-                    android:layout_width="178dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="serif"
@@ -257,7 +263,8 @@
             <TableRow
                 android:layout_width="match_parent"
 
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:layout_marginTop="2dp"
                 android:orientation="horizontal">
 
@@ -295,7 +302,8 @@
             <TableRow
                 android:layout_width="match_parent"
 
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:layout_marginTop="2dp"
                 android:orientation="horizontal">
 
@@ -330,7 +338,8 @@
             <TableRow
                 android:layout_width="match_parent"
 
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:layout_marginTop="2dp"
                 android:orientation="horizontal">
 
@@ -369,7 +378,8 @@
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="0dp"
+                android:layout_weight="1">
 
                 <TextView
                     android:id="@+id/txtLabelRating"
@@ -410,14 +420,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_margin="0dp"
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="212dp"
-            android:layout_margin="0dp">
+            android:layout_height="wrap_content">
 
             <Button
                 android:id="@+id/btnSignUpOrUnregister"
@@ -471,11 +481,11 @@
                 android:id="@+id/flightIata"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
                 android:layout_alignBottom="@id/btnFlight"
                 android:layout_alignParentRight="true"
                 android:layout_toRightOf="@id/btnFlight"
                 android:ems="10"
-
                 android:inputType="textPersonName"
                 android:textSize="11dp" />
 
@@ -494,13 +504,21 @@
 
             <Button
                 android:id="@+id/btnViewMules"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_below="@id/btnCancelRequest"
+<<<<<<< HEAD
                 android:layout_centerHorizontal="true"
                 android:onClick="showAlertDialogButtonClicked"
                 android:text="View Mules" />
+=======
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="View Mules"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:textSize="11dp"/>
+>>>>>>> 383cafb6768806647ee83dd1f847273a42cfab9a
 
 
         </RelativeLayout>

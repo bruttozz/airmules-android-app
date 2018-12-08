@@ -236,7 +236,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:textAppearance="@android:style/TextAppearance.Material.Large" />
+                        android:hint="click to choose a date" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -311,7 +311,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:textAppearance="@android:style/TextAppearance.Material.Large" />
+                        android:hint="click to choose a date"
+                         />
                 </LinearLayout>
 
             </LinearLayout>

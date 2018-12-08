@@ -74,6 +74,8 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private String arrive;
     private UserClass mule;
     private String otherUser;
+    private String uid;
+    private float currentRating, numRatings;
 
     private RatingBar muleRating;
     private DatabaseReference mDatabase;
@@ -165,7 +167,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Request req = dataSnapshot.getValue(Request.class);
-                ;
 
                 if (req == null || req.getTransactionID() == null) {
                     RequestDetailActivity.this.finish();
@@ -178,8 +179,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
                     RequestDetailActivity.this.finish();
                     return;
                 }
-
-                otherUser = req.getMule();
 
                 setTextAndButton(req);
                 addButtonFunctions(req);
@@ -222,7 +221,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
         builder.setPositiveButton("Select Mule", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(RequestDetailActivity.this, viewMulesDialogRecycler.getFocusedChild().getId(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(RequestDetailActivity.this, viewMulesDialogRecycler.getFocusedChild().getId(), Toast.LENGTH_LONG).show();
 
 //                TextView testset = ViewMulesDialog.findViewById(R.id.myCUstomTestText);
 //                Toast.makeText(RequestDetailActivity.this, testset.getText().toString(), Toast.LENGTH_LONG).show();
@@ -324,7 +323,20 @@ public class RequestDetailActivity extends BaseMenuActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                removeThisRequestFromDatabase();
+                new AlertDialog.Builder(RequestDetailActivity.this)
+                        .setMessage("Are you sure you want to cancel this request?")
+                        .setCancelable(true)
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.dismiss();
+                                removeThisRequestFromDatabase();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            } })
+                        .show();
             }
         });
 
@@ -359,6 +371,12 @@ public class RequestDetailActivity extends BaseMenuActivity {
                     inAppMoney = inAppMoney + myReq.getReward();
                     mDatabase.child("users").child(myReq.getMule()).child("money").setValue(inAppMoney);
 
+                    uid = myReq.getMule();
+                    otherUser = user.getName();
+                    currentRating = user.getRating();
+                    numRatings = user.getNumRatings();
+                    mDatabase.child("users").child(myReq.getMule()).child("money").setValue(inAppMoney);
+                    showRatingDialog(otherUser);
                     //TODO notify the mule of payment
                 }
 
@@ -372,7 +390,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
             //complete the transaction
             mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.COMPLETE);
-            showDialog(otherUser);
         } else {
             Intent payIntent = new Intent(this, PaymentActivity.class);
             payIntent.putExtra("transactionID", transactionID);
@@ -380,13 +397,20 @@ public class RequestDetailActivity extends BaseMenuActivity {
         }
     }
 
-    void showDialog(String otherUser) {
+    void showRatingDialog(String otherUser) {
         // Create the fragment and show it as a dialog.
         Bundle bundle = new Bundle();
         bundle.putString("otherUser", otherUser);
         DialogFragment newFragment = new RatingFragment();
         newFragment.setArguments(bundle);
         newFragment.show(getFragmentManager(), "ratings");
+    }
+
+    void updateRating(float newRating){
+        float rating = (currentRating+newRating)/((numRatings+1));
+        mDatabase.child("users").child(uid).child("rating").setValue(rating);
+        mDatabase.child("users").child(uid).child("numRatings").setValue(numRatings+1);
+        Toast.makeText(this, "Rated "+Float.toString(rating), Toast.LENGTH_SHORT).show();
     }
 
     private void removeThisRequestFromDatabase() {
@@ -401,6 +425,8 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private void signUpOrUnregisterForMuleToThisRequest(final Request myReq) {
         if (btnSignUpOrUnregister.getText().toString().equals("unregister")) {
             try {
+                String key = transactionID + mFirebaseAuth.getCurrentUser().getUid();
+                mDatabase.child("potentialMules").child(key).removeValue();
                 mDatabase.child(REQUESTS).child(transactionID).child(MULE).removeValue();
                 if (myReq.getStatus().equals(Request.PAID)) {
                     //refund payment
@@ -438,9 +464,16 @@ public class RequestDetailActivity extends BaseMenuActivity {
                 Toast.makeText(this, "Sorry, someone already signed up", Toast.LENGTH_SHORT).show();
 
             } else {
+                //TODO remove this
                 mDatabase.child(REQUESTS).child(transactionID).child(MULE).setValue
                         (mFirebaseAuth.getCurrentUser().getUid().toString());
                 mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.NO_PAYMENT);
+
+                //TODO keep this and move the set status of no payment when customer selects mule
+                String key = transactionID + mFirebaseAuth.getCurrentUser().getUid();
+                mDatabase.child("potentialMules").child(key)
+                        .setValue(new PotentialMule(transactionID, mFirebaseAuth.getCurrentUser().getUid()));
+
                 Toast.makeText(this, "Successfully signed up!", Toast.LENGTH_SHORT).show();
             }
         }

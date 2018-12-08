@@ -1,7 +1,5 @@
 package com.example.asthana.airmuleschat;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,7 +14,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Context;
-import android.os.Handler;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -40,8 +37,6 @@ import com.payelves.sdk.listener.QueryOrderListener;
 
 import java.util.UUID;
 
-import org.w3c.dom.Text;
-
 
 public class UserProfileActivity extends BaseMenuActivity {
     // User Profile main page
@@ -63,11 +58,6 @@ public class UserProfileActivity extends BaseMenuActivity {
     private String userID;
     private static final String USERS = "users";
     private static final String MONEY = "money";
-
-    String openId = "tZmNIobZL";
-    String token = "77cd7a5ef528400aac865e2a001a6432";
-    String appId = "6623341290717185";
-    String channel = "xiaomi";
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri mImageUri;
@@ -94,19 +84,15 @@ public class UserProfileActivity extends BaseMenuActivity {
                 openFileChooser();
             }
         });
+
         userDisplayName = (TextView) findViewById(R.id.txtViewUserName);
         txtViewMoneyLeft = (TextView) findViewById(R.id.txtViewMoneyLeft);
         txtViewRatingAsMule = (TextView) findViewById(R.id.txtViewRateAsMule);
-        // todo display rating number according to database
-
         txtViewRatingAsCustimer = (TextView) findViewById(R.id.txtViewRateAsCustomer);
-        // todo display rating number according to database
-
-
         ratingAsMule = (RatingBar) findViewById(R.id.ratingBarAsMule);
-        // todo set up the stars according to rating as mule stored database
         ratingAsCustomer = (RatingBar) findViewById(R.id.ratingBarAsCustomer);
-        // todo set up the start according to rating as customer database
+        btnAddMoney = (Button) findViewById(R.id.btnAddMoney);
+        btnWithdrawMoney = (Button) findViewById(R.id.btnWithdrawMoney);
 
         DatabaseReference ref = mDatabase.child(USERS).child(mFirebaseAuth.getCurrentUser().getUid()).getRef();
         ref.addValueEventListener(new ValueEventListener() {
@@ -128,95 +114,20 @@ public class UserProfileActivity extends BaseMenuActivity {
 
         userDisplayName.setText(mFirebaseAuth.getCurrentUser().getDisplayName().toString());
 
-        //init Epay
-        EPay.getInstance(UserProfileActivity.this).init(openId, token, appId, channel);
-
-        //Config key
-        EPay.getInstance(getApplicationContext()).loadConfig("KEY1", new ConfigResultListener() {
-            @Override
-            public void onSuccess(String value) {
-                Log.e("e", value);
-            }
-        });
-
-
-
-        btnAddMoney = (Button) findViewById(R.id.btnAddMoney);
-        btnWithdrawMoney = (Button) findViewById(R.id.btnWithdrawMoney);
-
         btnAddMoney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                String subject = "Airmules";
-                String body = "In APP Payment";
-                String orderId = UUID.randomUUID().toString().replace("-", "");
-                String payUserId = orderId;
-                String backPara = "";
-
-                EPay.getInstance(UserProfileActivity.this).pay(subject, body, 1, orderId, payUserId, backPara, new PayResultListener() {
-                    @Override
-                    public void onFinish(Context context, Long payId, String orderId, String payUserId, EPayResult payResult, int payType, Integer amount) {
-                        EPay.getInstance(context).closePayView();
-                        if (payResult.getCode() == EPayResult.SUCCESS_CODE.getCode()) {
-                            Toast.makeText(UserProfileActivity.this, "Payment Success", Toast.LENGTH_SHORT).show();
-                            //Check the payment result
-                            EPay.getInstance(context).queryOrder(payId, new QueryOrderListener() {
-                                @Override
-                                public void onFinish(boolean isSuccess, String msg, QueryOrderModel model) {
-                                    if (isSuccess) {
-                                        Toast.makeText(UserProfileActivity.this, "Payment Success", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Toast.makeText(UserProfileActivity.this, "Payment Failed", Toast.LENGTH_SHORT).show();
-                                    }
-
-                                }
-                            });
-//                            topupSuccess();
-                            Toast.makeText(UserProfileActivity.this, "Payment Success", Toast.LENGTH_SHORT).show();
-                        } else if (payResult.getCode() == EPayResult.FAIL_CODE.getCode()) {
-
-                            Toast.makeText(UserProfileActivity.this, "Payment Failed", Toast.LENGTH_SHORT).show(); //payResult.getMsg()
-                            topupSuccess();
-
-                        }
-                    }
-
-                });
-
+                startActivity(new Intent(UserProfileActivity.this, Deposit.class));
             }
         });
 
         btnWithdrawMoney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // todo withdraw money from account
-//                Toast.makeText(getBaseContext(), "0.0 has been withdrawn from your account", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(UserProfileActivity.this, Deposit.class));
+                startActivity(new Intent(UserProfileActivity.this, Withdraw.class));
             }
         });
 
-
-
-    }
-
-    private void topupSuccess() {
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference ref = mDatabase.child(USERS).child(mFirebaseAuth.getCurrentUser().getUid()).getRef();
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                UserClass user = dataSnapshot.getValue(UserClass.class);
-                float inAppMoney = user.getMoney();
-                inAppMoney = inAppMoney + 100;
-                mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).child("money").setValue(inAppMoney);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w("Error", databaseError.toString());
-            }
-        });
     }
 
     @Override

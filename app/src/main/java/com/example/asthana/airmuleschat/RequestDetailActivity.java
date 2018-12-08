@@ -64,6 +64,8 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private String arrive;
     private UserClass mule;
     private String otherUser;
+    private String uid;
+    private float currentRating, numRatings;
 
     private RatingBar muleRating;
     private DatabaseReference mDatabase;
@@ -142,7 +144,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Request req = dataSnapshot.getValue(Request.class);
-;
 
                 if (req == null || req.getTransactionID() == null) {
                     RequestDetailActivity.this.finish();
@@ -155,8 +156,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
                     RequestDetailActivity.this.finish();
                     return;
                 }
-
-                otherUser = req.getMule();
 
                 setTextAndButton(req);
                 addButtonFunctions(req);
@@ -309,6 +308,12 @@ public class RequestDetailActivity extends BaseMenuActivity {
                     inAppMoney = inAppMoney + myReq.getReward();
                     mDatabase.child("users").child(myReq.getMule()).child("money").setValue(inAppMoney);
 
+                    uid = myReq.getMule();
+                    otherUser = user.getName();
+                    currentRating = user.getRating();
+                    numRatings = user.getNumRatings();
+                    mDatabase.child("users").child(myReq.getMule()).child("money").setValue(inAppMoney);
+                    showRatingDialog(otherUser);
                     //TODO notify the mule of payment
                 }
 
@@ -322,7 +327,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
             //complete the transaction
             mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.COMPLETE);
-            showDialog(otherUser);
         } else {
             Intent payIntent = new Intent(this, PaymentActivity.class);
             payIntent.putExtra("transactionID", transactionID);
@@ -330,13 +334,20 @@ public class RequestDetailActivity extends BaseMenuActivity {
         }
     }
 
-    void showDialog(String otherUser) {
+    void showRatingDialog(String otherUser) {
         // Create the fragment and show it as a dialog.
         Bundle bundle = new Bundle();
         bundle.putString("otherUser", otherUser);
         DialogFragment newFragment = new RatingFragment();
         newFragment.setArguments(bundle);
         newFragment.show(getFragmentManager(), "ratings");
+    }
+
+    void updateRating(float newRating){
+        float rating = (currentRating+newRating)/((numRatings+1));
+        mDatabase.child("users").child(uid).child("rating").setValue(rating);
+        mDatabase.child("users").child(uid).child("numRatings").setValue(numRatings+1);
+        Toast.makeText(this, "Rated "+Float.toString(rating), Toast.LENGTH_SHORT).show();
     }
 
     private void removeThisRequestFromDatabase() {

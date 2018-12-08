@@ -1,5 +1,7 @@
 package com.example.asthana.airmuleschat;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -170,12 +172,12 @@ public class UserProfileActivity extends BaseMenuActivity {
 
                                 }
                             });
-                            topupSuccess();
+//                            topupSuccess();
                             Toast.makeText(UserProfileActivity.this, "Payment Success", Toast.LENGTH_SHORT).show();
                         } else if (payResult.getCode() == EPayResult.FAIL_CODE.getCode()) {
 
                             Toast.makeText(UserProfileActivity.this, "Payment Failed", Toast.LENGTH_SHORT).show(); //payResult.getMsg()
-//                            topupSuccess();
+                            topupSuccess();
 
                         }
                     }
@@ -189,7 +191,8 @@ public class UserProfileActivity extends BaseMenuActivity {
             @Override
             public void onClick(View view) {
                 // todo withdraw money from account
-                Toast.makeText(getBaseContext(), "0.0 has been withdrawn from your account", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getBaseContext(), "0.0 has been withdrawn from your account", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(UserProfileActivity.this, Deposit.class));
             }
         });
 
@@ -200,13 +203,13 @@ public class UserProfileActivity extends BaseMenuActivity {
     private void topupSuccess() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         DatabaseReference ref = mDatabase.child(USERS).child(mFirebaseAuth.getCurrentUser().getUid()).getRef();
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                UserClass me = dataSnapshot.getValue(UserClass.class);
-                float myFunds = me.getMoney() + 100;
-                txtViewMoneyLeft.setText(PaymentActivity.convertToMoneyFormatString(myFunds));
-                mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).child("money").setValue(myFunds);
+                UserClass user = dataSnapshot.getValue(UserClass.class);
+                float inAppMoney = user.getMoney();
+                inAppMoney = inAppMoney + 100;
+                mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).child("money").setValue(inAppMoney);
             }
 
             @Override

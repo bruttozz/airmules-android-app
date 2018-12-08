@@ -1,5 +1,7 @@
 package com.example.asthana.airmuleschat;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -46,22 +48,10 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private Button btnSignUpOrUnregister;
     private Button btnFlight;
     private Button btnPayOrConfirm;
+    private Button btnViewMules;
     private String transactionID;
     private String chatID;
     private static final String REQUESTS = "requests";
-    private static final String DEPARTURE = "departure";
-    private static final String ARRIVAL = "arrival";
-    private static final String CITY = "city";
-    private static final String COUNTRY = "country";
-    private static final String DATE = "date";
-    private static final String ITEMDATA = "itemData";
-    private static final String ITEMNAME = "name";
-    private static final String REWARD = "reward";
-    private static final String LENGTH = "length";
-    private static final String WEIGHT = "weight";
-    private static final String HEIGHT = "height";
-    private static final String WIDTH = "width";
-    private static final String CUSTOMER = "customer";
     private static final String MULE = "mule";
     private static final String STATUS = "status";
     static final String API_URL = "https://aviation-edge.com/v2/public/flights?key=782cbd-deb8af&flightIata=";
@@ -98,6 +88,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
         muleRating = (RatingBar) findViewById(R.id.muleRating);
 
         btnChat = (Button) findViewById(R.id.btnChat);
+
         btnChat.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -107,6 +98,18 @@ public class RequestDetailActivity extends BaseMenuActivity {
             }
         });
 
+        btnViewMules = (Button) findViewById(R.id.btnViewMules);
+        btnViewMules.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                final AlertDialog dialog = new AlertDialog.Builder(RequestDetailActivity.this)
+                        .setTitle("Available Mules")
+                        .setView(R.layout.dialog_mules)
+                        .create();
+                dialog.show();
+                ((TextView)dialog.findViewById(R.id.dialogTxtMuleName)).setText("Food bar");
+                ((RatingBar)dialog.findViewById(R.id.dialogMuleRating)).setRating(3);
+            }
+        });
         btnCancel = (Button) findViewById(R.id.btnCancelRequest);
         btnSignUpOrUnregister = (Button) findViewById(R.id.btnSignUpOrUnregister);
         btnPayOrConfirm = (Button) findViewById(R.id.btnPayOrConfirm);

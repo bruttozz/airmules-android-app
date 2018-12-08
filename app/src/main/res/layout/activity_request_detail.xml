@@ -3,17 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bgi7"
     android:orientation="vertical"
-    tools:context=".RequestDetailActivity"
-    android:background="@drawable/bgi7">
+    tools:context=".RequestDetailActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="0dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="0dp"
+        android:layout_marginTop="10dp"
         android:alpha="0.85"
         android:background="@color/white"
         android:orientation="vertical">
@@ -24,10 +24,10 @@
             android:layout_margin="10dp">
 
             <TableRow
-                android:layout_marginTop="2dp"
-
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -41,10 +41,10 @@
             </TableRow>
 
             <TableRow
-                android:layout_marginTop="2dp"
-
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -77,10 +77,10 @@
 
 
             <TableRow
-                android:layout_marginTop="2dp"
-
                 android:layout_width="match_parent"
+
                 android:layout_height="match_parent"
+                android:layout_marginTop="2dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -112,10 +112,10 @@
             </TableRow>
 
             <TableRow
-                android:layout_marginTop="2dp"
-
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -147,10 +147,10 @@
             </TableRow>
 
             <TableRow
-                android:layout_marginTop="2dp"
-
                 android:layout_width="match_parent"
+
                 android:layout_height="match_parent"
+                android:layout_marginTop="2dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -182,10 +182,10 @@
             </TableRow>
 
             <TableRow
-                android:layout_marginTop="2dp"
-
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -218,10 +218,10 @@
             </TableRow>
 
             <TableRow
-                android:layout_marginTop="2dp"
-
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -255,10 +255,10 @@
             </TableRow>
 
             <TableRow
-                android:layout_marginTop="2dp"
-
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -293,10 +293,10 @@
             </TableRow>
 
             <TableRow
-                android:layout_marginTop="2dp"
-
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -328,10 +328,10 @@
             </TableRow>
 
             <TableRow
-                android:layout_marginTop="2dp"
-
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -408,94 +408,102 @@
 
     </LinearLayout>
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_margin="0dp">
-    <RelativeLayout
-        android:layout_margin="0dp"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <Button
-            android:id="@+id/btnSignUpOrUnregister"
-            android:text="sign up"
-            android:textSize="11dp"
+        android:layout_height="match_parent"
+        android:layout_margin="0dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:minHeight="0dp"
-            android:minWidth="0dp"/>
-        <Button
-            android:id="@+id/btnPayOrConfirm"
-            android:text="@string/txtPay"
-            android:textSize="11dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/btnSignUpOrUnregister"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:minHeight="0dp"
-            android:minWidth="0dp"
-            />
+            android:layout_height="212dp"
+            android:layout_margin="0dp">
 
-        <Button
-            android:id="@+id/btnChat"
-            android:text="@string/txtChat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/btnPayOrConfirm"
-            android:layout_marginLeft="10dp"
-            android:textSize="11dp"
-            android:layout_marginRight="10dp"
-            android:backgroundTint="@color/steel_blue"
-            android:minHeight="0dp"
-            android:minWidth="0dp"/>
-        <Button
-            android:id="@+id/btnFlight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textSize="11dp"
-            android:layout_below="@id/btnChat"
-            android:text="Flight"
-            android:backgroundTint="@color/cadet_blue"
-            android:minHeight="0dp"
-            android:minWidth="0dp"
-            />
-        <EditText
-            android:id="@+id/flightIata"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/btnFlight"
-            android:layout_alignParentRight="true"
-            android:layout_alignBottom="@id/btnFlight"
-            android:textSize="11dp"
+            <Button
+                android:id="@+id/btnSignUpOrUnregister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:text="sign up"
+                android:textSize="11dp" />
 
-            android:ems="10"
-            android:inputType="textPersonName"/>
-        <Button
-            android:id="@+id/btnCancelRequest"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="Cancel"
-            android:minHeight="0dp"
-            android:minWidth="0dp"
-            android:textSize="11dp"
-            android:backgroundTint="@color/light_slate_gray"
-            android:layout_below="@id/btnFlight"
-            />
-    </RelativeLayout>
-</LinearLayout>
+            <Button
+                android:id="@+id/btnPayOrConfirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btnSignUpOrUnregister"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:text="@string/txtPay"
+                android:textSize="11dp" />
+
+            <Button
+                android:id="@+id/btnChat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btnPayOrConfirm"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:backgroundTint="@color/steel_blue"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:text="@string/txtChat"
+                android:textSize="11dp" />
+
+            <Button
+                android:id="@+id/btnFlight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btnChat"
+                android:layout_marginLeft="10dp"
+                android:backgroundTint="@color/cadet_blue"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:text="Flight"
+                android:textSize="11dp" />
+
+            <EditText
+                android:id="@+id/flightIata"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/btnFlight"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@id/btnFlight"
+                android:ems="10"
+
+                android:inputType="textPersonName"
+                android:textSize="11dp" />
+
+            <Button
+                android:id="@+id/btnCancelRequest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btnFlight"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:backgroundTint="@color/light_slate_gray"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:text="Cancel"
+                android:textSize="11dp" />
+
+            <Button
+                android:id="@+id/btnViewMules"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@id/btnCancelRequest"
+                android:layout_centerHorizontal="true"
+                android:text="View Mules" />
 
 
-
-
-
-
+        </RelativeLayout>
+    </LinearLayout>
 
 
 </LinearLayout>

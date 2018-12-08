@@ -1,45 +1,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    style="@style/AlertDialog.AppCompat.Light">
+    style="@style/AlertDialog.AppCompat.Light"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <android.support.v7.widget.LinearLayoutCompat
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/viewMulesDialogRecycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/dialogTxtMuleName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:fontFamily="serif"
-            android:text="@string/rating"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/dialogTxtLabelRatingColon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1.9"
-            android:fontFamily="serif"
-            android:text="@string/colon"
-            android:textSize="16sp" />
-
-        <RatingBar
-            android:id="@+id/dialogMuleRating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:isIndicator="true"
-            android:rating="0"
-            android:scaleX="0.6"
-            android:scaleY="0.6"
-            android:theme="@style/RatingBar"
-            android:transformPivotX="10dp"
-            android:transformPivotY="20dp" />
-    </android.support.v7.widget.LinearLayoutCompat>
-
+        android:layout_height="match_parent" />
 </LinearLayout>

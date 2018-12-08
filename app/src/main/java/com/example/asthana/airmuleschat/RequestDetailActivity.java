@@ -3,10 +3,17 @@ package com.example.asthana.airmuleschat;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,6 +37,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 public class RequestDetailActivity extends BaseMenuActivity {
     private TextView txtStatus;
@@ -51,7 +63,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private Button btnPayOrConfirm;
     private Button btnViewMules;
     private String transactionID;
-    private String chatID;
     private static final String REQUESTS = "requests";
     private static final String MULE = "mule";
     private static final String STATUS = "status";
@@ -101,17 +112,30 @@ public class RequestDetailActivity extends BaseMenuActivity {
         });
 
         btnViewMules = (Button) findViewById(R.id.btnViewMules);
-        btnViewMules.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                final AlertDialog dialog = new AlertDialog.Builder(RequestDetailActivity.this)
-                        .setTitle("Available Mules")
-                        .setView(R.layout.dialog_mules)
-                        .create();
-                dialog.show();
-                ((TextView)dialog.findViewById(R.id.dialogTxtMuleName)).setText("Food bar");
-                ((RatingBar)dialog.findViewById(R.id.dialogMuleRating)).setRating(3);
-            }
-        });
+//        btnViewMules.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//
+//                FragmentTransaction ft = getFragmentManager().beginTransaction();
+//                Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+//                if (prev != null) {
+//                    ft.remove(prev);
+//                }
+//                ft.addToBackStack(null);
+//
+//                DialogFragment dialogFragment = new ViewMulesDialogFragment();
+//                dialogFragment.show(ft, "dialog");
+////                LayoutInflater inflater = RequestDetailActivity.this.getLayoutInflater();
+////                dialog = new AlertDialog.Builder(RequestDetailActivity.this);
+////                dialog.setTitle("Available Mules");
+////                dialog.setView(inflater.inflate(R.layout.dialog_mules, null));
+////                dialog.create();
+////                dialog.show();
+////
+////                ((TextView) dialog.findViewById(R.id.dialogTxtMuleName)).setText("Food bar");
+////                ((RatingBar) dialog.findViewById(R.id.dialogMuleRating)).setRating(3);
+//            }
+//        });
+
         btnCancel = (Button) findViewById(R.id.btnCancelRequest);
         btnSignUpOrUnregister = (Button) findViewById(R.id.btnSignUpOrUnregister);
         btnPayOrConfirm = (Button) findViewById(R.id.btnPayOrConfirm);
@@ -141,7 +165,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Request req = dataSnapshot.getValue(Request.class);
-;
+                ;
 
                 if (req == null || req.getTransactionID() == null) {
                     RequestDetailActivity.this.finish();
@@ -167,6 +191,49 @@ public class RequestDetailActivity extends BaseMenuActivity {
             }
         });
 
+    }
+
+    public void showAlertDialogButtonClicked(View view) {
+
+        // create an alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Available Mules");
+
+        // set the custom layout
+        final View ViewMulesDialog = getLayoutInflater().inflate(R.layout.dialog_mules, null);
+        builder.setView(ViewMulesDialog);
+
+
+        RecyclerView viewMulesDialogRecycler = (RecyclerView) ViewMulesDialog.findViewById(R.id.viewMulesDialogRecycler);
+
+        // Initialize contacts
+        List<UserClass> mules = new ArrayList<UserClass>();
+        mules.add(new UserClass("food", 5, 5, 0));
+        mules.add(new UserClass("Bar", 5, 2, 0));
+
+        // Create adapter passing in the sample user data
+        MulesRecyclerAdapter adapter = new MulesRecyclerAdapter(mules);
+        // Attach the adapter to the recyclerview to populate items
+        viewMulesDialogRecycler.setAdapter(adapter);
+        // Set layout manager to position the items
+        viewMulesDialogRecycler.setLayoutManager(new LinearLayoutManager(RequestDetailActivity.this));
+
+        // add a button
+        builder.setPositiveButton("Select Mule", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(RequestDetailActivity.this, viewMulesDialogRecycler.getFocusedChild().getId(), Toast.LENGTH_LONG).show();
+
+//                TextView testset = ViewMulesDialog.findViewById(R.id.myCUstomTestText);
+//                Toast.makeText(RequestDetailActivity.this, testset.getText().toString(), Toast.LENGTH_LONG).show();
+//                sendDialogDataToActivity(editText.getText().toString());
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void setTextAndButton(Request myReq) {
@@ -234,8 +301,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
         if (status.equals(Request.PAID) || status.equals(Request.COMPLETE)) {
             btnPayOrConfirm.setText("CONFIRM");
-        }
-        else{
+        } else {
             btnPayOrConfirm.setText("PAY");
         }
         if (status.equals(Request.NO_MULE) || status.equals(Request.COMPLETE)) {
@@ -252,8 +318,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
         if (status.equals(Request.PAID) || status.equals(Request.COMPLETE)) {
             btnCancel.setEnabled(false);
-        }
-        else{
+        } else {
             btnCancel.setEnabled(true);
         }
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -265,8 +330,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
         if (status.equals(Request.COMPLETE)) {
             btnSignUpOrUnregister.setEnabled(false);
-        }
-        else{
+        } else {
             btnSignUpOrUnregister.setEnabled(true);
         }
         btnSignUpOrUnregister.setOnClickListener(new View.OnClickListener() {
@@ -457,7 +521,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
             try {
                 //formats the URL containing the API key to add in the flight number (IATA)
                 //UNCOMMENT HERE WHEN TESTING API
-                URL url = new URL(API_URL+flight);
+                URL url = new URL(API_URL + flight);
                 //open the connection
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 try {
@@ -489,7 +553,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
             }
             //progressBar.setVisibility(View.GONE);
             Log.i("INFO", response);
-            String formatted_response = response.substring(1,response.length()-1);
+            String formatted_response = response.substring(1, response.length() - 1);
             parseRealTime(formatted_response);
             Intent myIntent = new Intent(RequestDetailActivity.this, MapsActivity.class);
             myIntent.putExtra("Flightnum", flight);

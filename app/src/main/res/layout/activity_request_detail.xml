@@ -499,6 +499,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_below="@id/btnCancelRequest"
                 android:layout_centerHorizontal="true"
+                android:onClick="showAlertDialogButtonClicked"
                 android:text="View Mules" />
 
 

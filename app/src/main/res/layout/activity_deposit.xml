@@ -20,12 +20,13 @@
 
         <TextView
             android:id="@+id/textView1"
-            android:layout_width="wrap_content"
+            android:layout_width="131dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/cb_dark_grey"
+            android:layout_marginTop="50dp"
+            android:gravity="center"
             android:text="Balance:  "
-            android:textSize="25sp"
-            android:layout_marginTop="50dp"/>
+            android:textColor="@color/cb_dark_grey"
+            android:textSize="25sp" />
 
         <TextView
             android:id="@+id/textView2"
@@ -39,13 +40,13 @@
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="150dp"
-            android:layout_height="33dp"
-            android:gravity="center"
+            android:layout_width="161dp"
+            android:layout_height="32dp"
             android:layout_below="@+id/textView1"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="36dp"
             android:layout_marginBottom="20dp"
-            android:text="Choose your account:"/>
+            android:gravity="center"
+            android:text="Choose your account:" />
 
         <Spinner
             android:id="@+id/choice"
@@ -54,25 +55,41 @@
             android:layout_toRightOf="@+id/textView3"
             android:layout_alignTop="@+id/textView3"/>
 
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="150dp"
+            android:layout_height="33dp"
+            android:layout_below="@+id/textView3"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:text="Enter your account:" />
+
         <EditText
             android:id="@+id/account_info"
             android:layout_width="200dp"
             android:layout_height="40dp"
             android:layout_below="@+id/textView3"
-            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/textView6"
+            android:layout_alignTop="@+id/textView6"
+            android:layout_marginTop="0dp"
             android:layout_marginBottom="20dp"
             android:gravity="left" />
 
 
         <TextView
             android:id="@+id/textView5"
-            android:layout_width="70dp"
-            android:layout_height="40dp"
+            android:layout_width="87dp"
+            android:layout_height="38dp"
             android:layout_below="@+id/account_info"
-            android:layout_marginTop="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="45dp"
             android:layout_marginBottom="20dp"
-            android:text="Account:"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:text="Amount:" />
 
         <EditText
             android:id="@+id/amount_input"
@@ -80,6 +97,7 @@
             android:layout_height="40dp"
             android:layout_alignTop="@+id/textView5"
             android:layout_toRightOf="@+id/textView5"
+            android:inputType="number"
             android:gravity="center" />
 
 
@@ -97,7 +115,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="400dp"
             android:layout_marginLeft="0dp"
-            android:text="3PartyPay" />
+            android:text="WeChat/Alipay" />
     </RelativeLayout>
 
 

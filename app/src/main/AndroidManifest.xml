@@ -17,7 +17,7 @@
             android:exported="true" />
         <activity android:name=".wxapi.WeChatLoginActivity" />
         <!-- activity android:name=".SignInActivity" / -->
-        <activity android:name=".SignInActivity"></activity>
+        <activity android:name=".SignInActivity" />
         <activity android:name=".LauncherActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -69,7 +69,8 @@
         </receiver>
 
         <activity android:name=".GeographicalPreferences" />
-        <activity android:name=".Withdraw"></activity>
+        <activity android:name=".Withdraw" />
+        <activity android:name=".Deposit"></activity>
     </application>
 
 </manifest>

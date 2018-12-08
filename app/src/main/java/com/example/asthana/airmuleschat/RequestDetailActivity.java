@@ -114,29 +114,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
         });
 
         btnViewMules = (Button) findViewById(R.id.btnViewMules);
-//        btnViewMules.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//
-//                FragmentTransaction ft = getFragmentManager().beginTransaction();
-//                Fragment prev = getFragmentManager().findFragmentByTag("dialog");
-//                if (prev != null) {
-//                    ft.remove(prev);
-//                }
-//                ft.addToBackStack(null);
-//
-//                DialogFragment dialogFragment = new ViewMulesDialogFragment();
-//                dialogFragment.show(ft, "dialog");
-////                LayoutInflater inflater = RequestDetailActivity.this.getLayoutInflater();
-////                dialog = new AlertDialog.Builder(RequestDetailActivity.this);
-////                dialog.setTitle("Available Mules");
-////                dialog.setView(inflater.inflate(R.layout.dialog_mules, null));
-////                dialog.create();
-////                dialog.show();
-////
-////                ((TextView) dialog.findViewById(R.id.dialogTxtMuleName)).setText("Food bar");
-////                ((RatingBar) dialog.findViewById(R.id.dialogMuleRating)).setRating(3);
-//            }
-//        });
 
         btnCancel = (Button) findViewById(R.id.btnCancelRequest);
         btnSignUpOrUnregister = (Button) findViewById(R.id.btnSignUpOrUnregister);

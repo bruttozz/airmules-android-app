@@ -167,7 +167,7 @@ public class Deposit extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserClass user = dataSnapshot.getValue(UserClass.class);
                 float inAppMoney = user.getMoney();
-                inAppMoney = inAppMoney + 100;
+                inAppMoney = inAppMoney + 1;
                 mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).child("money").setValue(inAppMoney);
             }
 

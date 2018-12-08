@@ -17,7 +17,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_margin="10dp"
         android:orientation="vertical">
 
         <Button
@@ -58,7 +58,8 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/slate_gray"
             android:drawableLeft="@drawable/ic_art_track_black_24dp"
-            android:text="@string/txtSeeRequest" />
+            android:text="@string/txtSeeRequest"
+            android:layout_marginBottom="35dp"/>
 
     </LinearLayout>
 

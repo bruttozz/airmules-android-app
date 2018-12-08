@@ -1,22 +1,18 @@
 package com.example.asthana.airmuleschat;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -77,6 +73,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private String uid;
     private float currentRating, numRatings;
 
+    private RadioButton mCurrentlyCheckedRB;
     private RatingBar muleRating;
     private DatabaseReference mDatabase;
     private FirebaseAuth mFirebaseAuth;
@@ -88,10 +85,10 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
         transactionID = getIntent().getStringExtra("transactionID").toString();
 
-        txtStatus = (TextView) findViewById(R.id.txtStatus);
-        txtViewMule = (TextView) findViewById(R.id.txtViewMule);
-        txtViewDeparture = (TextView) findViewById(R.id.txtViewDeparture);
-        txtViewArrival = (TextView) findViewById(R.id.textViewArrival);
+        txtStatus = findViewById(R.id.txtStatus);
+        txtViewMule = findViewById(R.id.txtViewMule);
+        txtViewDeparture = findViewById(R.id.txtViewDeparture);
+        txtViewArrival = findViewById(R.id.textViewArrival);
         txtViewDepartureDate = (TextView) findViewById(R.id.textViewDepartureDate);
         txtViewArrivalDate = (TextView) findViewById(R.id.textViewArrivalDate);
         txtViewReward = (TextView) findViewById(R.id.txtViewReward);
@@ -179,26 +176,30 @@ public class RequestDetailActivity extends BaseMenuActivity {
         final View ViewMulesDialog = getLayoutInflater().inflate(R.layout.dialog_mules, null);
         builder.setView(ViewMulesDialog);
 
-
-        RecyclerView viewMulesDialogRecycler = (RecyclerView) ViewMulesDialog.findViewById(R.id.viewMulesDialogRecycler);
-
         // Initialize contacts
         List<UserClass> mules = new ArrayList<UserClass>();
         mules.add(new UserClass("food", 5, 5, 0));
         mules.add(new UserClass("Bar", 5, 2, 0));
+        mules.add(new UserClass("troll", 5, 1, 0));
+        mules.add(new UserClass("firer", 5, 3, 0));
 
-        // Create adapter passing in the sample user data
-        MulesRecyclerAdapter adapter = new MulesRecyclerAdapter(mules);
-        // Attach the adapter to the recyclerview to populate items
-        viewMulesDialogRecycler.setAdapter(adapter);
-        // Set layout manager to position the items
-        viewMulesDialogRecycler.setLayoutManager(new LinearLayoutManager(RequestDetailActivity.this));
+
+        final MulesRadioAdapter adapter = new MulesRadioAdapter(this, R.layout.dialog_mules, mules);
+        ListView listView = (ListView) ViewMulesDialog.findViewById(R.id.viewMulesDialogRecycler);
+        listView.setAdapter(adapter);
+        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                adapter.setSelectedIndex(position);  // set selected position and notify the adapter
+                adapter.notifyDataSetChanged();
+            }
+        });
 
         // add a button
         builder.setPositiveButton("Select Mule", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-//                Toast.makeText(RequestDetailActivity.this, viewMulesDialogRecycler.getFocusedChild().getId(), Toast.LENGTH_LONG).show();
 
 //                TextView testset = ViewMulesDialog.findViewById(R.id.myCUstomTestText);
 //                Toast.makeText(RequestDetailActivity.this, testset.getText().toString(), Toast.LENGTH_LONG).show();
@@ -312,7 +313,8 @@ public class RequestDetailActivity extends BaseMenuActivity {
                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
-                            } })
+                            }
+                        })
                         .show();
             }
         });
@@ -383,11 +385,11 @@ public class RequestDetailActivity extends BaseMenuActivity {
         newFragment.show(getFragmentManager(), "ratings");
     }
 
-    void updateRating(float newRating){
-        float rating = (currentRating+newRating)/((numRatings+1));
+    void updateRating(float newRating) {
+        float rating = (currentRating + newRating) / ((numRatings + 1));
         mDatabase.child("users").child(uid).child("rating").setValue(rating);
-        mDatabase.child("users").child(uid).child("numRatings").setValue(numRatings+1);
-        Toast.makeText(this, "Rated "+Float.toString(rating), Toast.LENGTH_SHORT).show();
+        mDatabase.child("users").child(uid).child("numRatings").setValue(numRatings + 1);
+        Toast.makeText(this, "Rated " + Float.toString(rating), Toast.LENGTH_SHORT).show();
     }
 
     private void removeThisRequestFromDatabase() {
@@ -511,7 +513,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
     }
 
     //Uses the HttpURLConnection and URL libraries to get the result of the request
-    //Uses input/output buffers to read in the results and paste it to the TextView
+//Uses input/output buffers to read in the results and paste it to the TextView
     class getFlightTask extends AsyncTask<Void, Void, String> {
 
         private Exception exception;
@@ -576,5 +578,4 @@ public class RequestDetailActivity extends BaseMenuActivity {
             //responseView.setText(response);
         }
     }
-
 }

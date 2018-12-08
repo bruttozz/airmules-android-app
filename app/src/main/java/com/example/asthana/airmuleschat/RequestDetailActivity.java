@@ -210,6 +210,55 @@ public class RequestDetailActivity extends BaseMenuActivity {
         // create and show the alert dialog
         AlertDialog dialog = builder.create();
         dialog.show();
+
+        getPotentialMules(adapter);
+    }
+    private void getPotentialMules(MulesRecyclerAdapter adapter){
+        DatabaseReference ref = mDatabase.child("potentialMules").getRef();
+        // Attach a listener to read the data at our posts reference
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<UserClass> mulesForReq = new ArrayList<UserClass>();
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    PotentialMule pMule = postSnapshot.getValue(PotentialMule.class);
+                    if (pMule == null || pMule.getRequestID() == null) {
+                        //mule unregistered?
+                        return;
+                    }
+
+                    if(RequestDetailActivity.this.transactionID.equals(pMule.getRequestID())){
+                        DatabaseReference ref2 = mDatabase.child("users").child(pMule.getMuleID()).getRef();
+                        ref2.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot2) {
+                                UserClass mule = dataSnapshot2.getValue(UserClass.class);
+                                if (mule == null) {
+                                    //user was deleted?
+                                    return;
+                                }
+
+                                synchronized (mulesForReq){
+                                    mulesForReq.add(mule);
+                                    adapter.updateData(mulesForReq);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                Log.e("Potential Mules", "Cannot connect to Firebase");
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("Potential Mules", "Cannot connect to Firebase");
+            }
+        });
     }
 
     private void setTextAndButton(Request myReq) {

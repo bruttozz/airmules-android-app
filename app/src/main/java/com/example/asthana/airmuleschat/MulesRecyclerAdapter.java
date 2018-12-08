@@ -81,4 +81,9 @@ public class MulesRecyclerAdapter extends
     public int getItemCount() {
         return availableMules.size();
     }
+
+    public void updateData(List<UserClass> availableMules){
+        this.availableMules = availableMules;
+        notifyDataSetChanged();
+    }
 }

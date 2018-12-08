@@ -35,6 +35,7 @@ import com.payelves.sdk.listener.ConfigResultListener;
 import com.payelves.sdk.listener.PayResultListener;
 import com.payelves.sdk.listener.QueryOrderListener;
 
+import java.text.DecimalFormat;
 import java.util.UUID;
 
 
@@ -51,7 +52,7 @@ public class UserProfileActivity extends BaseMenuActivity {
     private RatingBar ratingAsMule;
     private RatingBar ratingAsCustomer;
     private TextView txtViewRatingAsMule;
-    private TextView txtViewRatingAsCustimer;
+    private TextView txtViewRatingAsCustomer;
     private Button btnAddMoney;
     private Button btnWithdrawMoney;
 
@@ -88,7 +89,7 @@ public class UserProfileActivity extends BaseMenuActivity {
         userDisplayName = (TextView) findViewById(R.id.txtViewUserName);
         txtViewMoneyLeft = (TextView) findViewById(R.id.txtViewMoneyLeft);
         txtViewRatingAsMule = (TextView) findViewById(R.id.txtViewRateAsMule);
-        txtViewRatingAsCustimer = (TextView) findViewById(R.id.txtViewRateAsCustomer);
+        txtViewRatingAsCustomer = (TextView) findViewById(R.id.txtViewRateAsCustomer);
         ratingAsMule = (RatingBar) findViewById(R.id.ratingBarAsMule);
         ratingAsCustomer = (RatingBar) findViewById(R.id.ratingBarAsCustomer);
         btnAddMoney = (Button) findViewById(R.id.btnAddMoney);
@@ -101,6 +102,11 @@ public class UserProfileActivity extends BaseMenuActivity {
                 UserClass me = dataSnapshot.getValue(UserClass.class);
                 float myFunds = me.getMoney();
                 txtViewMoneyLeft.setText(PaymentActivity.convertToMoneyFormatString(myFunds));
+                float rateFloatAsMule = me.getRating();
+                ratingAsMule.setRating(rateFloatAsMule);
+                DecimalFormat df=new DecimalFormat("0.00");
+                String stringRateAsMule = df.format(rateFloatAsMule);
+                txtViewRatingAsMule.setText(stringRateAsMule);
             }
 
             @Override

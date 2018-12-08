@@ -202,7 +202,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
             public void onClick(DialogInterface dialog, int which) {
 
 //                TextView testset = ViewMulesDialog.findViewById(R.id.myCUstomTestText);
-//                Toast.makeText(RequestDetailActivity.this, testset.getText().toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(RequestDetailActivity.this, adapter.getSelectedItem(), Toast.LENGTH_LONG).show();
 //                sendDialogDataToActivity(editText.getText().toString());
             }
         });

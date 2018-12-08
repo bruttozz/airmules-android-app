@@ -17,8 +17,8 @@ import java.util.List;
 
 public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
 
-    int selectedIndex = -1;
-
+    private int selectedIndex = -1;
+    private String selectedUser;
     public MulesRadioAdapter(Context context, int activity_radio_button, List<UserClass> availableMules) {
         super(context, activity_radio_button, availableMules);
     }
@@ -27,6 +27,13 @@ public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
         selectedIndex = index;
     }
 
+    public String getSelectedItem()
+    {
+        if (selectedUser != null)
+            return selectedUser;
+        else
+            return "No selected user";
+    }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -56,9 +63,12 @@ public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
             TextView muleName = v.findViewById(R.id.dialogTxtMuleName);
             RatingBar muleRating =  v.findViewById(R.id.dialogMuleRating);
 
-
             muleName.setText(mule.getName());
             muleRating.setRating(mule.getRating());
+
+            if (rbSelect.isChecked()){
+                selectedUser = mule.getName();
+            }
         }
 
         return v;

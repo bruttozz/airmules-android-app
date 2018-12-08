@@ -35,7 +35,6 @@
 
         <activity android:name=".PersonalChat" />
         <activity android:name=".AllTransactionsActivity" />
-        <activity android:name=".FlightActivity" />
         <activity android:name=".PostTravelActivity" />
         <activity android:name=".PostRequestActivity" />
         <activity android:name=".UserProfileActivity" />

@@ -1,8 +1,6 @@
 package com.example.asthana.airmuleschat;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +12,11 @@ import android.widget.TextView;
 import java.util.List;
 
 
-
 public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
 
     private int selectedIndex = -1;
     private String selectedUser;
+
     public MulesRadioAdapter(Context context, int activity_radio_button, List<UserClass> availableMules) {
         super(context, activity_radio_button, availableMules);
     }
@@ -27,13 +25,13 @@ public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
         selectedIndex = index;
     }
 
-    public String getSelectedItem()
-    {
+    public String getSelectedItem() {
         if (selectedUser != null)
             return selectedUser;
         else
             return "No selected user";
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -52,7 +50,7 @@ public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
         rbSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectedIndex = (Integer)view.getTag();
+                selectedIndex = (Integer) view.getTag();
                 notifyDataSetChanged();
             }
         });
@@ -61,12 +59,12 @@ public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
 
         if (mule != null) {
             TextView muleName = v.findViewById(R.id.dialogTxtMuleName);
-            RatingBar muleRating =  v.findViewById(R.id.dialogMuleRating);
+            RatingBar muleRating = v.findViewById(R.id.dialogMuleRating);
 
             muleName.setText(mule.getName());
             muleRating.setRating(mule.getRating());
 
-            if (rbSelect.isChecked()){
+            if (rbSelect.isChecked()) {
                 selectedUser = mule.getName();
             }
         }

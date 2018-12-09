@@ -67,6 +67,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private UserClass mule;
     private String otherUser;
     private String uid;
+    private String flightNumber;
     private float currentRating, numRatings;
 
     private RadioButton mCurrentlyCheckedRB;
@@ -430,6 +431,65 @@ public class RequestDetailActivity extends BaseMenuActivity {
         if (status.equals(Request.COMPLETE)) {
             this.btnViewMules.setEnabled(false);
         }
+
+        if (status.equals(Request.NO_MULE) || status.equals(Request.COMPLETE)){
+            btnFlight.setEnabled(false);
+        }
+        else{
+            btnFlight.setEnabled(true);
+        }
+        if (mFirebaseAuth.getCurrentUser().getUid().equals(myReq.getMule())){
+            Log.i("Flight", mFirebaseAuth.getCurrentUser().getUid()+", "+myReq.getMule());
+            flightNum.setEnabled(true);
+        }
+        else{
+            flightNum.setEnabled(false);
+        }
+        btnFlight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setOrRequestFlight(myReq);
+            }
+        });
+    }
+
+    private void doToastFlightPullFail(){
+        Toast.makeText(this, "Mule has not given a Flight Number", Toast.LENGTH_SHORT).show();
+    }
+    private void doToastFlightPushSuccess(){
+        Toast.makeText(this, "Changed Flight Number to "+flightNumber, Toast.LENGTH_SHORT).show();
+    }
+
+    private void setOrRequestFlight(final Request myReq){
+        DatabaseReference ref = mDatabase.child(REQUESTS).child(transactionID).getRef();
+        // Attach a listener to read the data at our posts reference
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (!mFirebaseAuth.getCurrentUser().getUid().equals(myReq.getMule())){
+                    try {
+                        flightNumber = dataSnapshot.child("flightNumber").getValue().toString();
+                        new getFlightTask().execute();
+                    }
+                    catch (Exception e){
+                        doToastFlightPullFail();
+                    }
+                    Log.i("Flight","Not Mule");
+                }
+                else{
+                    flightNumber = flightNum.getText().toString();
+                    mDatabase.child(REQUESTS).child(transactionID).child("flightNumber").setValue(flightNumber);
+                    flightNum.setText("");
+                    doToastFlightPushSuccess();
+                    Log.i("INFO","Is Mule");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("Flight", "Cannot connect to Firebase");
+            }
+        });
     }
 
     private void payOrConfirmButtonAction(final Request myReq) {
@@ -654,7 +714,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
         protected String doInBackground(Void... urls) {
             //get the flight number from user input
             //UNCOMMENT HERE WHEN TESTING API need to get this from user data
-            String flight = flightNum.getText().toString();
+            String flight = flightNumber;
 
             try {
                 //formats the URL containing the API key to add in the flight number (IATA)

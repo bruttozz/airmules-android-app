@@ -12,7 +12,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="34dp"
-        android:text="Submit" />
+        android:text="@string/submit" />
 
     <EditText
         android:id="@+id/editTextDepartureCity"
@@ -22,7 +22,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
         android:ems="10"
-        android:hint="Departure City"
+        android:hint="@string/port_of_origin"
         android:inputType="text" />
 
     <EditText
@@ -33,7 +33,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="136dp"
         android:ems="10"
-        android:hint="Arrival City"
+        android:hint="@string/destination_city"
         android:inputType="textPersonName" />
 
     <EditText
@@ -44,7 +44,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="213dp"
         android:ems="10"
-        android:hint="Departure Date"
+        android:hint="@string/departure_date"
         android:inputType="date" />
 
     <EditText
@@ -55,7 +55,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="181dp"
         android:ems="10"
-        android:hint="Arrival Date"
+        android:hint="@string/arrival_data_no_colon"
         android:inputType="date" />
 
     <EditText
@@ -66,7 +66,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="108dp"
         android:ems="10"
-        android:hint="Flight Number"
+        android:hint="@string/flight_number"
         android:inputType="text" />
 
 </RelativeLayout>

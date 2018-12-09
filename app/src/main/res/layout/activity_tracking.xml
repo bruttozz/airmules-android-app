@@ -12,6 +12,6 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="150dp"
-        android:text="start tracking"
+        android:text="@string/start_tracking"
         android:textSize="30sp" />
 </RelativeLayout>

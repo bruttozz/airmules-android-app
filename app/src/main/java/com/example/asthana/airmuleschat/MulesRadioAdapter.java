@@ -18,7 +18,7 @@ import java.util.List;
 public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
 
     private int selectedIndex = -1;
-    private String selectedUser;
+    private UserClass selectedUser;
     public MulesRadioAdapter(Context context, int activity_radio_button, List<UserClass> availableMules) {
         super(context, activity_radio_button, availableMules);
     }
@@ -27,12 +27,9 @@ public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
         selectedIndex = index;
     }
 
-    public String getSelectedItem()
+    public UserClass getSelectedItem()
     {
-        if (selectedUser != null)
-            return selectedUser;
-        else
-            return "No selected user";
+        return selectedUser;
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -63,11 +60,12 @@ public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
             TextView muleName = v.findViewById(R.id.dialogTxtMuleName);
             RatingBar muleRating =  v.findViewById(R.id.dialogMuleRating);
 
-            muleName.setText(mule.getName());
+            //Put this here so that we can see the radio button until we update the GUI
+            muleName.setText(mule.getName().substring(0,1));
             muleRating.setRating(mule.getRating());
 
             if (rbSelect.isChecked()){
-                selectedUser = mule.getName();
+                selectedUser = mule;
             }
         }
 

@@ -35,6 +35,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -187,6 +188,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
         final MulesRadioAdapter adapter = new MulesRadioAdapter(this, R.layout.dialog_mules, mules);
         ListView listView = (ListView) ViewMulesDialog.findViewById(R.id.viewMulesDialogRecycler);
         listView.setAdapter(adapter);
+        HashMap<UserClass, String> mulesToIDs =  new HashMap<UserClass, String>();
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -200,10 +202,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
         builder.setPositiveButton("Select Mule", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
-//                TextView testset = ViewMulesDialog.findViewById(R.id.myCUstomTestText);
-                Toast.makeText(RequestDetailActivity.this, adapter.getSelectedItem(), Toast.LENGTH_LONG).show();
-//                sendDialogDataToActivity(editText.getText().toString());
+                //We can't implement this here, because we want to stop the dialog from closing without a mule selected
             }
         });
         builder.setNegativeButton("Cancel", null);
@@ -211,10 +210,24 @@ public class RequestDetailActivity extends BaseMenuActivity {
         // create and show the alert dialog
         AlertDialog dialog = builder.create();
         dialog.show();
-
-        getPotentialMules(adapter);
+        getPotentialMules(adapter, mulesToIDs);
+        dialog.getButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserClass myMule = adapter.getSelectedItem();
+                if(myMule == null){
+                    Toast.makeText(RequestDetailActivity.this, "Please select a mule", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    String muleID = mulesToIDs.get(mule);
+                    mDatabase.child(REQUESTS).child(transactionID).child(MULE).setValue(muleID);
+                    mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.NO_PAYMENT);
+                    dialog.dismiss();
+                }
+            }
+        });
     }
-    private void getPotentialMules(MulesRadioAdapter adapter){
+    private void getPotentialMules(MulesRadioAdapter adapter, HashMap<UserClass, String> mulesToIDs){
         DatabaseReference ref = mDatabase.child("potentialMules").getRef();
         // Attach a listener to read the data at our posts reference
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -241,6 +254,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
                                 }
 
                                 synchronized (adapter){
+                                    mulesToIDs.put(mule, pMule.getMuleID());
                                     adapter.add(mule);
                                     adapter.notifyDataSetChanged();
                                 }
@@ -444,6 +458,29 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private void removeThisRequestFromDatabase() {
         try {
             mDatabase.child(REQUESTS).child(transactionID).removeValue();
+            DatabaseReference ref = mDatabase.child("potentialMules").getRef();
+            // Attach a listener to read the data at our posts reference
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        PotentialMule pMule = postSnapshot.getValue(PotentialMule.class);
+                        if (pMule == null || pMule.getRequestID() == null) {
+                            //mule unregistered?
+                            return;
+                        }
+
+                        if(RequestDetailActivity.this.transactionID.equals(pMule.getRequestID())){
+                            postSnapshot.getRef().removeValue();
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.e("Potential Mules", "Cannot connect to Firebase");
+                }
+            });
             RequestDetailActivity.this.finish();
         } catch (Exception e) {
             Log.e("Error", e.toString());
@@ -453,8 +490,8 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private void signUpOrUnregisterForMuleToThisRequest(final Request myReq) {
         if (btnSignUpOrUnregister.getText().toString().equals("unregister")) {
             try {
-                String key = transactionID + mFirebaseAuth.getCurrentUser().getUid();
-                mDatabase.child("potentialMules").child(key).removeValue();
+                String potentialMuleKey = transactionID + mFirebaseAuth.getCurrentUser().getUid();
+                mDatabase.child("potentialMules").child(potentialMuleKey).removeValue();
                 mDatabase.child(REQUESTS).child(transactionID).child(MULE).removeValue();
                 if (myReq.getStatus().equals(Request.PAID)) {
                     //refund payment
@@ -492,12 +529,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
                 Toast.makeText(this, "Sorry, someone already signed up", Toast.LENGTH_SHORT).show();
 
             } else {
-                //TODO remove this
-                mDatabase.child(REQUESTS).child(transactionID).child(MULE).setValue
-                        (mFirebaseAuth.getCurrentUser().getUid().toString());
-                mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.NO_PAYMENT);
-
-                //TODO keep this and move the set status of no payment when customer selects mule
                 String key = transactionID + mFirebaseAuth.getCurrentUser().getUid();
                 mDatabase.child("potentialMules").child(key)
                         .setValue(new PotentialMule(transactionID, mFirebaseAuth.getCurrentUser().getUid()));

@@ -80,6 +80,13 @@
     <string name="destination_city">Destination City</string>
     <string name="flight_number">Flight Number</string>
     <string name="start_tracking">Start Tracking</string>
+    <string name="balance_with_colon">Balance:</string>
+    <string name="add_money">Add Money</string>
+    <string name="withdraw">Withdraw</string>
+    <string name="mule_rating_with_colon">Mule Rating:</string>
+    <string name="choose_account_with_colon">Choose Account:</string>
+    <string name="enter_account">Enter Account:</string>
+    <string name="amount_with_colon">Amount:</string>
     <string-array name="methods">
         <item>Venmo</item>
         <item>PayPal</item>

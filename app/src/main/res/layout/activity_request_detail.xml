@@ -78,8 +78,8 @@
                 android:minHeight="0dp"
                 android:minWidth="0dp"
                 android:onClick="showAlertDialogButtonClicked"
-                android:text="View Mules"
-                android:textSize="11dp" />
+                android:text="@string/view_mules"
+                android:textSize="14dp" />
 
 
             <TableRow
@@ -338,7 +338,7 @@
                 android:minHeight="0dp"
                 android:minWidth="0dp"
                 android:text="sign up"
-                android:textSize="11dp" />
+                android:textSize="14dp" />
 
             <Button
                 android:id="@+id/btnPayOrConfirm"
@@ -350,7 +350,7 @@
                 android:minHeight="0dp"
                 android:minWidth="0dp"
                 android:text="@string/txtPay"
-                android:textSize="11dp" />
+                android:textSize="14dp" />
 
             <Button
                 android:id="@+id/btnChat"
@@ -375,8 +375,8 @@
                 android:backgroundTint="@color/cadet_blue"
                 android:minHeight="0dp"
                 android:minWidth="0dp"
-                android:text="Flight"
-                android:textSize="11dp" />
+                android:text="@string/flight"
+                android:textSize="14dp" />
 
             <EditText
                 android:id="@+id/flightIata"
@@ -388,7 +388,7 @@
                 android:layout_toRightOf="@id/btnFlight"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:textSize="11dp" />
+                android:textSize="14dp" />
 
             <Button
                 android:id="@+id/btnCancelRequest"
@@ -400,8 +400,8 @@
                 android:backgroundTint="@color/light_slate_gray"
                 android:minHeight="0dp"
                 android:minWidth="0dp"
-                android:text="Cancel"
-                android:textSize="11dp" />
+                android:text="@string/Cancel"
+                android:textSize="14dp" />
 
 
         </RelativeLayout>

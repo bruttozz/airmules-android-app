@@ -110,9 +110,9 @@
             android:id="@+id/ratingBarAsMule"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:layout_below="@+id/txtLabelRateAsMule"
+            android:layout_below="@+id/txtViewNumOfRatings"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:isIndicator="true"
             android:numStars="5"
             android:rating="2"
@@ -158,6 +158,17 @@
             android:text="5.0"
             android:textColor="@color/cb_dark_grey"
             android:textSize="16sp" />
+        <TextView
+            android:id="@+id/txtViewNumOfRatings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(0  ratings received)"
+            android:textColor="@color/cb_dark_grey"
+            android:textSize="16sp"
+            android:fontFamily="serif"
+            android:layout_below="@id/txtLabelRateAsMule"
+            android:layout_alignLeft="@+id/txtLabelRateAsMule"
+            android:layout_marginTop="10dp"/>
     </RelativeLayout>
 
 

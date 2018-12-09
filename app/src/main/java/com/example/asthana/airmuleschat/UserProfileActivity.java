@@ -55,6 +55,7 @@ public class UserProfileActivity extends BaseMenuActivity {
     //private TextView txtViewRatingAsCustomer;
     private Button btnAddMoney;
     private Button btnWithdrawMoney;
+    private TextView txtViewNumOfRatings;
 
     private String userID;
     private static final String USERS = "users";
@@ -94,6 +95,7 @@ public class UserProfileActivity extends BaseMenuActivity {
         //ratingAsCustomer = (RatingBar) findViewById(R.id.ratingBarAsCustomer);
         btnAddMoney = (Button) findViewById(R.id.btnAddMoney);
         btnWithdrawMoney = (Button) findViewById(R.id.btnWithdrawMoney);
+        txtViewNumOfRatings = (TextView) findViewById(R.id.txtViewNumOfRatings);
 
         DatabaseReference ref = mDatabase.child(USERS).child(mFirebaseAuth.getCurrentUser().getUid()).getRef();
         ref.addValueEventListener(new ValueEventListener() {
@@ -107,6 +109,8 @@ public class UserProfileActivity extends BaseMenuActivity {
                 DecimalFormat df=new DecimalFormat("0.00");
                 String stringRateAsMule = df.format(rateFloatAsMule);
                 txtViewRatingAsMule.setText(stringRateAsMule);
+                Integer num = me.getNumRatings();
+                txtViewNumOfRatings.setText("( " + num.toString() + " ratings received )");
             }
 
             @Override

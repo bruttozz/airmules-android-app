@@ -164,6 +164,7 @@ public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
 
                             if(req.getMule() != null && req.getMule().equals(muleID)) {
                                 FirebaseDatabase.getInstance().getReference().child("requests").child(transactionID).child("mule").removeValue();
+                                clearChat();
                             }
                         }
 
@@ -181,5 +182,12 @@ public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
         }
 
         return v;
+    }
+
+    private void clearChat(){
+        if(transactionID != null) {
+            FirebaseDatabase.getInstance().getReference().
+                    child(PersonalChat.PERSONAL_MESSAGES_CHILD).child(transactionID).removeValue();
+        }
     }
 }

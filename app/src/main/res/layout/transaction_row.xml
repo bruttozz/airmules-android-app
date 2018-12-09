@@ -16,11 +16,6 @@
         android:layout_margin="5dp"
         android:orientation="vertical">
 
-        <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="3dp"-->
-        <!--android:background="@color/accent_material_light"></LinearLayout>-->
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

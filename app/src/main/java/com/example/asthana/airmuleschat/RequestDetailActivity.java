@@ -159,12 +159,12 @@ public class RequestDetailActivity extends BaseMenuActivity {
             }
         });
 
-
         DatabaseReference potentialMulesReference = mDatabase.child("potentialMules").getRef();
         potentialMulesReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Integer number = 0;
+                btnSignUpOrUnregister.setText("sign up");
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     PotentialMule eachOne = snapshot.getValue(PotentialMule.class);
                     if (eachOne.getRequestID().equals(transactionID)) {
@@ -173,9 +173,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
                             // the current user has registered to be mule for this request
                             btnSignUpOrUnregister.setText("unregister");
                             // todo : how to set the chat button??
-                        } else {
-                            // the current user is not one of the potential mules
-                            btnSignUpOrUnregister.setText("sign up");
                         }
                     }
                 }
@@ -211,7 +208,8 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
 
         HashMap<UserClass, String> mulesToIDs = new HashMap<UserClass, String>();
-        final MulesRadioAdapter adapter = new MulesRadioAdapter(this, R.layout.dialog_mules, mules, mulesToIDs);
+        final MulesRadioAdapter adapter = new MulesRadioAdapter(this, R.layout.dialog_mules, mules, mulesToIDs,
+                transactionID);
         ListView listView = (ListView) ViewMulesDialog.findViewById(R.id.viewMulesDialogRecycler);
         listView.setAdapter(adapter);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -430,6 +428,10 @@ public class RequestDetailActivity extends BaseMenuActivity {
                 signUpOrUnregisterForMuleToThisRequest(myReq);
             }
         });
+
+        if (status.equals(Request.COMPLETE)) {
+            this.btnViewMules.setEnabled(false);
+        }
     }
 
     private void payOrConfirmButtonAction(final Request myReq) {

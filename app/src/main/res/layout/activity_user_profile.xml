@@ -93,17 +93,17 @@
             android:textColor="@color/cb_dark_grey"
             android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/txtLabelRateAsCustomer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ratingBarAsMule"
-            android:layout_alignStart="@+id/imageViewUserProfile"
-            android:layout_marginTop="5dp"
-            android:fontFamily="serif"
-            android:text="Rating as customer: "
-            android:textColor="@color/cb_dark_grey"
-            android:textSize="16sp" />
+        <!--<TextView-->
+            <!--android:id="@+id/txtLabelRateAsCustomer"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/ratingBarAsMule"-->
+            <!--android:layout_alignStart="@+id/imageViewUserProfile"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:fontFamily="serif"-->
+            <!--android:text="Rating as customer: "-->
+            <!--android:textColor="@color/cb_dark_grey"-->
+            <!--android:textSize="16sp" />-->
 
         <RatingBar
             android:id="@+id/ratingBarAsMule"
@@ -121,32 +121,32 @@
             android:transformPivotX="0dp"
             android:transformPivotY="7dp" />
 
-        <RatingBar
-            android:id="@+id/ratingBarAsCustomer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:theme="@style/RatingBar"
-            android:isIndicator="true"
-            android:numStars="5"
-            android:rating="2"
-            android:layout_centerHorizontal="true"
-            android:scaleX="0.7"
-            android:scaleY="0.7"
-            android:transformPivotX="0dp"
-            android:transformPivotY="7dp"
-            android:layout_below="@+id/txtLabelRateAsCustomer"
-            android:layout_marginTop="15dp"/>
+        <!--<RatingBar-->
+            <!--android:id="@+id/ratingBarAsCustomer"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:theme="@style/RatingBar"-->
+            <!--android:isIndicator="true"-->
+            <!--android:numStars="5"-->
+            <!--android:rating="2"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:scaleX="0.7"-->
+            <!--android:scaleY="0.7"-->
+            <!--android:transformPivotX="0dp"-->
+            <!--android:transformPivotY="7dp"-->
+            <!--android:layout_below="@+id/txtLabelRateAsCustomer"-->
+            <!--android:layout_marginTop="15dp"/>-->
 
-        <TextView
-            android:id="@+id/txtViewRateAsCustomer"
-            android:fontFamily="serif"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/txtLabelRateAsCustomer"
-            android:layout_toRightOf="@+id/txtLabelRateAsCustomer"
-            android:textColor="@color/cb_dark_grey"
-            android:textSize="16sp"
-            android:text="5.0" />
+        <!--<TextView-->
+            <!--android:id="@+id/txtViewRateAsCustomer"-->
+            <!--android:fontFamily="serif"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignTop="@+id/txtLabelRateAsCustomer"-->
+            <!--android:layout_toRightOf="@+id/txtLabelRateAsCustomer"-->
+            <!--android:textColor="@color/cb_dark_grey"-->
+            <!--android:textSize="16sp"-->
+            <!--android:text="5.0" />-->
         <TextView
             android:id="@+id/txtViewRateAsMule"
             android:fontFamily="serif"

@@ -50,9 +50,9 @@ public class UserProfileActivity extends BaseMenuActivity {
     private TextView userDisplayName;
     private TextView txtViewMoneyLeft;
     private RatingBar ratingAsMule;
-    private RatingBar ratingAsCustomer;
+    //private RatingBar ratingAsCustomer;
     private TextView txtViewRatingAsMule;
-    private TextView txtViewRatingAsCustomer;
+    //private TextView txtViewRatingAsCustomer;
     private Button btnAddMoney;
     private Button btnWithdrawMoney;
 
@@ -89,9 +89,9 @@ public class UserProfileActivity extends BaseMenuActivity {
         userDisplayName = (TextView) findViewById(R.id.txtViewUserName);
         txtViewMoneyLeft = (TextView) findViewById(R.id.txtViewMoneyLeft);
         txtViewRatingAsMule = (TextView) findViewById(R.id.txtViewRateAsMule);
-        txtViewRatingAsCustomer = (TextView) findViewById(R.id.txtViewRateAsCustomer);
+        //txtViewRatingAsCustomer = (TextView) findViewById(R.id.txtViewRateAsCustomer);
         ratingAsMule = (RatingBar) findViewById(R.id.ratingBarAsMule);
-        ratingAsCustomer = (RatingBar) findViewById(R.id.ratingBarAsCustomer);
+        //ratingAsCustomer = (RatingBar) findViewById(R.id.ratingBarAsCustomer);
         btnAddMoney = (Button) findViewById(R.id.btnAddMoney);
         btnWithdrawMoney = (Button) findViewById(R.id.btnWithdrawMoney);
 

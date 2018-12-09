@@ -494,6 +494,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
     private void removeThisRequestFromDatabase() {
         try {
+            clearChat();
             mDatabase.child(REQUESTS).child(transactionID).removeValue();
             DatabaseReference ref = mDatabase.child("potentialMules").getRef();
             // Attach a listener to read the data at our posts reference
@@ -527,6 +528,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private void signUpOrUnregisterForMuleToThisRequest(final Request myReq) {
         if (btnSignUpOrUnregister.getText().toString().equals("unregister")) {
             try {
+                clearChat();
                 String potentialMuleKey = transactionID + mFirebaseAuth.getCurrentUser().getUid();
                 mDatabase.child("potentialMules").child(potentialMuleKey).removeValue();
                 mDatabase.child(REQUESTS).child(transactionID).child(MULE).removeValue();
@@ -573,6 +575,12 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
                 Toast.makeText(this, "Successfully signed up!", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    private void clearChat(){
+        if(transactionID != null) {
+            mDatabase.child(PersonalChat.PERSONAL_MESSAGES_CHILD).child(transactionID).removeValue();
         }
     }
 

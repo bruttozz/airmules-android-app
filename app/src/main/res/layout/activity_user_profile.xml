@@ -57,7 +57,7 @@
             android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/dancing"
-            android:text="Balance: "
+            android:text="@string/balance_with_colon"
             android:textColor="@color/cb_dark_grey"
             android:textSize="24sp" />
 
@@ -70,7 +70,7 @@
             android:layout_marginBottom="10dp"
             android:backgroundTint="@color/fbutton_default_color"
             android:fontFamily="serif"
-            android:text="add money" />
+            android:text="@string/add_money" />
 
         <Button
             android:id="@+id/btnWithdrawMoney"
@@ -80,7 +80,7 @@
             android:layout_alignTop="@+id/btnAddMoney"
             android:backgroundTint="@color/fbutton_color_turquoise"
             android:fontFamily="serif"
-            android:text="withdraw" />
+            android:text="@string/withdraw" />
 
         <TextView
             android:id="@+id/txtLabelRateAsMule"
@@ -90,7 +90,7 @@
             android:layout_below="@+id/btnAddMoney"
             android:layout_centerVertical="true"
             android:fontFamily="serif"
-            android:text="Rating as mule: "
+            android:text="@string/mule_rating_with_colon"
             android:textColor="@color/cb_dark_grey"
             android:textSize="16sp" />
 

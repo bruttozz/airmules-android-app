@@ -33,7 +33,7 @@
 
                 <TextView
                     android:id="@+id/txtStatus"
-                    android:layout_width="135dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="serif"
@@ -51,25 +51,17 @@
 
                 <TextView
                     android:id="@+id/txtLabelMule"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="serif"
                     android:text="@string/mule_name"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/txtLabelMuleColon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.9"
-                    android:fontFamily="serif"
-                    android:text="@string/colon"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/txtViewMule"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="serif"
@@ -86,7 +78,7 @@
                 android:minHeight="0dp"
                 android:minWidth="0dp"
                 android:onClick="showAlertDialogButtonClicked"
-                android:text="View Mules"
+                android:text="@string/view_mules"
                 android:textSize="14dp" />
 
 
@@ -100,26 +92,18 @@
 
                 <TextView
                     android:id="@+id/txtLabelReward"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_weight="1"
                     android:fontFamily="serif"
                     android:text="@string/reqReward"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/txtLabelRewardColon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.9"
-                    android:fontFamily="serif"
-                    android:text="@string/colon"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/txtViewReward"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="serif"
@@ -136,25 +120,17 @@
 
                 <TextView
                     android:id="@+id/txtLabelItem"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="serif"
                     android:text="@string/txtItem"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/txtLabelItemColon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.9"
-                    android:fontFamily="serif"
-                    android:text="@string/colon"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/textViewItem"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="serif"
@@ -172,26 +148,18 @@
 
                 <TextView
                     android:id="@+id/txtLabelDeparture"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_weight="1"
                     android:fontFamily="serif"
                     android:text="@string/txtDeparture"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/txtLabelDepartureColon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.9"
-                    android:fontFamily="serif"
-                    android:text="@string/colon"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/txtViewDeparture"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="serif"
@@ -208,25 +176,17 @@
 
                 <TextView
                     android:id="@+id/txtLabelDepartureDate"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="serif"
                     android:text="Dep date"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/txtLabelDepartureDatColon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.9"
-                    android:fontFamily="serif"
-                    android:text="@string/colon"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/textViewDepartureDate"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/txtLabelDate"
 
@@ -245,26 +205,17 @@
 
                 <TextView
                     android:id="@+id/txtLabelArrival"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="serif"
                     android:text="@string/destination"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/txtLabelArrivalColon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.9"
-                    android:fontFamily="serif"
-                    android:text="@string/colon"
-
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/textViewArrival"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
 
@@ -283,27 +234,18 @@
 
                 <TextView
                     android:id="@+id/txtLabelArrivalDate"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
 
                     android:fontFamily="serif"
                     android:text="@string/arrival_data_no_colon"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/txtLabelArrivalDateColon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.9"
-
-                    android:fontFamily="serif"
-                    android:text="@string/colon"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/textViewArrivalDate"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/txtLabelDate"
 
@@ -322,25 +264,17 @@
 
                 <TextView
                     android:id="@+id/txtLabelSize"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="serif"
-
                     android:text="@string/txtSize"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/txtLabelSizeColon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.9"
-                    android:text="@string/colon"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/textViewSize"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
 
@@ -358,28 +292,18 @@
 
                 <TextView
                     android:id="@+id/txtLabelWeight"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/txtLabelItem"
                     android:layout_weight="1"
-
                     android:fontFamily="serif"
                     android:text="@string/txtWeight"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/txtLabelWeightColon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.9"
-                    android:fontFamily="serif"
-                    android:text="@string/colon"
-
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/textViewWeight"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/txtLabelWeight"
                     android:layout_weight="1"
@@ -451,7 +375,7 @@
                 android:backgroundTint="@color/cadet_blue"
                 android:minHeight="0dp"
                 android:minWidth="0dp"
-                android:text="Flight"
+                android:text="@string/flight"
                 android:textSize="14dp" />
 
             <EditText
@@ -476,7 +400,7 @@
                 android:backgroundTint="@color/light_slate_gray"
                 android:minHeight="0dp"
                 android:minWidth="0dp"
-                android:text="Cancel"
+                android:text="@string/Cancel"
                 android:textSize="14dp" />
 
 

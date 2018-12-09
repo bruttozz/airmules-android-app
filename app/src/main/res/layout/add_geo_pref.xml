@@ -14,7 +14,7 @@
             android:id="@+id/cityLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="City (Optional)"
+            android:text="@string/reqCityOptional"
             android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
         <AutoCompleteTextView

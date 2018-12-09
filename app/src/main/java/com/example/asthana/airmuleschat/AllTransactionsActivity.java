@@ -1,9 +1,7 @@
 package com.example.asthana.airmuleschat;
 
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -22,7 +20,7 @@ public class AllTransactionsActivity extends BaseMenuActivity implements Transac
             myType = Transactions.TYPE_ALL;     //Default request display
         }
 
-        txtRequestTypes = (TextView) findViewById(R.id.txtRequestTypes);
+        txtRequestTypes = findViewById(R.id.txtRequestTypes);
         setTextByType(myType);
 
         fragmentReqTransactions = new Transactions();

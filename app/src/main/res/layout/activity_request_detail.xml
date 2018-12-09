@@ -438,7 +438,8 @@
                 android:minHeight="0dp"
                 android:minWidth="0dp"
                 android:text="@string/txtChat"
-                android:textSize="11dp" />
+                android:textSize="11dp"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btnFlight"

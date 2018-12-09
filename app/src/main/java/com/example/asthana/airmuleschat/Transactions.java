@@ -1,15 +1,15 @@
 package com.example.asthana.airmuleschat;
 
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,15 +18,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CursorAdapter;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,14 +29,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.phonepe.intent.sdk.ui.TransactionActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Locale;
 
 
@@ -69,6 +62,7 @@ public class Transactions extends Fragment {
     private TextView editTextArrDate;
     private Button btnApply;
     private Button btnClear;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     //Database stuff
     private FirebaseAuth mFirebaseAuth;
@@ -184,9 +178,27 @@ public class Transactions extends Fragment {
             }
         });
 
+        swipeRefreshLayout = fragView.findViewById(R.id.swipe_container);
+        swipeRefreshLayout.setColorScheme(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.updateDataFromFirebase();
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 2500);
+            }
+        });
 
         return fragView;
     }
+
     private void updateLabel(String type) {
         String myFormat = "dd" + Request.LocationInfo.DATE_DELIMITER + "MM" + Request.LocationInfo.DATE_DELIMITER + "yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
@@ -202,10 +214,10 @@ public class Transactions extends Fragment {
 
         //add any listeners to the views (except the handler, which is assigned below)
 
-        ((BaseMenuActivity)TL).syncUpCityAndCountry(getContext(),
+        ((BaseMenuActivity) TL).syncUpCityAndCountry(getContext(),
                 view.findViewById(R.id.depCityLabel),
                 editTextDepCity, editTextDepCountry);
-        ((BaseMenuActivity)TL).syncUpCityAndCountry(getContext(),
+        ((BaseMenuActivity) TL).syncUpCityAndCountry(getContext(),
                 view.findViewById(R.id.arrCityLabel),
                 editTextArrCity, editTextArrCountry);
 
@@ -243,7 +255,6 @@ public class Transactions extends Fragment {
                 adapter.clearRequestFilters();
             }
         });
-
 
         //hide the filter layout until it is needed
         layoutFilter.setVisibility(LinearLayout.GONE);
@@ -320,7 +331,7 @@ public class Transactions extends Fragment {
             this.myQuery = myQuery;
         }
 
-        protected void updateDataFromFirebase(){
+        protected void updateDataFromFirebase() {
             requestListAll = new ArrayList<Request>();
             requestListToShow = new ArrayList<Request>();
 
@@ -328,7 +339,7 @@ public class Transactions extends Fragment {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     ArrayList<GeoPref> userGeoPrefs = new ArrayList<GeoPref>();
-                    if(myType.equals(TYPE_ALL)){
+                    if (myType.equals(TYPE_ALL)) {
                         //Apply the users geo prefs
                         Query myGeoPrefsQuery = mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid())
                                 .child(GeographicalPreferences.DATABASE_TABLE_NAME).getRef();
@@ -348,8 +359,7 @@ public class Transactions extends Fragment {
                                 Log.e("Transactions_GeoPrefs", "The Geo Prefs read failed: " + databaseError.getMessage());
                             }
                         });
-                    }
-                    else{
+                    } else {
                         setUpDataForAdapter(dataSnapshot, userGeoPrefs);
                     }
                 }
@@ -361,7 +371,7 @@ public class Transactions extends Fragment {
             });
         }
 
-        private void setUpDataForAdapter(DataSnapshot dataSnapshot, ArrayList<GeoPref> userGeoPrefs){
+        private void setUpDataForAdapter(DataSnapshot dataSnapshot, ArrayList<GeoPref> userGeoPrefs) {
             requestListAll.clear();
             for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                 Request r = postSnapshot.getValue(Request.class);
@@ -380,7 +390,7 @@ public class Transactions extends Fragment {
                         continue;
                     }
 
-                    if(!userGeoPrefs.isEmpty()) {
+                    if (!userGeoPrefs.isEmpty()) {
                         boolean geoPrefMatch = false;
                         for (GeoPref geoPref : userGeoPrefs) {
                             if (geoPref.prefMatches(r.getDeparture().getCity(), r.getDeparture().getCountry())

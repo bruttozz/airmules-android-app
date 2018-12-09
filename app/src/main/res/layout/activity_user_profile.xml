@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserProfileActivity"
-    android:background="@drawable/bgi1">
+    android:background="@drawable/bgi1"
+    tools:context=".UserProfileActivity">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="25dp"
-        android:background="@color/white"
-        android:alpha="0.8">
+        android:alpha="0.8"
+        android:background="@color/white">
+
         <TextView
             android:id="@+id/txtViewUserName"
             android:layout_width="wrap_content"
@@ -23,87 +24,87 @@
             android:text="test"
             android:textColor="@color/cb_dark_grey"
             android:textSize="24sp" />
+
         <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/imageViewUserProfile"
             android:layout_width="95dp"
             android:layout_height="95dp"
             android:layout_above="@+id/txtLabelMoney"
             android:layout_alignLeft="@+id/txtLabelMoney"
-            android:src="@drawable/profileicon"
-            />
+            android:src="@drawable/profileicon" />
 
 
         <TextView
             android:id="@+id/txtViewMoneyLeft"
-            android:fontFamily="@font/dancing"
-
-            android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/txtLabelMoney"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/txtLabelMoney"
-            android:textColor="@color/cb_dark_grey"
+            android:fontFamily="@font/dancing"
             android:text="999"
+            android:textColor="@color/cb_dark_grey"
             android:textSize="25sp" />
 
 
         <TextView
             android:id="@+id/txtLabelMoney"
-            android:fontFamily="@font/dancing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/cb_dark_grey"
-            android:layout_alignLeft="@+id/ratingBarAsMule"
             android:layout_above="@+id/btnAddMoney"
-            android:text="Balance: "
-            android:layout_marginTop="20dp"
+            android:layout_alignLeft="@+id/ratingBarAsMule"
             android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/dancing"
+            android:text="Balance: "
+            android:textColor="@color/cb_dark_grey"
             android:textSize="24sp" />
 
         <Button
             android:id="@+id/btnAddMoney"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="add money"
             android:layout_alignStart="@+id/txtLabelMoney"
             android:layout_centerVertical="true"
             android:layout_marginBottom="10dp"
             android:backgroundTint="@color/fbutton_default_color"
-            android:fontFamily="serif"/>
+            android:fontFamily="serif"
+            android:text="add money" />
+
         <Button
             android:id="@+id/btnWithdrawMoney"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="withdraw"
-            android:fontFamily="serif"
+            android:layout_alignRight="@id/ratingBarAsMule"
             android:layout_alignTop="@+id/btnAddMoney"
             android:backgroundTint="@color/fbutton_color_turquoise"
-            android:layout_alignRight="@id/ratingBarAsMule"/>
+            android:fontFamily="serif"
+            android:text="withdraw" />
 
         <TextView
             android:id="@+id/txtLabelRateAsMule"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/imageViewUserProfile"
             android:layout_below="@+id/btnAddMoney"
             android:layout_centerVertical="true"
-            android:layout_alignLeft="@+id/imageViewUserProfile"
             android:fontFamily="serif"
             android:text="Rating as mule: "
             android:textColor="@color/cb_dark_grey"
             android:textSize="16sp" />
 
         <!--<TextView-->
-            <!--android:id="@+id/txtLabelRateAsCustomer"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/ratingBarAsMule"-->
-            <!--android:layout_alignStart="@+id/imageViewUserProfile"-->
-            <!--android:layout_marginTop="5dp"-->
-            <!--android:fontFamily="serif"-->
-            <!--android:text="Rating as customer: "-->
-            <!--android:textColor="@color/cb_dark_grey"-->
-            <!--android:textSize="16sp" />-->
+        <!--android:id="@+id/txtLabelRateAsCustomer"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/ratingBarAsMule"-->
+        <!--android:layout_alignStart="@+id/imageViewUserProfile"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:fontFamily="serif"-->
+        <!--android:text="Rating as customer: "-->
+        <!--android:textColor="@color/cb_dark_grey"-->
+        <!--android:textSize="16sp" />-->
 
         <RatingBar
             android:id="@+id/ratingBarAsMule"
@@ -122,44 +123,42 @@
             android:transformPivotY="7dp" />
 
         <!--<RatingBar-->
-            <!--android:id="@+id/ratingBarAsCustomer"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:theme="@style/RatingBar"-->
-            <!--android:isIndicator="true"-->
-            <!--android:numStars="5"-->
-            <!--android:rating="2"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:scaleX="0.7"-->
-            <!--android:scaleY="0.7"-->
-            <!--android:transformPivotX="0dp"-->
-            <!--android:transformPivotY="7dp"-->
-            <!--android:layout_below="@+id/txtLabelRateAsCustomer"-->
-            <!--android:layout_marginTop="15dp"/>-->
+        <!--android:id="@+id/ratingBarAsCustomer"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:theme="@style/RatingBar"-->
+        <!--android:isIndicator="true"-->
+        <!--android:numStars="5"-->
+        <!--android:rating="2"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:scaleX="0.7"-->
+        <!--android:scaleY="0.7"-->
+        <!--android:transformPivotX="0dp"-->
+        <!--android:transformPivotY="7dp"-->
+        <!--android:layout_below="@+id/txtLabelRateAsCustomer"-->
+        <!--android:layout_marginTop="15dp"/>-->
 
         <!--<TextView-->
-            <!--android:id="@+id/txtViewRateAsCustomer"-->
-            <!--android:fontFamily="serif"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignTop="@+id/txtLabelRateAsCustomer"-->
-            <!--android:layout_toRightOf="@+id/txtLabelRateAsCustomer"-->
-            <!--android:textColor="@color/cb_dark_grey"-->
-            <!--android:textSize="16sp"-->
-            <!--android:text="5.0" />-->
+        <!--android:id="@+id/txtViewRateAsCustomer"-->
+        <!--android:fontFamily="serif"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignTop="@+id/txtLabelRateAsCustomer"-->
+        <!--android:layout_toRightOf="@+id/txtLabelRateAsCustomer"-->
+        <!--android:textColor="@color/cb_dark_grey"-->
+        <!--android:textSize="16sp"-->
+        <!--android:text="5.0" />-->
         <TextView
             android:id="@+id/txtViewRateAsMule"
-            android:fontFamily="serif"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/cb_dark_grey"
-            android:textSize="16sp"
-            android:layout_toRightOf="@+id/txtLabelRateAsMule"
             android:layout_alignTop="@+id/txtLabelRateAsMule"
-            android:text="5.0" />
+            android:layout_toRightOf="@+id/txtLabelRateAsMule"
+            android:fontFamily="serif"
+            android:text="5.0"
+            android:textColor="@color/cb_dark_grey"
+            android:textSize="16sp" />
     </RelativeLayout>
-
-
 
 
 </RelativeLayout>

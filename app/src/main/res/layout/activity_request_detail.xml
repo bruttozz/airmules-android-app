@@ -76,6 +76,7 @@
                     android:textSize="16sp" />
 
             </TableRow>
+
             <Button
                 android:id="@+id/btnViewMules"
                 android:layout_width="match_parent"
@@ -438,7 +439,8 @@
                 android:minHeight="0dp"
                 android:minWidth="0dp"
                 android:text="@string/txtChat"
-                android:textSize="11dp" />
+                android:textSize="11dp"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btnFlight"
@@ -476,7 +478,6 @@
                 android:minWidth="0dp"
                 android:text="Cancel"
                 android:textSize="11dp" />
-
 
 
         </RelativeLayout>

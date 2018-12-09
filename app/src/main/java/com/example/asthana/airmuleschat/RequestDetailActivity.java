@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,9 +33,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 public class RequestDetailActivity extends BaseMenuActivity {
@@ -241,10 +238,9 @@ public class RequestDetailActivity extends BaseMenuActivity {
             @Override
             public void onClick(View v) {
                 UserClass myMule = adapter.getSelectedItem();
-                if(myMule == null){
+                if (myMule == null) {
                     Toast.makeText(RequestDetailActivity.this, "Please select a mule", Toast.LENGTH_LONG).show();
-                }
-                else{
+                } else {
                     String muleID = mulesToIDs.get(myMule);
                     mDatabase.child(REQUESTS).child(transactionID).child(MULE).setValue(muleID);
                     mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.NO_PAYMENT);
@@ -253,7 +249,8 @@ public class RequestDetailActivity extends BaseMenuActivity {
             }
         });
     }
-    private void getPotentialMules(MulesRadioAdapter adapter, HashMap<UserClass, String> mulesToIDs){
+
+    private void getPotentialMules(MulesRadioAdapter adapter, HashMap<UserClass, String> mulesToIDs) {
         DatabaseReference ref = mDatabase.child("potentialMules").getRef();
         // Attach a listener to read the data at our posts reference
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -268,7 +265,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
                         return;
                     }
 
-                    if(RequestDetailActivity.this.transactionID.equals(pMule.getRequestID())){
+                    if (RequestDetailActivity.this.transactionID.equals(pMule.getRequestID())) {
                         DatabaseReference ref2 = mDatabase.child("users").child(pMule.getMuleID()).getRef();
                         ref2.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -279,7 +276,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
                                     return;
                                 }
 
-                                synchronized (adapter){
+                                synchronized (adapter) {
                                     mulesToIDs.put(mule, pMule.getMuleID());
                                     adapter.add(mule);
                                     adapter.notifyDataSetChanged();
@@ -345,13 +342,21 @@ public class RequestDetailActivity extends BaseMenuActivity {
             btnViewMules.setVisibility(View.VISIBLE);
             btnSignUpOrUnregister.setVisibility(View.GONE);
             btnPayOrConfirm.setVisibility(View.VISIBLE);
+            btnChat.setVisibility(View.VISIBLE);
         } else {
             // the current user is not the customer
             btnCancel.setVisibility(View.GONE);
             btnViewMules.setVisibility(View.GONE);
             btnSignUpOrUnregister.setVisibility(View.VISIBLE);
             btnPayOrConfirm.setVisibility(View.GONE);
+            if (mFirebaseAuth.getCurrentUser().getUid().equals(myReq.getMule())) {
+                btnChat.setVisibility(View.VISIBLE);
+            } else {
+                btnChat.setVisibility(View.GONE);
+            }
         }
+
+
 
 //        if (myReq.getMule() == null) {
 //            if (!myReq.getCustomer().equals(mFirebaseAuth.getCurrentUser().getUid())) {
@@ -504,7 +509,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
                             return;
                         }
 
-                        if(RequestDetailActivity.this.transactionID.equals(pMule.getRequestID())){
+                        if (RequestDetailActivity.this.transactionID.equals(pMule.getRequestID())) {
                             postSnapshot.getRef().removeValue();
                         }
                     }

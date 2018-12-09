@@ -74,7 +74,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private float currentRating, numRatings;
 
     private RadioButton mCurrentlyCheckedRB;
-    private RatingBar muleRating;
     private DatabaseReference mDatabase;
     private FirebaseAuth mFirebaseAuth;
 
@@ -97,7 +96,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
         txtViewSize = (TextView) findViewById(R.id.textViewSize);
         flightNum = (EditText) findViewById(R.id.flightIata);
 
-        muleRating = (RatingBar) findViewById(R.id.muleRating);
 
         btnChat = (Button) findViewById(R.id.btnChat);
 
@@ -156,6 +154,31 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
                 setTextAndButton(req);
                 addButtonFunctions(req);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("Error", databaseError.toString());
+            }
+        });
+
+
+
+
+
+
+        DatabaseReference potentialMulesReference = mDatabase.child("potentialMules").getRef();
+        potentialMulesReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Integer number = 0;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    PotentialMule eachOne = snapshot.getValue(PotentialMule.class);
+                    if (eachOne.getRequestID().equals(transactionID)) {
+                        number++;
+                    }
+                }
+                btnViewMules.setText("View Candidate Mules: " + number.toString());
             }
 
             @Override
@@ -287,7 +310,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
                     mule = dataSnapshot.getValue(UserClass.class);
                     if (mule != null) {
                         txtViewMule.setText(mule.getName());
-                        muleRating.setRating(mule.getRating());
                     } else {
                         txtViewMule.setText("No Mule");
                     }

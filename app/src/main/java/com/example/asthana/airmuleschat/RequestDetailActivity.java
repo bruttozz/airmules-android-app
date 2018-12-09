@@ -176,6 +176,14 @@ public class RequestDetailActivity extends BaseMenuActivity {
                     PotentialMule eachOne = snapshot.getValue(PotentialMule.class);
                     if (eachOne.getRequestID().equals(transactionID)) {
                         number++;
+                        if (eachOne.getMuleID().equals(mFirebaseAuth.getCurrentUser().getUid())) {
+                            // the current user has registered to be mule for this request
+                            btnSignUpOrUnregister.setText("unregister");
+                            // todo : how to set the chat button??
+                        } else {
+                            // the current user is not one of the potential mules
+                            btnSignUpOrUnregister.setText("sign up");
+                        }
                     }
                 }
                 btnViewMules.setText("View Candidate Mules: " + number.toString());
@@ -338,25 +346,30 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
 
         if (mFirebaseAuth.getCurrentUser().getUid().equals(myReq.getCustomer())) {
+            // the current user is the customer
             btnCancel.setVisibility(View.VISIBLE);
+            btnViewMules.setVisibility(View.VISIBLE);
             btnSignUpOrUnregister.setVisibility(View.GONE);
+            btnPayOrConfirm.setVisibility(View.VISIBLE);
         } else {
+            // the current user is not the customer
             btnCancel.setVisibility(View.GONE);
-            btnSignUpOrUnregister.setVisibility(View.GONE);
+            btnViewMules.setVisibility(View.GONE);
+            btnSignUpOrUnregister.setVisibility(View.VISIBLE);
             btnPayOrConfirm.setVisibility(View.GONE);
         }
 
-        if (myReq.getMule() == null) {
-            if (!myReq.getCustomer().equals(mFirebaseAuth.getCurrentUser().getUid())) {
-                //I am not the customer, so I can sign up to be the mule
-                btnSignUpOrUnregister.setText("sign up");
-                btnSignUpOrUnregister.setVisibility(View.VISIBLE);
-            }
-        } else if (mFirebaseAuth.getCurrentUser().getUid().equals(myReq.getMule())) {
-            //I am the mule, so I can unregister if I want to
-            btnSignUpOrUnregister.setText("unregister");
-            btnSignUpOrUnregister.setVisibility(View.VISIBLE);
-        }
+//        if (myReq.getMule() == null) {
+//            if (!myReq.getCustomer().equals(mFirebaseAuth.getCurrentUser().getUid())) {
+//                //I am not the customer, so I can sign up to be the mule
+//                btnSignUpOrUnregister.setText("sign up");
+//                btnSignUpOrUnregister.setVisibility(View.VISIBLE);
+//            }
+//        } else if (mFirebaseAuth.getCurrentUser().getUid().equals(myReq.getMule())) {
+//            //I am the mule, so I can unregister if I want to
+//            btnSignUpOrUnregister.setText("unregister");
+//            btnSignUpOrUnregister.setVisibility(View.VISIBLE);
+//        }
     }
 
     private void addButtonFunctions(final Request myReq) {
@@ -544,6 +557,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
                 }
                 mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.NO_MULE);
                 Toast.makeText(this, "Unregistered!", Toast.LENGTH_SHORT).show();
+                btnSignUpOrUnregister.setText("sign up");
             } catch (Exception e) {
                 Log.e("Error", e.toString());
             }

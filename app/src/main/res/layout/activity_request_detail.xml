@@ -86,7 +86,7 @@
                 android:minHeight="0dp"
                 android:minWidth="0dp"
                 android:onClick="showAlertDialogButtonClicked"
-                android:text="View Mules"
+                android:text="@string/view_mules"
                 android:textSize="14dp" />
 
 
@@ -451,7 +451,7 @@
                 android:backgroundTint="@color/cadet_blue"
                 android:minHeight="0dp"
                 android:minWidth="0dp"
-                android:text="Flight"
+                android:text="@string/flight"
                 android:textSize="14dp" />
 
             <EditText
@@ -476,7 +476,7 @@
                 android:backgroundTint="@color/light_slate_gray"
                 android:minHeight="0dp"
                 android:minWidth="0dp"
-                android:text="Cancel"
+                android:text="@string/Cancel"
                 android:textSize="14dp" />
 
 

@@ -12,6 +12,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,11 +29,13 @@ public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
     private int selectedIndex = -1;
     private UserClass selectedUser;
     private HashMap<UserClass, String> mulesToIDs;
+    private String transactionID;
 
     public MulesRadioAdapter(Context context, int activity_radio_button, List<UserClass> availableMules,
-                             HashMap<UserClass, String> mulesToIDs) {
+                             HashMap<UserClass, String> mulesToIDs, String transactionID) {
         super(context, activity_radio_button, availableMules);
         this.mulesToIDs = mulesToIDs;
+        this.transactionID = transactionID;
     }
 
     public void setSelectedIndex(int index) {
@@ -143,6 +146,32 @@ public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
                 @Override
                 public void onClick(View view) {
                     remove(mule);
+
+                    String muleID = mulesToIDs.get(mule);
+
+                    String potentialMuleKey = transactionID + muleID;
+                    FirebaseDatabase.getInstance().getReference().child("potentialMules").child(potentialMuleKey).removeValue();
+
+                    DatabaseReference reqRef = FirebaseDatabase.getInstance().getReference().child("requests").child(transactionID).getRef();
+                    reqRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Request req = dataSnapshot.getValue(Request.class);
+
+                            if (req == null || req.getTransactionID() == null) {
+                                return;
+                            }
+
+                            if(req.getMule() != null && req.getMule().equals(muleID)) {
+                                FirebaseDatabase.getInstance().getReference().child("requests").child(transactionID).child("mule").removeValue();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.w("Error", databaseError.toString());
+                        }
+                    });
                 }
             });
 

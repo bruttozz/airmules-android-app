@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/userprofilebackground"
+    android:orientation="vertical"
     tools:context=".LauncherActivity">
 
     <LinearLayout
@@ -25,8 +24,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/steel_blue"
-            android:text="@string/view_all_requests"
-            android:drawableLeft="@drawable/ic_content_paste_black_24dp"/>
+            android:drawableLeft="@drawable/ic_content_paste_black_24dp"
+            android:text="@string/view_all_requests" />
 
         <Button
             android:id="@+id/btnSeeUserProfile"
@@ -56,14 +55,12 @@
             android:id="@+id/btnViewPersonalRequests"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="35dp"
             android:backgroundTint="@color/slate_gray"
             android:drawableLeft="@drawable/ic_art_track_black_24dp"
-            android:text="@string/txtSeeRequest"
-            android:layout_marginBottom="35dp"/>
+            android:text="@string/txtSeeRequest" />
 
     </LinearLayout>
-
-
 
 
 </LinearLayout>

@@ -76,6 +76,7 @@
                     android:textSize="16sp" />
 
             </TableRow>
+
             <Button
                 android:id="@+id/btnViewMules"
                 android:layout_width="match_parent"
@@ -477,7 +478,6 @@
                 android:minWidth="0dp"
                 android:text="Cancel"
                 android:textSize="11dp" />
-
 
 
         </RelativeLayout>

@@ -64,7 +64,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:16.0.0'
 
     // Firebase UI
-    implementation 'com.firebaseui:firebase-ui-database:3.3.1'
+    implementation 'com.firebaseui:firebase-ui-database:4.2.1'
+    implementation 'com.firebaseui:firebase-ui-auth:4.2.1'
 
     //Tencent
     implementation 'com.annimon:stream:1.0.1'

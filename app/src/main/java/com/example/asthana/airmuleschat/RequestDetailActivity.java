@@ -218,7 +218,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
                     Toast.makeText(RequestDetailActivity.this, "Please select a mule", Toast.LENGTH_LONG).show();
                 }
                 else{
-                    String muleID = mulesToIDs.get(mule);
+                    String muleID = mulesToIDs.get(myMule);
                     mDatabase.child(REQUESTS).child(transactionID).child(MULE).setValue(muleID);
                     mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.NO_PAYMENT);
                     dialog.dismiss();

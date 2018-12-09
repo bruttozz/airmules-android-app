@@ -59,7 +59,7 @@ public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
             RatingBar muleRating = v.findViewById(R.id.dialogMuleRating);
 
             //Put this here so that we can see the radio button until we update the GUI
-            muleName.setText(mule.getName().substring(0, 1));
+            muleName.setText(mule.getName());
             muleRating.setRating(mule.getRating());
 
             if (rbSelect.isChecked()) {

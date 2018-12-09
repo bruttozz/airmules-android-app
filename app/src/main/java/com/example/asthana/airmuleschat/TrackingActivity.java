@@ -16,7 +16,6 @@ public class TrackingActivity extends Activity {
     private static final int PERMISSIONS_REQUEST = 100;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +46,7 @@ public class TrackingActivity extends Activity {
                     PERMISSIONS_REQUEST);
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[]
             grantResults) {

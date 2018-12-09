@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.content.Context;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,15 +27,7 @@ import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import com.payelves.sdk.EPay;
-import com.payelves.sdk.bean.QueryOrderModel;
-import com.payelves.sdk.enums.EPayResult;
-import com.payelves.sdk.listener.ConfigResultListener;
-import com.payelves.sdk.listener.PayResultListener;
-import com.payelves.sdk.listener.QueryOrderListener;
-
 import java.text.DecimalFormat;
-import java.util.UUID;
 
 
 public class UserProfileActivity extends BaseMenuActivity {
@@ -106,7 +97,7 @@ public class UserProfileActivity extends BaseMenuActivity {
                 txtViewMoneyLeft.setText(PaymentActivity.convertToMoneyFormatString(myFunds));
                 float rateFloatAsMule = me.getRating();
                 ratingAsMule.setRating(rateFloatAsMule);
-                DecimalFormat df=new DecimalFormat("0.00");
+                DecimalFormat df = new DecimalFormat("0.00");
                 String stringRateAsMule = df.format(rateFloatAsMule);
                 txtViewRatingAsMule.setText(stringRateAsMule);
                 Integer num = me.getNumRatings();

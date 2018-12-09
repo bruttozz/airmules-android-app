@@ -1,22 +1,16 @@
 package com.example.asthana.airmuleschat;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.Button;
 import android.widget.TextView;
-import android.content.Context;
-import android.app.AlertDialog;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -25,9 +19,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageMetadata;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 public class Withdraw extends AppCompatActivity {
 
@@ -101,7 +92,7 @@ public class Withdraw extends AppCompatActivity {
                 float inAppMoney = user.getMoney();
                 String inAppMoneyString = convertToMoneyFormatString(inAppMoney);
 
-                if(inAppMoney < num){
+                if (inAppMoney < num) {
                     new AlertDialog.Builder(Withdraw.this)
                             .setCancelable(false)
                             .setMessage("Not enough funds, have only $" + inAppMoneyString)
@@ -110,8 +101,7 @@ public class Withdraw extends AppCompatActivity {
                                     dialog.dismiss();
                                 }
                             }).show();
-                }
-                else{
+                } else {
                     inAppMoney = inAppMoney - num;
                     mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).child("money").setValue(inAppMoney);
                 }
@@ -125,13 +115,13 @@ public class Withdraw extends AppCompatActivity {
         });
     }
 
-    public static String convertToMoneyFormatString(float money){
+    public static String convertToMoneyFormatString(float money) {
         return convertToMoneyFormatString(money, true);
     }
 
-    public static String convertToMoneyFormatString(float money, boolean addCommas){
+    public static String convertToMoneyFormatString(float money, boolean addCommas) {
         String format = "%,.2f";
-        if(!addCommas){
+        if (!addCommas) {
             format.replace(",", "");
         }
         String moneyString = String.format(format, money);

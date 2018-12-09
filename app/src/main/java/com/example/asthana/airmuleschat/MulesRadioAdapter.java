@@ -12,7 +12,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -98,10 +97,10 @@ public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
                         }
 
                         //Is the request completed by this mule?
-                        if(req.getStatus().equals(Request.COMPLETE) && req.getMule() != null && req.getMule().equals(mulesToIDs.get(mule))){
+                        if (req.getStatus().equals(Request.COMPLETE) && req.getMule() != null && req.getMule().equals(mulesToIDs.get(mule))) {
                             String depLocation = req.getDeparture().getLocationString();
                             Integer countD = locationCounts.get(depLocation);
-                            if(countD == null){
+                            if (countD == null) {
                                 countD = 0;
                             }
                             countD++;
@@ -109,7 +108,7 @@ public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
 
                             String arrLocation = req.getArrival().getLocationString();
                             Integer countA = locationCounts.get(arrLocation);
-                            if(countA == null){
+                            if (countA == null) {
                                 countA = 0;
                             }
                             countA++;
@@ -119,8 +118,8 @@ public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
 
                     String maxLoc = "No Data";
                     int maxCount = 0;
-                    for(Map.Entry<String, Integer> loc : locationCounts.entrySet()){
-                        if(loc.getValue() > maxCount){
+                    for (Map.Entry<String, Integer> loc : locationCounts.entrySet()) {
+                        if (loc.getValue() > maxCount) {
                             maxLoc = loc.getKey();
                             maxCount = loc.getValue();
                         }
@@ -162,7 +161,7 @@ public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
                                 return;
                             }
 
-                            if(req.getMule() != null && req.getMule().equals(muleID)) {
+                            if (req.getMule() != null && req.getMule().equals(muleID)) {
                                 FirebaseDatabase.getInstance().getReference().child("requests").child(transactionID).child("mule").removeValue();
                             }
                         }

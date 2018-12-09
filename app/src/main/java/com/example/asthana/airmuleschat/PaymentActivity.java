@@ -5,14 +5,12 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,11 +23,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.payu.india.Model.PaymentParams;
 import com.payu.india.Model.PayuConfig;
 import com.payu.india.Model.PayuHashes;
-import com.payu.india.Model.PostData;
 import com.payu.india.Payu.Payu;
 import com.payu.india.Payu.PayuConstants;
-import com.payu.india.Payu.PayuErrors;
-import com.payu.india.PostParams.PaymentPostParams;
 import com.payu.payuui.Activity.PayUBaseActivity;
 
 import org.json.JSONException;
@@ -85,11 +80,11 @@ public class PaymentActivity extends BaseMenuActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        txtMuleName = (TextView)findViewById(R.id.txtMuleName);
+        txtMuleName = (TextView) findViewById(R.id.txtMuleName);
         txtMuleName.setText("");
         txtPrice = (TextView) findViewById(R.id.txtPrice);
         txtFee = (TextView) findViewById(R.id.txtFeeAmount);
-        txtTotalAmount = (TextView)findViewById(R.id.txtTotalAmount);
+        txtTotalAmount = (TextView) findViewById(R.id.txtTotalAmount);
         setUpPriceListeners();
         //Get the price of the transaction
         DatabaseReference reqRef = mDatabase.child("requests").child(transactionID).getRef();
@@ -101,7 +96,7 @@ public class PaymentActivity extends BaseMenuActivity {
                     PaymentActivity.this.finish();
                     return;
                 }
-                if(req.getMule() == null){
+                if (req.getMule() == null) {
                     Toast.makeText(PaymentActivity.this, "The mule has unregistered.", Toast.LENGTH_LONG).show();
                     PaymentActivity.this.finish();
                     return;
@@ -115,7 +110,7 @@ public class PaymentActivity extends BaseMenuActivity {
                         if (mule != null) {
                             txtMuleName.setText(mule.getName());
                         } else {
-                            Log.e( "Error","Could not find mule.");
+                            Log.e("Error", "Could not find mule.");
                             PaymentActivity.this.finish();
                             return;
                         }
@@ -161,7 +156,7 @@ public class PaymentActivity extends BaseMenuActivity {
                         float inAppMoney = user.getMoney();
                         String inAppMoneyString = convertToMoneyFormatString(inAppMoney);
 
-                        if(inAppMoney < totalAmount){
+                        if (inAppMoney < totalAmount) {
                             new AlertDialog.Builder(PaymentActivity.this)
                                     .setCancelable(false)
                                     .setMessage("Not enough funds, have only $" + inAppMoneyString)
@@ -170,8 +165,7 @@ public class PaymentActivity extends BaseMenuActivity {
                                             dialog.dismiss();
                                         }
                                     }).show();
-                        }
-                        else{
+                        } else {
                             inAppMoney = inAppMoney - totalAmount;
                             inAppMoneyString = convertToMoneyFormatString(inAppMoney);
                             //subtract money from user's account
@@ -200,14 +194,14 @@ public class PaymentActivity extends BaseMenuActivity {
         });
     }
 
-    private void setUpPriceListeners(){
+    private void setUpPriceListeners() {
         //We can no longer edit the price, so this is less important to be a listener, but still good to keep
         txtPrice.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 float price = 0;
                 try {
                     price = convertMoneyStringToFloat(txtPrice.getText().toString());
-                }catch(Exception e){
+                } catch (Exception e) {
                     txtPrice.setText(convertToMoneyFormatString(0));
                     return;
                 }
@@ -217,28 +211,32 @@ public class PaymentActivity extends BaseMenuActivity {
                 txtFee.setText(convertToMoneyFormatString(serviceFee));
                 txtTotalAmount.setText(convertToMoneyFormatString(total));
             }
+
             public void beforeTextChanged(CharSequence s, int start,
-                                          int count, int after) {}
+                                          int count, int after) {
+            }
+
             public void onTextChanged(CharSequence s, int start,
-                                      int before, int count) {}
+                                      int before, int count) {
+            }
         });
 
     }
 
-    public static String convertToMoneyFormatString(float money){
+    public static String convertToMoneyFormatString(float money) {
         return convertToMoneyFormatString(money, true);
     }
 
-    public static String convertToMoneyFormatString(float money, boolean addCommas){
+    public static String convertToMoneyFormatString(float money, boolean addCommas) {
         String format = "%,.2f";
-        if(!addCommas){
+        if (!addCommas) {
             format.replace(",", "");
         }
         String moneyString = String.format(format, money);
         return moneyString;
     }
 
-    public static float convertMoneyStringToFloat(String moneyString){
+    public static float convertMoneyStringToFloat(String moneyString) {
         moneyString = moneyString.replace(",", "");
         return Float.parseFloat(moneyString);
     }
@@ -349,6 +347,7 @@ public class PaymentActivity extends BaseMenuActivity {
         GetHashesFromServerTask getHashesFromServerTask = new GetHashesFromServerTask();
         getHashesFromServerTask.execute(postParams);
     }
+
     protected String concatParams(String key, String value) {
         return key + "=" + value + "&";
     }
@@ -470,7 +469,7 @@ public class PaymentActivity extends BaseMenuActivity {
                 String status = "failure";
                 String amount = "0";
                 String cardNumber = "???";
-                try{
+                try {
                     //Parse the JSON object to get the actual data
                     json = new JSONObject(resultJSON);
                     status = json.getString("status");
@@ -483,11 +482,10 @@ public class PaymentActivity extends BaseMenuActivity {
                 }
 
                 String message;
-                if(status.equals("success")){
+                if (status.equals("success")) {
                     mDatabase.child("requests").child(transactionID).child("status").setValue(Request.PAID);
                     message = "Payment Confirmed! Charged $" + amount + " to card: " + cardNumber;
-                }
-                else{
+                } else {
                     message = "Payment Failed...";
                 }
                 final String statusFinal = status;
@@ -499,7 +497,7 @@ public class PaymentActivity extends BaseMenuActivity {
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.dismiss();
-                                if(statusFinal.equals("success")){
+                                if (statusFinal.equals("success")) {
                                     PaymentActivity.this.finish();
                                     return;
                                 }

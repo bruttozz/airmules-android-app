@@ -1,7 +1,5 @@
 package com.example.asthana.airmuleschat;
 
-import java.util.Date;
-
 public class Request {
     public static final String NO_MULE = "NO MULE";
     public static final String NO_PAYMENT = "NOT PAID";
@@ -25,14 +23,15 @@ public class Request {
     private String chatID;
     private String flightNumber;
 
-    public Request(){}
+    public Request() {
+    }
 
-    public Request(String transactionID, String customer){
+    public Request(String transactionID, String customer) {
         this.transactionID = transactionID;
         this.customer = customer;
     }
 
-    public String getTransactionID(){
+    public String getTransactionID() {
         return transactionID;
     }
 
@@ -44,7 +43,7 @@ public class Request {
         this.status = status;
     }
 
-    public String getCustomer(){
+    public String getCustomer() {
         return customer;
     }
 
@@ -105,16 +104,17 @@ public class Request {
     }
 
 
-    public static class ItemData{
+    public static class ItemData {
         private String name;
         private int weight;
         private float height;
         private float length;
         private float width;
 
-        public ItemData(){}
+        public ItemData() {
+        }
 
-        public ItemData(String name, int weight, float height, float length, float width){
+        public ItemData(String name, int weight, float height, float length, float width) {
             this.name = name;
             this.weight = weight;
             this.height = height;
@@ -163,7 +163,7 @@ public class Request {
         }
     }
 
-    public static class LocationInfo{
+    public static class LocationInfo {
         public static final String DATE_DELIMITER = "-";
         public static final int DAY_INDEX = 0;
         public static final int MONTH_INDEX = 1;
@@ -173,7 +173,8 @@ public class Request {
         private String country;
         private String date;
 
-        public LocationInfo(){}
+        public LocationInfo() {
+        }
 
         public LocationInfo(String city, String country, String date) {
             this.city = city;
@@ -197,7 +198,7 @@ public class Request {
             this.country = country;
         }
 
-        public String getLocationString(){
+        public String getLocationString() {
             return getCity() + ", " + getCountry();
         }
 

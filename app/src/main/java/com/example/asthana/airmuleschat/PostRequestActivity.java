@@ -2,8 +2,6 @@ package com.example.asthana.airmuleschat;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -13,11 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -68,14 +63,14 @@ public class PostRequestActivity extends BaseMenuActivity {
             @Override
             public void onClick(View v) {
                 boolean success = saveRequestToDatabase();
-                if(success) {
+                if (success) {
                     finish();
                 }
             }
         });
     }
 
-    private void findAllEditTextAndClear(){
+    private void findAllEditTextAndClear() {
         editTextName = (EditText) findViewById(R.id.editTextName);
         editTextWeight = (EditText) findViewById(R.id.editTextWeight);
         editTextHeight = (EditText) findViewById(R.id.editTextHeight);
@@ -159,7 +154,7 @@ public class PostRequestActivity extends BaseMenuActivity {
         });
 
         //Clear the edit text data
-        for(TextView et : allEditTexts){
+        for (TextView et : allEditTexts) {
             et.setText("");
         }
 
@@ -175,11 +170,10 @@ public class PostRequestActivity extends BaseMenuActivity {
         Request req = readReqDataFromGUI();
         //Request req = makeFakeRequest();
 
-        if(req != null){
+        if (req != null) {
             mDatabase.child("requests").child(req.getTransactionID()).setValue(req);
             return true;
-        }
-        else{
+        } else {
             return false;
         }
 
@@ -201,14 +195,14 @@ public class PostRequestActivity extends BaseMenuActivity {
         */
     }
 
-    private Request createEmptyRequestObject(){
+    private Request createEmptyRequestObject() {
         String customerID = mFirebaseAuth.getCurrentUser().getUid();
         String reqID = customerID + System.currentTimeMillis();     //makes it unique
         Request req = new Request(reqID, customerID);
         return req;
     }
 
-    private Request readReqDataFromGUI(){
+    private Request readReqDataFromGUI() {
         //Perform a final check of the city/country data
         editTextDepCity.performValidation();
         editTextDepCountry.performValidation();
@@ -216,8 +210,8 @@ public class PostRequestActivity extends BaseMenuActivity {
         editTextArrCountry.performValidation();
 
         //Is there data set?
-        for(TextView et : allEditTexts){
-            if(et.getText().toString().isEmpty()){
+        for (TextView et : allEditTexts) {
+            if (et.getText().toString().isEmpty()) {
                 Toast.makeText(getBaseContext(), "Missing Data...", Toast.LENGTH_SHORT).show();
                 return null;
             }
@@ -249,7 +243,7 @@ public class PostRequestActivity extends BaseMenuActivity {
         return req;
     }
 
-    private Request makeFakeRequest(){
+    private Request makeFakeRequest() {
         Request req = createEmptyRequestObject();
 
         Request.ItemData itemData = new Request.ItemData("cheese", 2, 1.1f, 2.1f, 3);

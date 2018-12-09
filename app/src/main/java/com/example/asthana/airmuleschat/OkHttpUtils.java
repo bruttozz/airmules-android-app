@@ -58,6 +58,7 @@ public class OkHttpUtils {
 
     /**
      * Result
+     *
      * @param callback
      * @param request
      */
@@ -117,7 +118,7 @@ public class OkHttpUtils {
     }
 
     private Request buildPostRequest(String url, List<Param> params) {
-        FormBody.Builder builder= new FormBody.Builder();
+        FormBody.Builder builder = new FormBody.Builder();
         for (Param param : params) {
             builder.add(param.key, param.value);
         }
@@ -130,8 +131,9 @@ public class OkHttpUtils {
 
     /**
      * get request
-     * @param url  request url
-     * @param callback  request callback
+     *
+     * @param url      request url
+     * @param callback request callback
      */
     public static void get(String url, ResultCallback callback) {
         getmInstance().getRequest(url, callback);
@@ -139,6 +141,7 @@ public class OkHttpUtils {
 
     /**
      * post request
+     *
      * @param url
      * @param callback
      * @param params
@@ -149,13 +152,14 @@ public class OkHttpUtils {
 
     /**
      * http request callback class, request method processed in UI thread
+     *
      * @param <T>
      */
     public static abstract class ResultCallback<T> {
 
         Type mType;
 
-        public ResultCallback(){
+        public ResultCallback() {
             mType = getSuperclassTypeParameter(getClass());
         }
 
@@ -170,12 +174,14 @@ public class OkHttpUtils {
 
         /**
          * callback success
+         *
          * @param response
          */
         public abstract void onSuccess(T response);
 
         /**
          * callback failed
+         *
          * @param e
          */
         public abstract void onFailure(Exception e);

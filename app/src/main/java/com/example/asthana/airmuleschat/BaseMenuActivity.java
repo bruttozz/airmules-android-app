@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +34,7 @@ import java.util.HashMap;
 import java.util.TreeSet;
 
 public abstract class BaseMenuActivity extends AppCompatActivity
-        implements  GoogleApiClient.OnConnectionFailedListener{
+        implements GoogleApiClient.OnConnectionFailedListener {
 
     protected FirebaseAuth mFirebaseAuth;
     protected FirebaseUser mFirebaseUser;
@@ -114,9 +113,9 @@ public abstract class BaseMenuActivity extends AppCompatActivity
         Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
     }
 
-    private void readInWorldLocationData(){
+    private void readInWorldLocationData() {
         try {
-            if(geoLocationsDatabase == null || geoLocationsDatabase.isEmpty()) {
+            if (geoLocationsDatabase == null || geoLocationsDatabase.isEmpty()) {
                 geoLocationsDatabase = new HashMap<String, TreeSet<String>>();
 
                 AssetManager assetManager = getApplicationContext().getAssets();
@@ -128,7 +127,7 @@ public abstract class BaseMenuActivity extends AppCompatActivity
                 int cityIndex = 0;
                 int countryIndex = 1;
                 while ((line = buffreader.readLine()) != null) {
-                    if(header){
+                    if (header) {
                         //skip the header
                         header = false;
                         continue;
@@ -155,14 +154,14 @@ public abstract class BaseMenuActivity extends AppCompatActivity
                     String country = rowData[countryIndex];
 
                     TreeSet<String> countryData = geoLocationsDatabase.get(country);
-                    if(countryData == null){
+                    if (countryData == null) {
                         countryData = new TreeSet<String>();
                         geoLocationsDatabase.put(country, countryData);
                     }
                     countryData.add(city);
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             //dictionary = null;
             Toast.makeText(getApplicationContext(), "Unable to load locations!", Toast.LENGTH_SHORT).show();
         }
@@ -177,21 +176,21 @@ public abstract class BaseMenuActivity extends AppCompatActivity
      */
     public void syncUpCityAndCountry(Context parentContext,
                                      TextView cityLabel, AutoCompleteTextView cityET,
-                                     AutoCompleteTextView countryET){
+                                     AutoCompleteTextView countryET) {
         int currentCityColor = cityLabel.getCurrentTextColor();
 
         cityET.setEnabled(false);
         cityLabel.setTextColor(Color.LTGRAY);
         cityET.setThreshold(2);
-        cityET.setValidator(new AutoCompleteTextView.Validator(){
+        cityET.setValidator(new AutoCompleteTextView.Validator() {
             @Override
             public boolean isValid(CharSequence text) {
                 String textString = text.toString();
 
-                if(textString.equals("")){
+                if (textString.equals("")) {
                     return true;
                 }
-                if(!geoLocationsDatabase.get(countryET.getText().toString()).contains(textString)){
+                if (!geoLocationsDatabase.get(countryET.getText().toString()).contains(textString)) {
                     //Entered not a real city in the country
                     return false;
                 }
@@ -206,15 +205,15 @@ public abstract class BaseMenuActivity extends AppCompatActivity
 
         countryET.setAdapter(new ArrayAdapter<String>(parentContext, android.R.layout.simple_dropdown_item_1line, new ArrayList<String>(geoLocationsDatabase.keySet())));
         countryET.setThreshold(3);
-        countryET.setValidator(new AutoCompleteTextView.Validator(){
+        countryET.setValidator(new AutoCompleteTextView.Validator() {
             @Override
             public boolean isValid(CharSequence text) {
                 String textString = text.toString();
 
-                if(textString.equals("")){
+                if (textString.equals("")) {
                     return true;
                 }
-                if(geoLocationsDatabase.get(textString) == null){
+                if (geoLocationsDatabase.get(textString) == null) {
                     //Entered not a real country
                     return false;
                 }
@@ -234,9 +233,9 @@ public abstract class BaseMenuActivity extends AppCompatActivity
                 return "";
             }
         });
-        countryET.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        countryET.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Validate right away, so the user can click on the city field
                 countryET.performValidation();
             }

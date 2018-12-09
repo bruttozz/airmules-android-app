@@ -357,7 +357,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
         }
 
 
-
 //        if (myReq.getMule() == null) {
 //            if (!myReq.getCustomer().equals(mFirebaseAuth.getCurrentUser().getUid())) {
 //                //I am not the customer, so I can sign up to be the mule

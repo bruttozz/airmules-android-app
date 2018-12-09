@@ -10,8 +10,6 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
@@ -58,8 +56,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             date = itemView.findViewById(R.id.user_txtViewDate);
             deleteRequest = itemView.findViewById(R.id.btnDeleteRequest);
             parentLayout = itemView.findViewById(R.id.parentid);
-
-
 
 
         }

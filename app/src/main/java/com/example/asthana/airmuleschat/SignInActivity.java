@@ -3,7 +3,6 @@ package com.example.asthana.airmuleschat;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.annimon.stream.Optional;
@@ -38,19 +36,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.tencent.mm.opensdk.modelbase.BaseReq;
-import com.tencent.mm.opensdk.modelbase.BaseResp;
-import com.tencent.mm.opensdk.modelmsg.SendAuth;
-import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
-
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -93,7 +83,7 @@ public class SignInActivity extends AppCompatActivity implements
         launchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(api.openWXApp() == false){
+                if (api.openWXApp() == false) {
                     Toast.makeText(SignInActivity.this, "Please install WeChat APP first", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -202,17 +192,17 @@ public class SignInActivity extends AppCompatActivity implements
                 });
     }
 
-    private void completeSignInProcedureForUser(){
+    private void completeSignInProcedureForUser() {
         DatabaseReference ref = mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).getRef();
         // Attach a listener to read the data at our posts reference
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserClass user = dataSnapshot.getValue(UserClass.class);
-                if(user == null || user.getName() == null){
+                if (user == null || user.getName() == null) {
                     //We don't have this user yet
                     mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid())
-                            .setValue(new UserClass(mFirebaseAuth.getCurrentUser().getDisplayName(), 0,0,0));
+                            .setValue(new UserClass(mFirebaseAuth.getCurrentUser().getDisplayName(), 0, 0, 0));
                 }
 
                 startActivity(new Intent(SignInActivity.this, LauncherActivity.class));
@@ -226,15 +216,15 @@ public class SignInActivity extends AppCompatActivity implements
         });
     }
 
-    private void createUserWithWeChat(String openid, final String name){
-        String token = openid+"@gmail.com";
+    private void createUserWithWeChat(String openid, final String name) {
+        String token = openid + "@gmail.com";
         mFirebaseAuth.createUserWithEmailAndPassword(token, openid)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mFirebaseAuth.getCurrentUser();
-                            if(user != null) {
+                            if (user != null) {
                                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                         .setDisplayName(name).build();
                                 user.updateProfile(profileUpdates);
@@ -250,8 +240,8 @@ public class SignInActivity extends AppCompatActivity implements
                 });
     }
 
-    private void firebaseAuthWithWeChat(final String openid, final String name){
-        String token = openid+"@gmail.com";
+    private void firebaseAuthWithWeChat(final String openid, final String name) {
+        String token = openid + "@gmail.com";
         mFirebaseAuth.signInWithEmailAndPassword(token, openid)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override

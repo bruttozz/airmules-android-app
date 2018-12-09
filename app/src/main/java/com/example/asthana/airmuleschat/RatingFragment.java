@@ -9,9 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RatingBar;
-import android.widget.TextView;
 
 
 /**
@@ -34,11 +32,11 @@ public class RatingFragment extends DialogFragment {
         ratingBar = view.findViewById(R.id.ratingBar);
         builder.setView(view)
                 // Add action buttons
-                .setTitle("Please rate "+name)
+                .setTitle("Please rate " + name)
                 .setPositiveButton("Rate", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        ((RequestDetailActivity)getActivity()).updateRating(ratingBar.getRating());
+                        ((RequestDetailActivity) getActivity()).updateRating(ratingBar.getRating());
                         // sign in the user ...
                     }
                 })

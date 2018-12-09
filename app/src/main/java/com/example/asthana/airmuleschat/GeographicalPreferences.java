@@ -1,12 +1,9 @@
 package com.example.asthana.airmuleschat;
 
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,7 +16,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,7 +55,7 @@ public class GeographicalPreferences extends BaseMenuActivity {
             }
         });
 
-        listPreferences = (RecyclerView)findViewById(R.id.listPreferences);
+        listPreferences = (RecyclerView) findViewById(R.id.listPreferences);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getApplicationContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         listPreferences.setLayoutManager(linearLayoutManager);
@@ -77,7 +73,7 @@ public class GeographicalPreferences extends BaseMenuActivity {
         return true;
     }
 
-    private void createDatabaseQueryAdapter(){
+    private void createDatabaseQueryAdapter() {
         //based on https://github.com/firebase/FirebaseUI-Android/blob/master/database/README.md
 
         Query q = mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).child(DATABASE_TABLE_NAME).getRef();
@@ -111,7 +107,7 @@ public class GeographicalPreferences extends BaseMenuActivity {
         adapter.stopListening();
     }
 
-    private void createAddDialog(){
+    private void createAddDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getResources().getString(R.string.addGeoPrefTitle));
 
@@ -148,15 +144,15 @@ public class GeographicalPreferences extends BaseMenuActivity {
                 edtTxtCity.performValidation();
                 edtTxtCountry.performValidation();
 
-                if(edtTxtCountry.getText().toString().isEmpty()){
-                    Toast toast = Toast.makeText(getApplicationContext(),"Country is required", Toast.LENGTH_SHORT);
+                if (edtTxtCountry.getText().toString().isEmpty()) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "Country is required", Toast.LENGTH_SHORT);
                     toast.show();
                     return;
                 }
                 //We will allow the city to be unspecified
 
                 String city = null;
-                if(!edtTxtCity.getText().toString().isEmpty()){
+                if (!edtTxtCity.getText().toString().isEmpty()) {
                     city = edtTxtCity.getText().toString();
                 }
                 final String city_final = city;
@@ -170,10 +166,9 @@ public class GeographicalPreferences extends BaseMenuActivity {
                     public void onDataChange(DataSnapshot snapshot) {
                         if (snapshot.exists()) {
                             //We already have this entry
-                            Toast toast = Toast.makeText(getApplicationContext(),"Preference already exists", Toast.LENGTH_SHORT);
+                            Toast toast = Toast.makeText(getApplicationContext(), "Preference already exists", Toast.LENGTH_SHORT);
                             toast.show();
-                        }
-                        else{
+                        } else {
                             //New entry, so let's add it
                             mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).child(DATABASE_TABLE_NAME)
                                     .child(key).setValue(new GeoPref(city_final, country));
@@ -191,20 +186,20 @@ public class GeographicalPreferences extends BaseMenuActivity {
     }
 }
 
-class GeoPref{
+class GeoPref {
     private String city;
     private String country;
 
-    public GeoPref(){
+    public GeoPref() {
     }
 
-    public GeoPref(String city, String country){
+    public GeoPref(String city, String country) {
         this.city = city;
         this.country = country;
     }
 
-    public static String createKey(String city, String country){
-        if(city == null){
+    public static String createKey(String city, String country) {
+        if (city == null) {
             return country;
         }
         return city + ", " + country;
@@ -226,15 +221,14 @@ class GeoPref{
         this.country = country;
     }
 
-    public String getLocationString(){
+    public String getLocationString() {
         return createKey(getCity(), getCountry());
     }
 
-    public boolean prefMatches(String cityToCheck, String countryToCheck){
-        if(city != null){
+    public boolean prefMatches(String cityToCheck, String countryToCheck) {
+        if (city != null) {
             return getLocationString().equals(createKey(cityToCheck, countryToCheck));
-        }
-        else{
+        } else {
             return country.equals(countryToCheck);
         }
     }

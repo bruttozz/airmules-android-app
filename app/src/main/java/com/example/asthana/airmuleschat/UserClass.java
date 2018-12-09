@@ -9,7 +9,7 @@ public class UserClass {
     private double longitude;
 
     public UserClass() {
-        
+
     }
 
     public UserClass(String name, float money, float rating, int numRatings) {
@@ -29,13 +29,17 @@ public class UserClass {
         return this.money;
     }
 
-    public void setMoney( float money) {
+    public void setMoney(float money) {
         this.money = money;
     }
 
-    public float getRating() {return this.rating;}
+    public float getRating() {
+        return this.rating;
+    }
 
-    public int getNumRatings(){return this.numRatings;}
+    public int getNumRatings() {
+        return this.numRatings;
+    }
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
@@ -52,11 +56,6 @@ public class UserClass {
     public double getLongitude() {
         return this.longitude;
     }
-
-
-
-
-
 
 
 }

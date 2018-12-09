@@ -22,18 +22,29 @@ import com.google.firebase.storage.FirebaseStorage;
 
 public class Withdraw extends AppCompatActivity {
 
+    private static final String USERS = "users";
+    private static final String MONEY = "money";
     private DatabaseReference mDatabase;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseStorage storage = FirebaseStorage.getInstance();
-
     private TextView moneyLeft;
     private EditText amountInput;
     private EditText accountInfo;
     private Button withdrawbtn;
-
     private String userID;
-    private static final String USERS = "users";
-    private static final String MONEY = "money";
+
+    public static String convertToMoneyFormatString(float money) {
+        return convertToMoneyFormatString(money, true);
+    }
+
+    public static String convertToMoneyFormatString(float money, boolean addCommas) {
+        String format = "%,.2f";
+        if (!addCommas) {
+            format.replace(",", "");
+        }
+        String moneyString = String.format(format, money);
+        return moneyString;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,19 +124,6 @@ public class Withdraw extends AppCompatActivity {
                 Log.w("Error", databaseError.toString());
             }
         });
-    }
-
-    public static String convertToMoneyFormatString(float money) {
-        return convertToMoneyFormatString(money, true);
-    }
-
-    public static String convertToMoneyFormatString(float money, boolean addCommas) {
-        String format = "%,.2f";
-        if (!addCommas) {
-            format.replace(",", "");
-        }
-        String moneyString = String.format(format, money);
-        return moneyString;
     }
 
 }

@@ -47,44 +47,25 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PersonalChat extends BaseMenuActivity {
 
-    public static class MessageViewHolder extends RecyclerView.ViewHolder {
-        TextView messageTextView;
-        ImageView messageImageView;
-        TextView messengerTextView;
-        CircleImageView messengerImageView;
-
-        public MessageViewHolder(View v) {
-            super(v);
-            messageTextView = (TextView) itemView.findViewById(R.id.messageTextView);
-            messageImageView = (ImageView) itemView.findViewById(R.id.messageImageView);
-            messengerTextView = (TextView) itemView.findViewById(R.id.messengerTextView);
-            messengerImageView = (CircleImageView) itemView.findViewById(R.id.messengerImageView);
-        }
-    }
-
+    public static final String PERSONAL_MESSAGES_CHILD = "personal_messages";
+    public static final String ANONYMOUS = "Unknown Person";
+    private static final String TAG = "Personal Chat";
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
-
     private DatabaseReference mFirebaseDatabaseReference;
     private FirebaseRecyclerAdapter<MessageClass, MessageViewHolder>
             mFirebaseAdapter;
-    private static final String TAG = "Personal Chat";
-    public static final String PERSONAL_MESSAGES_CHILD = "personal_messages";
-    public static final String ANONYMOUS = "Unknown Person";
     private String mUsername;
     private String mPhotoUrl;
     private String mPrivateChatID;
     private SharedPreferences mSharedPreferences;
     private GoogleApiClient mGoogleApiClient;
-
     private Button mSendButton;
     private RecyclerView mMessageRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
     private ProgressBar mProgressBar;
     private EditText mMessageEditText;
     private ImageView mAddMessageImageView;
-
-    // Firebase instance variables
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -238,6 +219,8 @@ public class PersonalChat extends BaseMenuActivity {
 
     }
 
+    // Firebase instance variables
+
     @Override
     public void onStart() {
         super.onStart();
@@ -287,6 +270,21 @@ public class PersonalChat extends BaseMenuActivity {
         // Everything has gone wrong.
         Log.e(TAG, "onConnectionFailed:" + connectionResult);
         Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
+    }
+
+    public static class MessageViewHolder extends RecyclerView.ViewHolder {
+        TextView messageTextView;
+        ImageView messageImageView;
+        TextView messengerTextView;
+        CircleImageView messengerImageView;
+
+        public MessageViewHolder(View v) {
+            super(v);
+            messageTextView = (TextView) itemView.findViewById(R.id.messageTextView);
+            messageImageView = (ImageView) itemView.findViewById(R.id.messageImageView);
+            messengerTextView = (TextView) itemView.findViewById(R.id.messengerTextView);
+            messengerImageView = (CircleImageView) itemView.findViewById(R.id.messengerImageView);
+        }
     }
 
 }

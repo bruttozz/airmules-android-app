@@ -31,8 +31,6 @@
     <color name="fbutton_color_transparent">@android:color/transparent</color>
 
 
-
-
     <!--color library-->
 
     <color name="white">#FFFFFF</color>

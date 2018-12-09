@@ -68,6 +68,23 @@ public class PaymentActivity extends BaseMenuActivity {
     private FirebaseAuth mFirebaseAuth;
     private DatabaseReference mDatabase;
 
+    public static String convertToMoneyFormatString(float money) {
+        return convertToMoneyFormatString(money, true);
+    }
+
+    public static String convertToMoneyFormatString(float money, boolean addCommas) {
+        String format = "%,.2f";
+        if (!addCommas) {
+            format.replace(",", "");
+        }
+        String moneyString = String.format(format, money);
+        return moneyString;
+    }
+
+    public static float convertMoneyStringToFloat(String moneyString) {
+        moneyString = moneyString.replace(",", "");
+        return Float.parseFloat(moneyString);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -223,24 +240,6 @@ public class PaymentActivity extends BaseMenuActivity {
 
     }
 
-    public static String convertToMoneyFormatString(float money) {
-        return convertToMoneyFormatString(money, true);
-    }
-
-    public static String convertToMoneyFormatString(float money, boolean addCommas) {
-        String format = "%,.2f";
-        if (!addCommas) {
-            format.replace(",", "");
-        }
-        String moneyString = String.format(format, money);
-        return moneyString;
-    }
-
-    public static float convertMoneyStringToFloat(String moneyString) {
-        moneyString = moneyString.replace(",", "");
-        return Float.parseFloat(moneyString);
-    }
-
     /**
      * This method prepares all the payments params to be sent to PayuBaseActivity.java
      */
@@ -353,6 +352,73 @@ public class PaymentActivity extends BaseMenuActivity {
     }
 
     /**
+     * This method adds the PayU hashes and other required params to intent and launches the PayuBaseActivity.java
+     *
+     * @param payuHashes it contains all the hashes generated from merchant server
+     */
+    public void launchSdkUI(PayuHashes payuHashes) {
+        //Create the Intent object to start payment procedure
+        Intent intent = new Intent(this, PayUBaseActivity.class);
+        intent.putExtra(PayuConstants.PAYU_CONFIG, payuConfig);
+        intent.putExtra(PayuConstants.PAYMENT_PARAMS, mPaymentParams);
+        intent.putExtra(PayuConstants.PAYU_HASHES, payuHashes);
+
+        startActivityForResult(intent, PayuConstants.PAYU_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
+        if (requestCode == PayuConstants.PAYU_REQUEST_CODE) {
+            //We got the payment authentication status
+
+            if (data != null) {
+                //Get the response sent by PayU
+                String resultJSON = data.getStringExtra("result");
+                JSONObject json = null;
+                String status = "failure";
+                String amount = "0";
+                String cardNumber = "???";
+                try {
+                    //Parse the JSON object to get the actual data
+                    json = new JSONObject(resultJSON);
+                    status = json.getString("status");
+                    amount = json.getString("amount");
+                    //Actually just show the total
+                    amount = txtTotalAmount.getText().toString();
+                    cardNumber = json.getString("cardnum");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                String message;
+                if (status.equals("success")) {
+                    mDatabase.child("requests").child(transactionID).child("status").setValue(Request.PAID);
+                    message = "Payment Confirmed! Charged $" + amount + " to card: " + cardNumber;
+                } else {
+                    message = "Payment Failed...";
+                }
+                final String statusFinal = status;
+
+                //Display some basic information from the transaction
+                new AlertDialog.Builder(this)
+                        .setCancelable(false)
+                        .setMessage(message)
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.dismiss();
+                                if (statusFinal.equals("success")) {
+                                    PaymentActivity.this.finish();
+                                    return;
+                                }
+                            }
+                        }).show();
+            } else {
+                Toast.makeText(this, getString(R.string.could_not_receive_data), Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    /**
      * This AsyncTask generates hash from server.
      */
     private class GetHashesFromServerTask extends AsyncTask<String, String, PayuHashes> {
@@ -439,73 +505,6 @@ public class PaymentActivity extends BaseMenuActivity {
             progressDialog.dismiss();
             //Finally we can launch the Intent!
             launchSdkUI(payuHashes);
-        }
-    }
-
-    /**
-     * This method adds the PayU hashes and other required params to intent and launches the PayuBaseActivity.java
-     *
-     * @param payuHashes it contains all the hashes generated from merchant server
-     */
-    public void launchSdkUI(PayuHashes payuHashes) {
-        //Create the Intent object to start payment procedure
-        Intent intent = new Intent(this, PayUBaseActivity.class);
-        intent.putExtra(PayuConstants.PAYU_CONFIG, payuConfig);
-        intent.putExtra(PayuConstants.PAYMENT_PARAMS, mPaymentParams);
-        intent.putExtra(PayuConstants.PAYU_HASHES, payuHashes);
-
-        startActivityForResult(intent, PayuConstants.PAYU_REQUEST_CODE);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
-        if (requestCode == PayuConstants.PAYU_REQUEST_CODE) {
-            //We got the payment authentication status
-
-            if (data != null) {
-                //Get the response sent by PayU
-                String resultJSON = data.getStringExtra("result");
-                JSONObject json = null;
-                String status = "failure";
-                String amount = "0";
-                String cardNumber = "???";
-                try {
-                    //Parse the JSON object to get the actual data
-                    json = new JSONObject(resultJSON);
-                    status = json.getString("status");
-                    amount = json.getString("amount");
-                    //Actually just show the total
-                    amount = txtTotalAmount.getText().toString();
-                    cardNumber = json.getString("cardnum");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                String message;
-                if (status.equals("success")) {
-                    mDatabase.child("requests").child(transactionID).child("status").setValue(Request.PAID);
-                    message = "Payment Confirmed! Charged $" + amount + " to card: " + cardNumber;
-                } else {
-                    message = "Payment Failed...";
-                }
-                final String statusFinal = status;
-
-                //Display some basic information from the transaction
-                new AlertDialog.Builder(this)
-                        .setCancelable(false)
-                        .setMessage(message)
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.dismiss();
-                                if (statusFinal.equals("success")) {
-                                    PaymentActivity.this.finish();
-                                    return;
-                                }
-                            }
-                        }).show();
-            } else {
-                Toast.makeText(this, getString(R.string.could_not_receive_data), Toast.LENGTH_LONG).show();
-            }
         }
     }
 

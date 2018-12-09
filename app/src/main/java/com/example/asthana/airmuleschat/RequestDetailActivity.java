@@ -37,6 +37,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class RequestDetailActivity extends BaseMenuActivity {
+    static final String API_URL = "https://aviation-edge.com/v2/public/flights?key=782cbd-deb8af&flightIata=";
+    private static final String REQUESTS = "requests";
+    private static final String MULE = "mule";
+    private static final String STATUS = "status";
     private TextView txtStatus;
     private TextView txtViewDeparture;
     private TextView txtViewArrival;
@@ -48,7 +52,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private TextView txtViewMule;
     private TextView txtViewReward;
     private EditText flightNum;
-
     private Button btnChat;
     private Button btnCancel;
     private Button btnSignUpOrUnregister;
@@ -56,10 +59,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private Button btnPayOrConfirm;
     private Button btnViewMules;
     private String transactionID;
-    private static final String REQUESTS = "requests";
-    private static final String MULE = "mule";
-    private static final String STATUS = "status";
-    static final String API_URL = "https://aviation-edge.com/v2/public/flights?key=782cbd-deb8af&flightIata=";
     private double latitude;
     private double longitude;
     private double planedir;

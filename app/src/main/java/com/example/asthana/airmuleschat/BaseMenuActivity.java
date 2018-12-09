@@ -36,13 +36,12 @@ import java.util.TreeSet;
 public abstract class BaseMenuActivity extends AppCompatActivity
         implements GoogleApiClient.OnConnectionFailedListener {
 
+    public static final String ANONYMOUS = "Unknown Person";
     protected FirebaseAuth mFirebaseAuth;
     protected FirebaseUser mFirebaseUser;
     protected GoogleApiClient mGoogleApiClient;
     protected String mUsername;
     protected String mPhotoUrl;
-    public static final String ANONYMOUS = "Unknown Person";
-
     private HashMap<String, TreeSet<String>> geoLocationsDatabase;
 
     @Override

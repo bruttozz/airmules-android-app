@@ -47,6 +47,10 @@ public class WeChatInfo {
         return (sex == 0) ? "男" : "女";
     }
 
+    public void setSex(int sex) {
+        this.sex = sex;
+    }
+
     public String getProvince() {
         return province;
     }
@@ -78,11 +82,6 @@ public class WeChatInfo {
     public void setUnionid(String unionid) {
         this.unionid = unionid;
     }
-
-    public void setSex(int sex) {
-        this.sex = sex;
-    }
-
 
     @Override
     public String toString() {

@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <font-family xmlns:android="http://schemas.android.com/apk/res/android">
     <font
+        android:font="@font/seasrn"
         android:fontStyle="normal"
-        android:fontWeight="400"
-        android:font="@font/seasrn" />
+        android:fontWeight="400" />
     <font
+        android:font="@font/pacifico"
         android:fontStyle="normal"
-        android:fontWeight="400"
-        android:font="@font/pacifico" />
+        android:fontWeight="400" />
 
     <font
+        android:font="@font/dancing"
         android:fontStyle="normal"
-        android:fontWeight="400"
-        android:font="@font/dancing" />
+        android:fontWeight="400" />
 
     <font
+        android:font="@font/fff"
         android:fontStyle="normal"
-        android:fontWeight="400"
-        android:font="@font/fff" />
+        android:fontWeight="400" />
 
 
 </font-family>

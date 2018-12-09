@@ -29,6 +29,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
     /**
      * Called when WeChat is initiating a request to your application. This is not used for
      * authentication.
+     *
      * @param baseReq
      */
     @Override
@@ -38,23 +39,24 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
     /**
      * Called when WeChat is responding to a request this app initiated. Invoked by WeChat after
      * authorization has been given by the user.
+     *
      * @param baseResp
      */
     @Override
     public void onResp(BaseResp baseResp) {
         switch (baseResp.errCode) {
-            case BaseResp.ErrCode.ERR_OK :
+            case BaseResp.ErrCode.ERR_OK:
 //                Toast.makeText(this, "OK", Toast.LENGTH_LONG).show();
                 if (baseResp instanceof SendAuth.Resp) {
-                    sendAuthResult(((SendAuth.Resp)baseResp));
+                    sendAuthResult(((SendAuth.Resp) baseResp));
                 }
                 break;
 
-            case BaseResp.ErrCode.ERR_USER_CANCEL :
+            case BaseResp.ErrCode.ERR_USER_CANCEL:
                 Toast.makeText(this, "User canceled the request", Toast.LENGTH_LONG).show();
                 break;
 
-            case BaseResp.ErrCode.ERR_AUTH_DENIED :
+            case BaseResp.ErrCode.ERR_AUTH_DENIED:
                 Toast.makeText(this, "User denied the request", Toast.LENGTH_LONG).show();
                 break;
         }

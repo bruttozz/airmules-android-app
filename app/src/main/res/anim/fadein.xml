@@ -3,16 +3,14 @@
     <!--reference:https://www.tutorialspoint.com/android/android_animations.htm-->
 
     <alpha
+        android:duration="2000"
         android:fromAlpha="0"
-        android:toAlpha="1"
-        android:duration="2000" >
-    </alpha>
+        android:toAlpha="1"></alpha>
 
     <alpha
-        android:startOffset="2000"
+        android:duration="2000"
         android:fromAlpha="1"
-        android:toAlpha="0"
-        android:duration="2000" >
-    </alpha>
+        android:startOffset="2000"
+        android:toAlpha="0"></alpha>
 
 </set>

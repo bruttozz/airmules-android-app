@@ -1,142 +1,41 @@
 {
-
-
   "geography": {
-
-
-
     "latitude": 41.1472,
-
-
-
     "longitude": -74.4648,
-
-
-
     "altitude": 2118.9,
-
-
-
     "direction": 215
-
-
   },
-
-
   "speed": {
-
-
-
     "horizontal": 521.242,
-
-
-
     "isGround": 0,
-
-
-
     "vertical": 0.65024
-
-
   },
-
-
   "departure": {
-
-
-
     "iataCode": "BOS",
-
-
-
     "icaoCode": "KBOS"
-
-
   },
-
-
   "arrival": {
-
-
-
     "iataCode": "EWR",
-
-
-
     "icaoCode": "KEWR"
-
-
   },
-
-
   "aircraft": {
-
-
-
     "regNumber": "N69829",
-
-
-
     "icaoCode": "B739",
-
-
-
     "icao24": "A94B2E",
-
-
-
     "iataCode": "B739"
-
-
   },
-
-
   "airline": {
-
-
-
     "iataCode": "UA",
-
-
-
     "icaoCode": "UAL"
-
-
   },
-
-
   "flight": {
-
-
-
     "iataNumber": "UA2394",
-
-
-
     "icaoNumber": "UAL2394",
-
-
-
     "number": "2394"
-
-
   },
-
-
   "system": {
-
-
-
     "updated": "1543941300",
-
-
-
     "squawk": "2007"
-
-
   },
-
-
   "status": "en-route"
-
 }

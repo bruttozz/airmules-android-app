@@ -9,6 +9,30 @@ public class AllTransactionsActivity extends BaseMenuActivity implements Transac
     private TextView txtRequestTypes;
     private Transactions fragmentReqTransactions;
 
+    public static Intent createIntentForAllRequests(Context originalActivity) {
+        Intent viewTransactions = new Intent(originalActivity, AllTransactionsActivity.class);
+        viewTransactions.putExtra(Transactions.INFO_TYPE, Transactions.TYPE_ALL);
+        return viewTransactions;
+    }
+
+    /**
+     * Requests where current user is the customer
+     */
+    public static Intent createIntentForCustomerRequests(Context originalActivity) {
+        Intent viewTransactions = new Intent(originalActivity, AllTransactionsActivity.class);
+        viewTransactions.putExtra(Transactions.INFO_TYPE, Transactions.TYPE_CUSTOMER);
+        return viewTransactions;
+    }
+
+    /**
+     * Requests where current user is the mule
+     */
+    public static Intent createIntentForMuleRequests(Context originalActivity) {
+        Intent viewTransactions = new Intent(originalActivity, AllTransactionsActivity.class);
+        viewTransactions.putExtra(Transactions.INFO_TYPE, Transactions.TYPE_MULE);
+        return viewTransactions;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,29 +66,5 @@ public class AllTransactionsActivity extends BaseMenuActivity implements Transac
             text = getResources().getString(R.string.all_transactions);
         }
         txtRequestTypes.setText(text);
-    }
-
-    public static Intent createIntentForAllRequests(Context originalActivity) {
-        Intent viewTransactions = new Intent(originalActivity, AllTransactionsActivity.class);
-        viewTransactions.putExtra(Transactions.INFO_TYPE, Transactions.TYPE_ALL);
-        return viewTransactions;
-    }
-
-    /**
-     * Requests where current user is the customer
-     */
-    public static Intent createIntentForCustomerRequests(Context originalActivity) {
-        Intent viewTransactions = new Intent(originalActivity, AllTransactionsActivity.class);
-        viewTransactions.putExtra(Transactions.INFO_TYPE, Transactions.TYPE_CUSTOMER);
-        return viewTransactions;
-    }
-
-    /**
-     * Requests where current user is the mule
-     */
-    public static Intent createIntentForMuleRequests(Context originalActivity) {
-        Intent viewTransactions = new Intent(originalActivity, AllTransactionsActivity.class);
-        viewTransactions.putExtra(Transactions.INFO_TYPE, Transactions.TYPE_MULE);
-        return viewTransactions;
     }
 }

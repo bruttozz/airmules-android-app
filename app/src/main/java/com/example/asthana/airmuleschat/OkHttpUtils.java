@@ -46,6 +46,27 @@ public class OkHttpUtils {
         return mInstance;
     }
 
+    /**
+     * get request
+     *
+     * @param url      request url
+     * @param callback request callback
+     */
+    public static void get(String url, ResultCallback callback) {
+        getmInstance().getRequest(url, callback);
+    }
+
+    /**
+     * post request
+     *
+     * @param url
+     * @param callback
+     * @param params
+     */
+    public static void post(String url, final ResultCallback callback, List<Param> params) {
+        getmInstance().postRequest(url, callback, params);
+    }
+
     private void getRequest(String url, final ResultCallback callback) {
         final Request request = new Request.Builder().url(url).build();
         deliveryResult(callback, request);
@@ -106,6 +127,9 @@ public class OkHttpUtils {
         });
     }
 
+
+    /**********************Outer interface************************/
+
     private void sendSuccessCallBack(final ResultCallback callback, final Object obj) {
         mDelivery.post(new Runnable() {
             @Override
@@ -124,30 +148,6 @@ public class OkHttpUtils {
         }
         RequestBody requestBody = builder.build();
         return new Request.Builder().url(url).post(requestBody).build();
-    }
-
-
-    /**********************Outer interface************************/
-
-    /**
-     * get request
-     *
-     * @param url      request url
-     * @param callback request callback
-     */
-    public static void get(String url, ResultCallback callback) {
-        getmInstance().getRequest(url, callback);
-    }
-
-    /**
-     * post request
-     *
-     * @param url
-     * @param callback
-     * @param params
-     */
-    public static void post(String url, final ResultCallback callback, List<Param> params) {
-        getmInstance().postRequest(url, callback, params);
     }
 
     /**

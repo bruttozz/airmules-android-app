@@ -158,17 +158,18 @@
             android:text="5.0"
             android:textColor="@color/cb_dark_grey"
             android:textSize="16sp" />
+
         <TextView
             android:id="@+id/txtViewNumOfRatings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/txtLabelRateAsMule"
+            android:layout_below="@id/txtLabelRateAsMule"
+            android:layout_marginTop="10dp"
+            android:fontFamily="serif"
             android:text="(0  ratings received)"
             android:textColor="@color/cb_dark_grey"
-            android:textSize="16sp"
-            android:fontFamily="serif"
-            android:layout_below="@id/txtLabelRateAsMule"
-            android:layout_alignLeft="@+id/txtLabelRateAsMule"
-            android:layout_marginTop="10dp"/>
+            android:textSize="16sp" />
     </RelativeLayout>
 
 

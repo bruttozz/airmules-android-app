@@ -28,7 +28,21 @@ import com.google.firebase.database.FirebaseDatabase;
 public class TrackingService extends Service {
 
     private static final String TAG = TrackingService.class.getSimpleName();
+    protected BroadcastReceiver stopReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
 
+//Unregister the BroadcastReceiver when the notification is tapped//
+
+            unregisterReceiver(stopReceiver);
+
+//Stop the Service//
+
+            stopSelf();
+            stopForeground(true);
+            android.os.Process.killProcess(android.os.Process.myPid());
+        }
+    };
     private DatabaseReference mDatabase;
     private FirebaseAuth mFirebaseAuth;
 
@@ -36,6 +50,8 @@ public class TrackingService extends Service {
     public IBinder onBind(Intent intent) {
         return null;
     }
+
+//Create the persistent notification//
 
     @Override
     public void onCreate() {
@@ -49,8 +65,6 @@ public class TrackingService extends Service {
 //        loginToFirebase();
         requestLocationUpdates();
     }
-
-//Create the persistent notification//
 
     private void buildNotification() {
         String stop = "stop";
@@ -69,22 +83,6 @@ public class TrackingService extends Service {
                 .setSmallIcon(R.drawable.tracking_enabled);
         startForeground(1, builder.build());
     }
-
-    protected BroadcastReceiver stopReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-//Unregister the BroadcastReceiver when the notification is tapped//
-
-            unregisterReceiver(stopReceiver);
-
-//Stop the Service//
-
-            stopSelf();
-            stopForeground(true);
-            android.os.Process.killProcess(android.os.Process.myPid());
-        }
-    };
 
 
 //Initiate the request to track the device's location//

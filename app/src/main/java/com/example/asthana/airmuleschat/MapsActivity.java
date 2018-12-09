@@ -21,15 +21,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
-    private Context mContext;
-
     double latitude;
     double longitude;
     double planedir;
     String depart;
     String arrive;
     String flightnum;
+    private GoogleMap mMap;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

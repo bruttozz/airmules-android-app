@@ -33,10 +33,12 @@ import java.text.DecimalFormat;
 public class UserProfileActivity extends BaseMenuActivity {
     // User Profile main page
 
+    private static final String USERS = "users";
+    private static final String MONEY = "money";
+    private static final int PICK_IMAGE_REQUEST = 1;
     private DatabaseReference mDatabase;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseStorage storage = FirebaseStorage.getInstance();
-
     private ImageView userProfilePicture;
     private TextView userDisplayName;
     private TextView txtViewMoneyLeft;
@@ -47,12 +49,7 @@ public class UserProfileActivity extends BaseMenuActivity {
     private Button btnAddMoney;
     private Button btnWithdrawMoney;
     private TextView txtViewNumOfRatings;
-
     private String userID;
-    private static final String USERS = "users";
-    private static final String MONEY = "money";
-
-    private static final int PICK_IMAGE_REQUEST = 1;
     private Uri mImageUri;
     private String path;
 

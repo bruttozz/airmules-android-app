@@ -18,6 +18,13 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 public class WeChatLoginActivity extends AppCompatActivity {
 
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Optional.ofNullable(intent).ifPresent(from -> handleBroadcast(from));
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,15 +50,9 @@ public class WeChatLoginActivity extends AppCompatActivity {
     private void unregisterReceiver() {
         try {
             unregisterReceiver(receiver);
-        } catch (Exception ignore) {}
-    }
-
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Optional.ofNullable(intent).ifPresent(from -> handleBroadcast(from));
+        } catch (Exception ignore) {
         }
-    };
+    }
 
     private void handleBroadcast(@NonNull Intent from) {
         final String action = from.getAction();

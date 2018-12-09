@@ -30,24 +30,34 @@ import java.util.UUID;
 
 public class Deposit extends AppCompatActivity {
 
+    private static final String USERS = "users";
+    private static final String MONEY = "money";
+    String openId = "tZmNIobZL";
+    String token = "77cd7a5ef528400aac865e2a001a6432";
+    String appId = "6623341290717185";
+    String channel = "xiaomi";
     private DatabaseReference mDatabase;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseStorage storage = FirebaseStorage.getInstance();
-
     private TextView moneyLeft;
     private EditText amountInput;
     private EditText accountInfo;
     private Button withdrawbtn;
     private Button thirdparty;
-
     private String userID;
-    private static final String USERS = "users";
-    private static final String MONEY = "money";
 
-    String openId = "tZmNIobZL";
-    String token = "77cd7a5ef528400aac865e2a001a6432";
-    String appId = "6623341290717185";
-    String channel = "xiaomi";
+    public static String convertToMoneyFormatString(float money) {
+        return convertToMoneyFormatString(money, true);
+    }
+
+    public static String convertToMoneyFormatString(float money, boolean addCommas) {
+        String format = "%,.2f";
+        if (!addCommas) {
+            format.replace(",", "");
+        }
+        String moneyString = String.format(format, money);
+        return moneyString;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,18 +196,5 @@ public class Deposit extends AppCompatActivity {
                 Log.w("Error", databaseError.toString());
             }
         });
-    }
-
-    public static String convertToMoneyFormatString(float money) {
-        return convertToMoneyFormatString(money, true);
-    }
-
-    public static String convertToMoneyFormatString(float money, boolean addCommas) {
-        String format = "%,.2f";
-        if (!addCommas) {
-            format.replace(",", "");
-        }
-        String moneyString = String.format(format, money);
-        return moneyString;
     }
 }

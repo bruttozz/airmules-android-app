@@ -86,10 +86,6 @@ public class Transactions extends Fragment {
         TL = (TransactionsListener) context;
     }
 
-    public interface TransactionsListener {
-        //TODO add methods to the parent activity "listener"
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -277,6 +273,14 @@ public class Transactions extends Fragment {
         adapter = new TransactionAdapter(getContext(), q);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        //Every time we resume the activity make sure we pull the latest data
+        adapter.updateDataFromFirebase();
+    }
+
     /*
     The Firebase adapter does not give us enough control for filtering the data
     private void createDatabaseQueryAdapter2(){
@@ -318,6 +322,10 @@ public class Transactions extends Fragment {
         adapter.stopListening();
     }
     */
+
+    public interface TransactionsListener {
+        //TODO add methods to the parent activity "listener"
+    }
 
     //Based on https://github.com/puf/firebase-stackoverflow-android/blob/master/app/src/main/java/com/firebasedemo/stackoverflow/Activity34962254.java
     private class TransactionAdapter extends RecyclerView.Adapter<TransactionHolder> {
@@ -514,14 +522,6 @@ public class Transactions extends Fragment {
 
             notifyDataSetChanged();
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        //Every time we resume the activity make sure we pull the latest data
-        adapter.updateDataFromFirebase();
     }
 }
 

@@ -178,16 +178,18 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
         // Initialize contacts
         List<UserClass> mules = new ArrayList<UserClass>();
+        /*
         mules.add(new UserClass("food", 5, 5, 0));
         mules.add(new UserClass("Bar", 5, 2, 0));
         mules.add(new UserClass("troll", 5, 1, 0));
         mules.add(new UserClass("firer", 5, 3, 0));
+        */
 
 
-        final MulesRadioAdapter adapter = new MulesRadioAdapter(this, R.layout.dialog_mules, mules);
+        HashMap<UserClass, String> mulesToIDs = new HashMap<UserClass, String>();
+        final MulesRadioAdapter adapter = new MulesRadioAdapter(this, R.layout.dialog_mules, mules, mulesToIDs);
         ListView listView = (ListView) ViewMulesDialog.findViewById(R.id.viewMulesDialogRecycler);
         listView.setAdapter(adapter);
-        HashMap<UserClass, String> mulesToIDs =  new HashMap<UserClass, String>();
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

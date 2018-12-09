@@ -1,24 +1,38 @@
 package com.example.asthana.airmuleschat;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
 
     private int selectedIndex = -1;
     private UserClass selectedUser;
+    private HashMap<UserClass, String> mulesToIDs;
 
-    public MulesRadioAdapter(Context context, int activity_radio_button, List<UserClass> availableMules) {
+    public MulesRadioAdapter(Context context, int activity_radio_button, List<UserClass> availableMules,
+                             HashMap<UserClass, String> mulesToIDs) {
         super(context, activity_radio_button, availableMules);
+        this.mulesToIDs = mulesToIDs;
     }
 
     public void setSelectedIndex(int index) {
@@ -57,10 +71,80 @@ public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
         if (mule != null) {
             TextView muleName = v.findViewById(R.id.dialogTxtMuleName);
             RatingBar muleRating = v.findViewById(R.id.dialogMuleRating);
+            TextView txtNumRatings = v.findViewById(R.id.txtNumRatings);
+            TextView txtPopLocation = v.findViewById(R.id.txtPopLocation);
+            Button btnHistory = v.findViewById(R.id.btnHistory);
+            Button btnDelete = v.findViewById(R.id.btnDelete);
 
-            //Put this here so that we can see the radio button until we update the GUI
             muleName.setText(mule.getName());
             muleRating.setRating(mule.getRating());
+            txtNumRatings.setText(Integer.toString(mule.getNumRatings()));
+
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("requests").getRef();
+            // Attach a listener to read the data at our posts reference
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    HashMap<String, Integer> locationCounts = new HashMap<String, Integer>();
+
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        Request req = postSnapshot.getValue(Request.class);
+                        if (req == null || req.getTransactionID() == null) {
+                            //req was deleted?
+                            continue;
+                        }
+
+                        //Is the request completed by this mule?
+                        if(req.getStatus().equals(Request.COMPLETE) && req.getMule() != null && req.getMule().equals(mulesToIDs.get(mule))){
+                            String depLocation = req.getDeparture().getLocationString();
+                            Integer countD = locationCounts.get(depLocation);
+                            if(countD == null){
+                                countD = 0;
+                            }
+                            countD++;
+                            locationCounts.put(depLocation, countD);
+
+                            String arrLocation = req.getArrival().getLocationString();
+                            Integer countA = locationCounts.get(arrLocation);
+                            if(countA == null){
+                                countA = 0;
+                            }
+                            countA++;
+                            locationCounts.put(arrLocation, countA);
+                        }
+                    }
+
+                    String maxLoc = "No Data";
+                    int maxCount = 0;
+                    for(Map.Entry<String, Integer> loc : locationCounts.entrySet()){
+                        if(loc.getValue() > maxCount){
+                            maxLoc = loc.getKey();
+                            maxCount = loc.getValue();
+                        }
+                    }
+
+                    txtPopLocation.setText(maxLoc);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.e("Mules List", "Cannot connect to Firebase");
+                }
+            });
+
+            btnHistory.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(MulesRadioAdapter.this.getContext(), "Stubbed Functionality...", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    remove(mule);
+                }
+            });
 
             if (rbSelect.isChecked()) {
                 selectedUser = mule;

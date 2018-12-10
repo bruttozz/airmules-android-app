@@ -183,8 +183,8 @@ public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
         return v;
     }
 
-    private void clearChat(){
-        if(transactionID != null) {
+    private void clearChat() {
+        if (transactionID != null) {
             FirebaseDatabase.getInstance().getReference().
                     child(PersonalChat.PERSONAL_MESSAGES_CHILD).child(transactionID).removeValue();
         }

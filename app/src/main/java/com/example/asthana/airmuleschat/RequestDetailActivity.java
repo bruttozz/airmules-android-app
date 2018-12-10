@@ -241,6 +241,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
                 if (myMule == null) {
                     Toast.makeText(RequestDetailActivity.this, "Please select a mule", Toast.LENGTH_LONG).show();
                 } else {
+                    clearChat();
                     String muleID = mulesToIDs.get(myMule);
                     mDatabase.child(REQUESTS).child(transactionID).child(MULE).setValue(muleID);
                     mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.NO_PAYMENT);
@@ -428,8 +429,11 @@ public class RequestDetailActivity extends BaseMenuActivity {
             }
         });
 
-        if (status.equals(Request.COMPLETE)) {
+        if (status.equals(Request.PAID) || status.equals(Request.COMPLETE)) {
             this.btnViewMules.setEnabled(false);
+        }
+        else{
+            this.btnViewMules.setEnabled(true);
         }
 
         if (status.equals(Request.NO_MULE) || status.equals(Request.COMPLETE)){

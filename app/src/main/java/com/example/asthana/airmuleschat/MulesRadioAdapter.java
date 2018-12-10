@@ -163,6 +163,7 @@ public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
 
                             if (req.getMule() != null && req.getMule().equals(muleID)) {
                                 FirebaseDatabase.getInstance().getReference().child("requests").child(transactionID).child("mule").removeValue();
+                                FirebaseDatabase.getInstance().getReference().child("requests").child(transactionID).child("status").setValue(Request.NO_MULE);
                                 clearChat();
                             }
                         }
@@ -172,6 +173,33 @@ public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
                             Log.w("Error", databaseError.toString());
                         }
                     });
+                }
+            });
+
+            //If this is the current mule, set a green border to the row
+            View v_final = v;
+            DatabaseReference reqRef = FirebaseDatabase.getInstance().getReference().child("requests").child(transactionID).getRef();
+            reqRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Request req = dataSnapshot.getValue(Request.class);
+
+                    if (req == null || req.getTransactionID() == null) {
+                        return;
+                    }
+
+                    String muleID = mulesToIDs.get(mule);
+                    if (req.getMule() != null && req.getMule().equals(muleID)) {
+                        v_final.setBackground(getContext().getResources().getDrawable(R.drawable.green_border));
+                    }
+                    else{
+                        v_final.setBackground(getContext().getResources().getDrawable(R.drawable.black_border));
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.w("Error", databaseError.toString());
                 }
             });
 

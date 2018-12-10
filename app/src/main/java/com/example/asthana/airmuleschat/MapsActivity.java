@@ -20,6 +20,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+    public static final String USER_LOCATION = "USER_LOCATION";
 
     double latitude;
     double longitude;
@@ -38,9 +39,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         flightnum = this.getIntent().getStringExtra("Flightnum");
         latitude = this.getIntent().getDoubleExtra("Latitude", 0.0);
         longitude = this.getIntent().getDoubleExtra("Longitude", 0.0);
-        planedir = this.getIntent().getDoubleExtra("Direction", 0.0);
-        depart = this.getIntent().getStringExtra("depTime");
-        arrive = this.getIntent().getStringExtra("arrTime");
+        if(!flightnum.equals(USER_LOCATION)) {
+            planedir = this.getIntent().getDoubleExtra("Direction", 0.0);
+            depart = this.getIntent().getStringExtra("depTime");
+            arrive = this.getIntent().getStringExtra("arrTime");
+        }
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -54,10 +57,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         planedir = planedir - 45;
         // Add a marker in Sydney and move the camera
         LatLng mulepos = new LatLng(latitude, longitude);
+        String snippet;
+        if(!flightnum.equals(USER_LOCATION)){
+            snippet = flightnum + "\n" + "Latitude: " + latitude + "\n" + "Longitude: " + longitude + "\n" + "Direction: " + (planedir + 45);
+        } else{
+            snippet = "Last tracked location:\n" + "Latitude: " + latitude + "\n" + "Longitude: " + longitude;
+        }
         mMap.addMarker(new MarkerOptions()
                 .position(mulepos)
                 .title("Mule Position")
-                .snippet(flightnum + "\n" + "Latitude: " + latitude + "\n" + "Longitude: " + longitude + "\n" + "Direction: " + (planedir + 45))
+                .snippet(snippet)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_plane))
                 .rotation((float) (planedir)));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(mulepos));

@@ -389,8 +389,10 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
                 android:layout_toRightOf="@id/btnFlight"
+                android:backgroundTint="@android:color/holo_blue_bright"
                 android:ems="10"
                 android:inputType="textPersonName"
+                android:textColor="@android:color/white"
                 android:textSize="14dp" />
 
             <Button

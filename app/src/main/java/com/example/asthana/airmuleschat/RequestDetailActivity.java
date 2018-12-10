@@ -67,6 +67,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private UserClass mule;
     private String otherUser;
     private String uid;
+    private String flightNumber;
     private float currentRating, numRatings;
 
     private RadioButton mCurrentlyCheckedRB;
@@ -111,22 +112,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
         btnPayOrConfirm = (Button) findViewById(R.id.btnPayOrConfirm);
 
         btnFlight = (Button) findViewById(R.id.btnFlight);
-        btnFlight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new getFlightTask().execute();
-//                parseAirport(loadJSONFromAsset("flights.json"));
-//                parseRealTime(loadJSONFromAsset("realtime.json"));
-//                Log.i("INFO", latitude+", "+longitude);
-//                Intent myIntent = new Intent(RequestDetailActivity.this, MapsActivity.class);
-//                myIntent.putExtra("Latitude", latitude);
-//                myIntent.putExtra("Longitude", longitude);
-//                myIntent.putExtra("Direction", planedir);
-//                myIntent.putExtra("arrTime", arrive);
-//                myIntent.putExtra("depTime", depart);
-//                RequestDetailActivity.this.startActivity(myIntent);
-            }
-        });
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -240,6 +225,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
                 if (myMule == null) {
                     Toast.makeText(RequestDetailActivity.this, "Please select a mule", Toast.LENGTH_LONG).show();
                 } else {
+                    clearChat();
                     String muleID = mulesToIDs.get(myMule);
                     mDatabase.child(REQUESTS).child(transactionID).child(MULE).setValue(muleID);
                     mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.NO_PAYMENT);
@@ -302,7 +288,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
         if (myReq.getMule() != null) {
             DatabaseReference userRef = mDatabase.child("users").child(myReq.getMule()).getRef();
-            userRef.addValueEventListener(new ValueEventListener() {
+            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     mule = dataSnapshot.getValue(UserClass.class);
@@ -334,6 +320,9 @@ public class RequestDetailActivity extends BaseMenuActivity {
                 + " x " + Float.toString(myReq.getItemData().getHeight()));
         txtViewWeight.setText(Float.toString(myReq.getItemData().getWeight()));
 
+        if(myReq.getFlightNumber() != null){
+            flightNum.setText(myReq.getFlightNumber());
+        }
 
         if (mFirebaseAuth.getCurrentUser().getUid().equals(myReq.getCustomer())) {
             // the current user is the customer
@@ -415,9 +404,113 @@ public class RequestDetailActivity extends BaseMenuActivity {
             }
         });
 
-        if (status.equals(Request.COMPLETE)) {
+        if (status.equals(Request.PAID) || status.equals(Request.COMPLETE)) {
             this.btnViewMules.setEnabled(false);
         }
+        else{
+            this.btnViewMules.setEnabled(true);
+        }
+
+        if (status.equals(Request.NO_MULE) || status.equals(Request.COMPLETE)){
+            btnFlight.setEnabled(false);
+        }
+        else{
+            btnFlight.setEnabled(true);
+        }
+        if (mFirebaseAuth.getCurrentUser().getUid().equals(myReq.getMule())){
+            Log.i("Flight", mFirebaseAuth.getCurrentUser().getUid()+", "+myReq.getMule());
+            flightNum.setEnabled(true);
+        }
+        else{
+            flightNum.setEnabled(false);
+        }
+        btnFlight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setOrRequestFlight(myReq);
+            }
+        });
+    }
+
+    private void doToastFlightPushSuccess(){
+        Toast.makeText(this, "Changed Flight Number to "+flightNumber, Toast.LENGTH_SHORT).show();
+    }
+
+    private void setOrRequestFlight(final Request myReq){
+        DatabaseReference ref = mDatabase.child(REQUESTS).child(transactionID).getRef();
+        // Attach a listener to read the data at our posts reference
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (!mFirebaseAuth.getCurrentUser().getUid().equals(myReq.getMule())){
+                    try {
+                        flightNumber = dataSnapshot.child("flightNumber").getValue().toString();
+                        if(flightNumber == null){
+                            throw new NullPointerException();
+                        }
+                        new getFlightTask().execute();
+                    }
+                    catch (Exception e){
+                        DatabaseReference ref = mDatabase.child("users").child(myReq.getMule()).getRef();
+                        // Attach a listener to read the data at our posts reference
+                        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                UserClass user = dataSnapshot.getValue(UserClass.class);
+                                if (user == null || user.getName() == null) {
+                                    //User was deleted?
+                                    return;
+                                }
+
+                                latitude = user.getLatitude();
+                                longitude = user.getLongitude();
+                                boolean muleGavelocation = latitude != 0 || longitude != 0;
+
+                                if(muleGavelocation) {
+                                    new AlertDialog.Builder(RequestDetailActivity.this)
+                                            .setMessage("Mule has not given a Flight Number. Display mule's last known location?")
+                                            .setCancelable(true)
+                                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int whichButton) {
+                                                    dialog.dismiss();
+                                                    Intent myIntent = new Intent(RequestDetailActivity.this, MapsActivity.class);
+                                                    myIntent.putExtra("Flightnum", MapsActivity.USER_LOCATION);
+                                                    myIntent.putExtra("Latitude", latitude);
+                                                    myIntent.putExtra("Longitude", longitude);
+                                                    RequestDetailActivity.this.startActivity(myIntent);
+                                                }
+                                            })
+                                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            })
+                                            .show();
+                                }
+                                else{
+                                    Toast.makeText(RequestDetailActivity.this, "Mule has not given a Flight Number or shared location.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                Log.e("Location", "Cannot connect to Firebase");
+                            }
+                        });
+                    }
+                }
+                else{
+                    flightNumber = flightNum.getText().toString();
+                    mDatabase.child(REQUESTS).child(transactionID).child("flightNumber").setValue(flightNumber);
+                    doToastFlightPushSuccess();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("Flight", "Cannot connect to Firebase");
+            }
+        });
     }
 
     private void payOrConfirmButtonAction(final Request myReq) {
@@ -515,6 +608,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
     private void signUpOrUnregisterForMuleToThisRequest(final Request myReq) {
         if (btnSignUpOrUnregister.getText().toString().equals("unregister")) {
+            //Only able to do this if there is no mule set, or you are the mule
             try {
                 clearChat();
                 String potentialMuleKey = transactionID + mFirebaseAuth.getCurrentUser().getUid();
@@ -572,42 +666,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
         }
     }
 
-    public String loadJSONFromAsset(String jsonobject) {
-        String json = null;
-        try {
-            InputStream is = getAssets().open(jsonobject);
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
-    }
-
-    protected void parseAirport(String response) {
-        String result = "";
-        if (response == null) {
-            response = "Error with processing the request";
-        }
-        try {
-            JSONObject obj = new JSONObject(response);
-            JSONObject departure = new JSONObject(obj.getString("departure"));
-            JSONObject arrival = new JSONObject(obj.getString("arrival"));
-            result = departure.getString("scheduledTime").substring(11, 16) + " to " + arrival.getString("scheduledTime").substring(11, 16);
-            depart = departure.getString("scheduledTime");
-            arrive = arrival.getString("scheduledTime");
-        } catch (JSONException e) {
-            result = e.getMessage();
-        }
-        //progressBar.setVisibility(View.GONE);
-        Log.i("INFO", response);
-        //responseView.setText(result);
-    }
-
     protected void parseRealTime(String response) {
         if (response == null) {
             response = "Error with processing the request";
@@ -621,9 +679,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
         } catch (JSONException e) {
 
         }
-        //progressBar.setVisibility(View.GONE);
         Log.i("INFO", response);
-        //responseView.setText(result);
     }
 
     //Uses the HttpURLConnection and URL libraries to get the result of the request
@@ -634,19 +690,16 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
         //toggles progress wheel while making the API call
         protected void onPreExecute() {
-            //progressBar.setVisibility(View.VISIBLE);
-            //responseView.setText("");
+
         }
 
         //runs the API call in the background
         protected String doInBackground(Void... urls) {
             //get the flight number from user input
-            //UNCOMMENT HERE WHEN TESTING API need to get this from user data
-            String flight = flightNum.getText().toString();
+            String flight = flightNumber;
 
             try {
                 //formats the URL containing the API key to add in the flight number (IATA)
-                //UNCOMMENT HERE WHEN TESTING API
                 URL url = new URL(API_URL + flight);
                 //open the connection
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -677,7 +730,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
             if (response == null) {
                 response = "Error with processing the request";
             }
-            //progressBar.setVisibility(View.GONE);
             Log.i("INFO", response);
             String formatted_response = response.substring(1, response.length() - 1);
             parseRealTime(formatted_response);
@@ -689,7 +741,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
             myIntent.putExtra("arrTime", arrive);
             myIntent.putExtra("depTime", depart);
             RequestDetailActivity.this.startActivity(myIntent);
-            //responseView.setText(response);
         }
     }
 }

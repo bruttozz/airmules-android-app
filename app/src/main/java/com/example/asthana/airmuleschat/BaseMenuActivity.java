@@ -78,6 +78,12 @@ public abstract class BaseMenuActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onStop() {
+        stopService(new Intent(this, TrackingService.class));
+        super.onStop();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
@@ -91,6 +97,7 @@ public abstract class BaseMenuActivity extends AppCompatActivity
                 mFirebaseAuth.signOut();
                 Auth.GoogleSignInApi.signOut(mGoogleApiClient);
                 mUsername = ANONYMOUS;
+                stopService(new Intent(this, TrackingService.class));
                 startActivity(new Intent(this, SignInActivity.class));
                 finish();
                 return true;

@@ -217,7 +217,14 @@ public class PostRequestActivity extends BaseMenuActivity {
             }
         }
 
-        //TODO add more checks
+        //Check if the arrival date is at or after the departure date
+        String depDate = txtDepDate.getText().toString();
+        String arrDate = txtArrDate.getText().toString();
+        int compareDates = Request.LocationInfo.compareDates(depDate, arrDate,true);
+        if(compareDates < 0){
+            Toast.makeText(getBaseContext(), "Arrival date must be on or after the Departure date", Toast.LENGTH_SHORT).show();
+            return null;
+        }
 
         Request req = createEmptyRequestObject();
 

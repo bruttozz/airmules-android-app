@@ -344,18 +344,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
             }
         }
 
-
-//        if (myReq.getMule() == null) {
-//            if (!myReq.getCustomer().equals(mFirebaseAuth.getCurrentUser().getUid())) {
-//                //I am not the customer, so I can sign up to be the mule
-//                btnSignUpOrUnregister.setText("sign up");
-//                btnSignUpOrUnregister.setVisibility(View.VISIBLE);
-//            }
-//        } else if (mFirebaseAuth.getCurrentUser().getUid().equals(myReq.getMule())) {
-//            //I am the mule, so I can unregister if I want to
-//            btnSignUpOrUnregister.setText("unregister");
-//            btnSignUpOrUnregister.setVisibility(View.VISIBLE);
-//        }
     }
 
     private void addButtonFunctions(final Request myReq) {
@@ -672,46 +660,10 @@ public class RequestDetailActivity extends BaseMenuActivity {
         }
     }
 
-    private void clearChat(){
-        if(transactionID != null) {
+    private void clearChat() {
+        if (transactionID != null) {
             mDatabase.child(PersonalChat.PERSONAL_MESSAGES_CHILD).child(transactionID).removeValue();
         }
-    }
-
-    public String loadJSONFromAsset(String jsonobject) {
-        String json = null;
-        try {
-            InputStream is = getAssets().open(jsonobject);
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
-    }
-
-    protected void parseAirport(String response) {
-        String result = "";
-        if (response == null) {
-            response = "Error with processing the request";
-        }
-        try {
-            JSONObject obj = new JSONObject(response);
-            JSONObject departure = new JSONObject(obj.getString("departure"));
-            JSONObject arrival = new JSONObject(obj.getString("arrival"));
-            result = departure.getString("scheduledTime").substring(11, 16) + " to " + arrival.getString("scheduledTime").substring(11, 16);
-            depart = departure.getString("scheduledTime");
-            arrive = arrival.getString("scheduledTime");
-        } catch (JSONException e) {
-            result = e.getMessage();
-        }
-        //progressBar.setVisibility(View.GONE);
-        Log.i("INFO", response);
-        //responseView.setText(result);
     }
 
     protected void parseRealTime(String response) {
@@ -727,9 +679,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
         } catch (JSONException e) {
 
         }
-        //progressBar.setVisibility(View.GONE);
         Log.i("INFO", response);
-        //responseView.setText(result);
     }
 
     //Uses the HttpURLConnection and URL libraries to get the result of the request
@@ -740,19 +690,16 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
         //toggles progress wheel while making the API call
         protected void onPreExecute() {
-            //progressBar.setVisibility(View.VISIBLE);
-            //responseView.setText("");
+
         }
 
         //runs the API call in the background
         protected String doInBackground(Void... urls) {
             //get the flight number from user input
-            //UNCOMMENT HERE WHEN TESTING API need to get this from user data
             String flight = flightNumber;
 
             try {
                 //formats the URL containing the API key to add in the flight number (IATA)
-                //UNCOMMENT HERE WHEN TESTING API
                 URL url = new URL(API_URL + flight);
                 //open the connection
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -783,7 +730,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
             if (response == null) {
                 response = "Error with processing the request";
             }
-            //progressBar.setVisibility(View.GONE);
             Log.i("INFO", response);
             String formatted_response = response.substring(1, response.length() - 1);
             parseRealTime(formatted_response);
@@ -795,7 +741,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
             myIntent.putExtra("arrTime", arrive);
             myIntent.putExtra("depTime", depart);
             RequestDetailActivity.this.startActivity(myIntent);
-            //responseView.setText(response);
         }
     }
 }

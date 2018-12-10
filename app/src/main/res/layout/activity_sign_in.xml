@@ -26,50 +26,63 @@
         android:alpha="0.88"
         android:src="@drawable/mainicon" />
 
-
-    <LinearLayout
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_below="@+id/welcomeImage"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="25dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/welcomeImage"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        />
+    <Button
+        android:id="@+id/wechat_login_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:drawableLeft="@drawable/ic_wechatlogo"
+        android:text="WeChat"
+        android:fontFamily="serif"
+        android:textStyle="bold"
+        android:textColor="@color/cb_dark_grey"
+        android:textSize="11sp"
+        android:layout_below="@id/sign_in_button"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp">
+        />
 
-            <com.google.android.gms.common.SignInButton
-                android:id="@+id/sign_in_button"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="3dp"
-                android:layout_marginBottom="3dp"/>
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp">
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="100dp"-->
+        <!--android:layout_below="@+id/welcomeImage"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_marginTop="25dp"-->
+        <!--android:orientation="horizontal">-->
 
-            <Button
-                android:id="@+id/wechat_login_btn"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:backgroundTint="@color/white"
-                android:drawableLeft="@drawable/wechat"
-                android:text="WeChat"
-                android:textColor="@color/green"
-                android:textSize="12sp" />
-        </LinearLayout>
+        <!--<LinearLayout-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_marginStart="5dp"-->
+            <!--android:layout_marginEnd="5dp">-->
 
-    </LinearLayout>
+            <!---->
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_marginStart="5dp"-->
+            <!--android:layout_marginEnd="5dp">-->
+
+
+        <!--</LinearLayout>-->
+
+    <!--</LinearLayout>-->
 
 </RelativeLayout>

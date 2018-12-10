@@ -84,8 +84,8 @@
     <string name="add_money">Add Money</string>
     <string name="withdraw">Withdraw</string>
     <string name="mule_rating_with_colon">Mule Rating:</string>
-    <string name="choose_account_with_colon">Choose Account:</string>
-    <string name="enter_account">Enter Account:</string>
+    <string name="choose_account_with_colon">Choose:</string>
+    <string name="enter_account">Account:</string>
     <string name="amount_with_colon">Amount:</string>
     <string-array name="methods">
         <item>Venmo</item>

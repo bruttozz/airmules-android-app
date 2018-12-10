@@ -112,22 +112,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
         btnPayOrConfirm = (Button) findViewById(R.id.btnPayOrConfirm);
 
         btnFlight = (Button) findViewById(R.id.btnFlight);
-        btnFlight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new getFlightTask().execute();
-//                parseAirport(loadJSONFromAsset("flights.json"));
-//                parseRealTime(loadJSONFromAsset("realtime.json"));
-//                Log.i("INFO", latitude+", "+longitude);
-//                Intent myIntent = new Intent(RequestDetailActivity.this, MapsActivity.class);
-//                myIntent.putExtra("Latitude", latitude);
-//                myIntent.putExtra("Longitude", longitude);
-//                myIntent.putExtra("Direction", planedir);
-//                myIntent.putExtra("arrTime", arrive);
-//                myIntent.putExtra("depTime", depart);
-//                RequestDetailActivity.this.startActivity(myIntent);
-            }
-        });
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -304,7 +288,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
         if (myReq.getMule() != null) {
             DatabaseReference userRef = mDatabase.child("users").child(myReq.getMule()).getRef();
-            userRef.addValueEventListener(new ValueEventListener() {
+            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     mule = dataSnapshot.getValue(UserClass.class);
@@ -336,6 +320,9 @@ public class RequestDetailActivity extends BaseMenuActivity {
                 + " x " + Float.toString(myReq.getItemData().getHeight()));
         txtViewWeight.setText(Float.toString(myReq.getItemData().getWeight()));
 
+        if(myReq.getFlightNumber() != null){
+            flightNum.setText(myReq.getFlightNumber());
+        }
 
         if (mFirebaseAuth.getCurrentUser().getUid().equals(myReq.getCustomer())) {
             // the current user is the customer
@@ -457,9 +444,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
         });
     }
 
-    private void doToastFlightPullFail(){
-        Toast.makeText(this, "Mule has not given a Flight Number", Toast.LENGTH_SHORT).show();
-    }
     private void doToastFlightPushSuccess(){
         Toast.makeText(this, "Changed Flight Number to "+flightNumber, Toast.LENGTH_SHORT).show();
     }
@@ -473,19 +457,64 @@ public class RequestDetailActivity extends BaseMenuActivity {
                 if (!mFirebaseAuth.getCurrentUser().getUid().equals(myReq.getMule())){
                     try {
                         flightNumber = dataSnapshot.child("flightNumber").getValue().toString();
+                        if(flightNumber == null){
+                            throw new NullPointerException();
+                        }
                         new getFlightTask().execute();
                     }
                     catch (Exception e){
-                        doToastFlightPullFail();
+                        DatabaseReference ref = mDatabase.child("users").child(myReq.getMule()).getRef();
+                        // Attach a listener to read the data at our posts reference
+                        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                UserClass user = dataSnapshot.getValue(UserClass.class);
+                                if (user == null || user.getName() == null) {
+                                    //User was deleted?
+                                    return;
+                                }
+
+                                latitude = user.getLatitude();
+                                longitude = user.getLongitude();
+                                boolean muleGavelocation = latitude != 0 || longitude != 0;
+
+                                if(muleGavelocation) {
+                                    new AlertDialog.Builder(RequestDetailActivity.this)
+                                            .setMessage("Mule has not given a Flight Number. Display mule's last known location?")
+                                            .setCancelable(true)
+                                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int whichButton) {
+                                                    dialog.dismiss();
+                                                    Intent myIntent = new Intent(RequestDetailActivity.this, MapsActivity.class);
+                                                    myIntent.putExtra("Flightnum", MapsActivity.USER_LOCATION);
+                                                    myIntent.putExtra("Latitude", latitude);
+                                                    myIntent.putExtra("Longitude", longitude);
+                                                    RequestDetailActivity.this.startActivity(myIntent);
+                                                }
+                                            })
+                                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            })
+                                            .show();
+                                }
+                                else{
+                                    Toast.makeText(RequestDetailActivity.this, "Mule has not given a Flight Number or shared location.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                Log.e("Location", "Cannot connect to Firebase");
+                            }
+                        });
                     }
-                    Log.i("Flight","Not Mule");
                 }
                 else{
                     flightNumber = flightNum.getText().toString();
                     mDatabase.child(REQUESTS).child(transactionID).child("flightNumber").setValue(flightNumber);
-                    flightNum.setText("");
                     doToastFlightPushSuccess();
-                    Log.i("INFO","Is Mule");
                 }
             }
 
@@ -591,6 +620,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
     private void signUpOrUnregisterForMuleToThisRequest(final Request myReq) {
         if (btnSignUpOrUnregister.getText().toString().equals("unregister")) {
+            //Only able to do this if there is no mule set, or you are the mule
             try {
                 clearChat();
                 String potentialMuleKey = transactionID + mFirebaseAuth.getCurrentUser().getUid();

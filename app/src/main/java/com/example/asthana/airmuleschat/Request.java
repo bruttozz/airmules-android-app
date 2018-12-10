@@ -209,5 +209,30 @@ public class Request {
         public void setDate(String date) {
             this.date = date;
         }
+
+        public static int compareDates(String date1, String date2, boolean laterIsBetter){
+            int order = 1;
+            if(laterIsBetter){
+                order = -1;
+            }
+
+            String[] date1Data = date1.split(Request.LocationInfo.DATE_DELIMITER);
+            String[] date2Data = date2.split(Request.LocationInfo.DATE_DELIMITER);
+
+            int compare;
+            //year
+            compare = date1Data[Request.LocationInfo.YEAR_INDEX].compareTo(date2Data[Request.LocationInfo.YEAR_INDEX]);
+            if (compare != 0) {
+                return order * compare;
+            }
+            //month
+            compare = date1Data[Request.LocationInfo.MONTH_INDEX].compareTo(date2Data[Request.LocationInfo.MONTH_INDEX]);
+            if (compare != 0) {
+                return order * compare;
+            }
+            //day
+            compare = date1Data[Request.LocationInfo.DAY_INDEX].compareTo(date2Data[Request.LocationInfo.DAY_INDEX]);
+            return order * compare;
+        }
     }
 }

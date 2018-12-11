@@ -309,6 +309,8 @@ public class RequestDetailActivity extends BaseMenuActivity {
         }
 
         txtStatus.setText(myReq.getStatus());
+        int statusColor = myReq.getColorForStatusType(false);
+        txtStatus.setTextColor(statusColor);
         txtViewDeparture.setText(myReq.getDeparture().getCity() + ", " + myReq.getDeparture().getCountry());
         txtViewArrival.setText(myReq.getArrival().getCity() + ", " + myReq.getArrival().getCountry());
         txtViewDepartureDate.setText(myReq.getDeparture().getDate());

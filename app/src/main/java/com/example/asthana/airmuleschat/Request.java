@@ -1,5 +1,7 @@
 package com.example.asthana.airmuleschat;
 
+import android.graphics.Color;
+
 public class Request {
     public static final String NO_MULE = "NO MULE";
     public static final String NO_PAYMENT = "NOT PAID";  // yellow
@@ -41,6 +43,42 @@ public class Request {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public int getColorForStatusType(boolean isBackground){
+        String s = this.getStatus();
+        int color;
+        if (s.equals(Request.NO_PAYMENT)) {
+            color = Color.parseColor("#F5DEB3"); // no payment: yellow
+        } else if (s.equals(Request.PAID)) {
+            color = Color.parseColor("#8FBC8F");// paid: green
+        } else if (s.equals(Request.COMPLETE)) {
+            color = Color.parseColor("#ADD8E6"); // complete: blue
+        } else{
+            if(isBackground){
+                return Color.parseColor("#FFFFFF"); // no mule: white background
+            }
+            else{
+                return Color.parseColor("#808080"); // no mule: gray text
+            }
+        }
+
+        if(!isBackground){
+            color = manipulateColor(color, 0.75f);
+        }
+        return color;
+    }
+
+    //from https://stackoverflow.com/questions/33072365/how-to-darken-a-given-color-int
+    public static int manipulateColor(int color, float factor) {
+        int a = Color.alpha(color);
+        int r = Math.round(Color.red(color) * factor);
+        int g = Math.round(Color.green(color) * factor);
+        int b = Math.round(Color.blue(color) * factor);
+        return Color.argb(a,
+                Math.min(r,255),
+                Math.min(g,255),
+                Math.min(b,255));
     }
 
     public String getCustomer() {

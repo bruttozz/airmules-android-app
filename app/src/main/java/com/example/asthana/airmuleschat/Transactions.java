@@ -445,19 +445,8 @@ public class Transactions extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull TransactionHolder holder, int position) {
             Request model = requestListToShow.get(position);
-            if (model.getStatus().equals(Request.NO_PAYMENT)) {
-
-                holder.itemView.setBackgroundColor(Color.parseColor("#F5DEB3")); // no payment: yellow
-
-            } else if (model.getStatus().equals(Request.PAID)) {
-
-                holder.itemView.setBackgroundColor(Color.parseColor("#8FBC8F"));// paid: green
-
-            } else if (model.getStatus().equals(Request.COMPLETE)) {
-
-                holder.itemView.setBackgroundColor(Color.parseColor("#ADD8E6")); // complete: blue
-
-            }
+            int color = model.getColorForStatusType(true);
+            holder.itemView.setBackgroundColor(color);
             holder.bindTransactionData(model.getTransactionID(),
                     model.getDeparture().getCity(), model.getDeparture().getCountry(),
                     model.getArrival().getCity(), model.getArrival().getCountry(),

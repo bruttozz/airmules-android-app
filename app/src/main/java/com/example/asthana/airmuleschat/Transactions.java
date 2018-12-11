@@ -420,29 +420,12 @@ public class Transactions extends Fragment {
             }
 
             //Sort by arrive date
-            final int preferLatestFirst = -1;
             Collections.sort(requestListAll, new Comparator<Request>() {
                 @Override
                 public int compare(Request r1, Request r2) {
-                    String arrDate1 = r1.getArrival().getDate();
-                    String[] arrDate1Data = arrDate1.split(Request.LocationInfo.DATE_DELIMITER);
-                    String arrDate2 = r2.getArrival().getDate();
-                    String[] arrDate2Data = arrDate2.split(Request.LocationInfo.DATE_DELIMITER);
-
-                    int compare;
-                    //year
-                    compare = arrDate1Data[Request.LocationInfo.YEAR_INDEX].compareTo(arrDate2Data[Request.LocationInfo.YEAR_INDEX]);
-                    if (compare != 0) {
-                        return preferLatestFirst * compare;
-                    }
-                    //month
-                    compare = arrDate1Data[Request.LocationInfo.MONTH_INDEX].compareTo(arrDate2Data[Request.LocationInfo.MONTH_INDEX]);
-                    if (compare != 0) {
-                        return preferLatestFirst * compare;
-                    }
-                    //day
-                    compare = arrDate1Data[Request.LocationInfo.DAY_INDEX].compareTo(arrDate2Data[Request.LocationInfo.DAY_INDEX]);
-                    return preferLatestFirst * compare;
+                    return Request.LocationInfo.compareDates(r1.getArrival().getDate(),
+                            r2.getArrival().getDate(),
+                            true);
                 }
             });
 

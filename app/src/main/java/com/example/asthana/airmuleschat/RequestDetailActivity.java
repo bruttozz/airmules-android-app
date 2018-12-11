@@ -344,18 +344,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
             }
         }
 
-
-//        if (myReq.getMule() == null) {
-//            if (!myReq.getCustomer().equals(mFirebaseAuth.getCurrentUser().getUid())) {
-//                //I am not the customer, so I can sign up to be the mule
-//                btnSignUpOrUnregister.setText("sign up");
-//                btnSignUpOrUnregister.setVisibility(View.VISIBLE);
-//            }
-//        } else if (mFirebaseAuth.getCurrentUser().getUid().equals(myReq.getMule())) {
-//            //I am the mule, so I can unregister if I want to
-//            btnSignUpOrUnregister.setText("unregister");
-//            btnSignUpOrUnregister.setVisibility(View.VISIBLE);
-//        }
     }
 
     private void addButtonFunctions(final Request myReq) {
@@ -674,8 +662,8 @@ public class RequestDetailActivity extends BaseMenuActivity {
         }
     }
 
-    private void clearChat(){
-        if(transactionID != null) {
+    private void clearChat() {
+        if (transactionID != null) {
             mDatabase.child(PersonalChat.PERSONAL_MESSAGES_CHILD).child(transactionID).removeValue();
         }
     }

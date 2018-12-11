@@ -2,19 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_withdraw"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Withdraw">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:alpha="0.8">
 
@@ -107,16 +102,23 @@
             android:gravity="center"
             android:inputType="number" />
 
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp">
 
         <Button
             android:id="@+id/submit_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textView5"
-            android:layout_marginTop="60dp"
-            android:layout_marginLeft="0dp"
             android:layout_marginBottom="0dp"
-            android:text="@string/withdraw" />
+            android:layout_toRightOf="@+id/thirdpartypay_btn"
+            android:text="DEPOSIT" />
+
     </RelativeLayout>
 
 

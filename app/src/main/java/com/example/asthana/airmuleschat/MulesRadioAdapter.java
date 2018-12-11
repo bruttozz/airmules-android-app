@@ -164,6 +164,7 @@ public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
                             if (req.getMule() != null && req.getMule().equals(muleID)) {
                                 FirebaseDatabase.getInstance().getReference().child("requests").child(transactionID).child("mule").removeValue();
                                 FirebaseDatabase.getInstance().getReference().child("requests").child(transactionID).child("status").setValue(Request.NO_MULE);
+                                FirebaseDatabase.getInstance().getReference().child("requests").child(transactionID).child("flightNumber").removeValue();
                                 clearChat();
                             }
                         }

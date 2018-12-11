@@ -55,7 +55,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private Button btnChat;
     private Button btnCancel;
     private Button btnSignUpOrUnregister;
-    private Button btnFlight;
+    private Button btnLocation;
     private Button btnPayOrConfirm;
     private Button btnViewMules;
     private String transactionID;
@@ -111,7 +111,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
         btnSignUpOrUnregister = (Button) findViewById(R.id.btnSignUpOrUnregister);
         btnPayOrConfirm = (Button) findViewById(R.id.btnPayOrConfirm);
 
-        btnFlight = (Button) findViewById(R.id.btnFlight);
+        btnLocation = (Button) findViewById(R.id.btnLocation);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -323,6 +323,9 @@ public class RequestDetailActivity extends BaseMenuActivity {
         if(myReq.getFlightNumber() != null){
             flightNum.setText(myReq.getFlightNumber());
         }
+        else{
+            flightNum.setText("");
+        }
 
         if (mFirebaseAuth.getCurrentUser().getUid().equals(myReq.getCustomer())) {
             // the current user is the customer
@@ -412,31 +415,29 @@ public class RequestDetailActivity extends BaseMenuActivity {
         }
 
         if (status.equals(Request.NO_MULE) || status.equals(Request.COMPLETE)){
-            btnFlight.setEnabled(false);
+            btnLocation.setEnabled(false);
         }
         else{
-            btnFlight.setEnabled(true);
+            btnLocation.setEnabled(true);
         }
         if (mFirebaseAuth.getCurrentUser().getUid().equals(myReq.getMule())){
             Log.i("Flight", mFirebaseAuth.getCurrentUser().getUid()+", "+myReq.getMule());
             flightNum.setEnabled(true);
+            btnLocation.setText(R.string.update);
         }
         else{
             flightNum.setEnabled(false);
+            btnLocation.setText(R.string.location);
         }
-        btnFlight.setOnClickListener(new View.OnClickListener() {
+        btnLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setOrRequestFlight(myReq);
+                setOrRequestLocation(myReq);
             }
         });
     }
 
-    private void doToastFlightPushSuccess(){
-        Toast.makeText(this, "Changed Flight Number to "+flightNumber, Toast.LENGTH_SHORT).show();
-    }
-
-    private void setOrRequestFlight(final Request myReq){
+    private void setOrRequestLocation(final Request myReq){
         DatabaseReference ref = mDatabase.child(REQUESTS).child(transactionID).getRef();
         // Attach a listener to read the data at our posts reference
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -502,7 +503,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
                 else{
                     flightNumber = flightNum.getText().toString();
                     mDatabase.child(REQUESTS).child(transactionID).child("flightNumber").setValue(flightNumber);
-                    doToastFlightPushSuccess();
+                    Toast.makeText(RequestDetailActivity.this, "Changed Flight Number to "+flightNumber, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -641,6 +642,10 @@ public class RequestDetailActivity extends BaseMenuActivity {
                     });
                 }
                 mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.NO_MULE);
+                flightNumber = null;
+                flightNum.setText("");
+                mDatabase.child(REQUESTS).child(transactionID).child("flightNumber").removeValue();
+
                 Toast.makeText(this, "Unregistered!", Toast.LENGTH_SHORT).show();
                 btnSignUpOrUnregister.setText("sign up");
             } catch (Exception e) {
@@ -729,18 +734,25 @@ public class RequestDetailActivity extends BaseMenuActivity {
             String flight = flightNum.getText().toString();
             if (response == null) {
                 response = "Error with processing the request";
+                Log.i("INFO", response);
             }
-            Log.i("INFO", response);
-            String formatted_response = response.substring(1, response.length() - 1);
-            parseRealTime(formatted_response);
-            Intent myIntent = new Intent(RequestDetailActivity.this, MapsActivity.class);
-            myIntent.putExtra("Flightnum", flight);
-            myIntent.putExtra("Latitude", latitude);
-            myIntent.putExtra("Longitude", longitude);
-            myIntent.putExtra("Direction", planedir);
-            myIntent.putExtra("arrTime", arrive);
-            myIntent.putExtra("depTime", depart);
-            RequestDetailActivity.this.startActivity(myIntent);
+            else if ((latitude == 0.0) && (longitude == 0.0) && (planedir == 0.0)){
+                Log.i("INFO", response);
+                Toast.makeText(RequestDetailActivity.this, R.string.badresponse, Toast.LENGTH_LONG).show();
+            }
+            else {
+                Log.i("INFO", response);
+                String formatted_response = response.substring(1, response.length() - 1);
+                parseRealTime(formatted_response);
+                Intent myIntent = new Intent(RequestDetailActivity.this, MapsActivity.class);
+                myIntent.putExtra("Flightnum", flight);
+                myIntent.putExtra("Latitude", latitude);
+                myIntent.putExtra("Longitude", longitude);
+                myIntent.putExtra("Direction", planedir);
+                myIntent.putExtra("arrTime", arrive);
+                myIntent.putExtra("depTime", depart);
+                RequestDetailActivity.this.startActivity(myIntent);
+            }
         }
     }
 }

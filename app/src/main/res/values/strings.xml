@@ -89,6 +89,7 @@
     <string name="choose_account_with_colon">Choose:</string>
     <string name="enter_account">Account:</string>
     <string name="amount_with_colon">Amount:</string>
+    <string name="badresponse">{"error": "No Record Found or Flight not currently detected by receivers. " }</string>
     <string-array name="methods">
         <item>Venmo</item>
         <item>PayPal</item>

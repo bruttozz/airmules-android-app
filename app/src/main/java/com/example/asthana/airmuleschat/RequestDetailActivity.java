@@ -434,10 +434,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
         });
     }
 
-    private void doToastFlightPushSuccess(){
-        Toast.makeText(this, "Changed Flight Number to "+flightNumber, Toast.LENGTH_SHORT).show();
-    }
-
     private void setOrRequestLocation(final Request myReq){
         DatabaseReference ref = mDatabase.child(REQUESTS).child(transactionID).getRef();
         // Attach a listener to read the data at our posts reference
@@ -504,7 +500,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
                 else{
                     flightNumber = flightNum.getText().toString();
                     mDatabase.child(REQUESTS).child(transactionID).child("flightNumber").setValue(flightNumber);
-                    doToastFlightPushSuccess();
+                    Toast.makeText(RequestDetailActivity.this, "Changed Flight Number to "+flightNumber, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -731,18 +727,25 @@ public class RequestDetailActivity extends BaseMenuActivity {
             String flight = flightNum.getText().toString();
             if (response == null) {
                 response = "Error with processing the request";
+                Log.i("INFO", response);
             }
-            Log.i("INFO", response);
-            String formatted_response = response.substring(1, response.length() - 1);
-            parseRealTime(formatted_response);
-            Intent myIntent = new Intent(RequestDetailActivity.this, MapsActivity.class);
-            myIntent.putExtra("Flightnum", flight);
-            myIntent.putExtra("Latitude", latitude);
-            myIntent.putExtra("Longitude", longitude);
-            myIntent.putExtra("Direction", planedir);
-            myIntent.putExtra("arrTime", arrive);
-            myIntent.putExtra("depTime", depart);
-            RequestDetailActivity.this.startActivity(myIntent);
+            else if ((latitude == 0.0) && (longitude == 0.0) && (planedir == 0.0)){
+                Log.i("INFO", response);
+                Toast.makeText(RequestDetailActivity.this, R.string.badresponse, Toast.LENGTH_LONG).show();
+            }
+            else {
+                Log.i("INFO", response);
+                String formatted_response = response.substring(1, response.length() - 1);
+                parseRealTime(formatted_response);
+                Intent myIntent = new Intent(RequestDetailActivity.this, MapsActivity.class);
+                myIntent.putExtra("Flightnum", flight);
+                myIntent.putExtra("Latitude", latitude);
+                myIntent.putExtra("Longitude", longitude);
+                myIntent.putExtra("Direction", planedir);
+                myIntent.putExtra("arrTime", arrive);
+                myIntent.putExtra("depTime", depart);
+                RequestDetailActivity.this.startActivity(myIntent);
+            }
         }
     }
 }

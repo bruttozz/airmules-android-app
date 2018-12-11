@@ -448,7 +448,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
                 if (!mFirebaseAuth.getCurrentUser().getUid().equals(myReq.getMule())){
                     try {
                         flightNumber = dataSnapshot.child("flightNumber").getValue().toString();
-                        if(flightNumber == null){
+                        if(flightNumber == null || flightNumber.equals("")){
                             throw new NullPointerException();
                         }
                         new getFlightTask().execute();

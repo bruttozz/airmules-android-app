@@ -367,25 +367,25 @@
                 android:visibility="gone" />
 
             <Button
-                android:id="@+id/btnFlight"
+                android:id="@+id/btnLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/btnChat"
                 android:layout_marginLeft="10dp"
                 android:backgroundTint="@color/cadet_blue"
-                android:minHeight="0dp"
                 android:minWidth="0dp"
-                android:text="@string/flight"
+                android:minHeight="0dp"
+                android:text="@string/location"
                 android:textSize="14dp" />
 
             <EditText
                 android:id="@+id/flightIata"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/btnFlight"
+                android:layout_alignBottom="@id/btnLocation"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
-                android:layout_toRightOf="@id/btnFlight"
+                android:layout_toRightOf="@id/btnLocation"
                 android:backgroundTint="@android:color/holo_blue_bright"
                 android:ems="10"
                 android:inputType="textPersonName"
@@ -396,7 +396,7 @@
                 android:id="@+id/btnCancelRequest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/btnFlight"
+                android:layout_below="@id/btnLocation"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:backgroundTint="@color/light_slate_gray"

@@ -74,6 +74,8 @@
     <string name="deposit_spinner">Deposit Method</string>
     <string name="view_mules">View Mules</string>
     <string name="flight">Flight</string>
+    <string name="location">View Location</string>
+    <string name="update">Update Flight</string>
     <string name="send">Send</string>
     <string name="submit">Submit</string>
     <string name="port_of_origin">Port of Origin</string>

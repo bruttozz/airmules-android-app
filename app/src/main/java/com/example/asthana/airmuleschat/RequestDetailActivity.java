@@ -323,6 +323,9 @@ public class RequestDetailActivity extends BaseMenuActivity {
         if(myReq.getFlightNumber() != null){
             flightNum.setText(myReq.getFlightNumber());
         }
+        else{
+            flightNum.setText("");
+        }
 
         if (mFirebaseAuth.getCurrentUser().getUid().equals(myReq.getCustomer())) {
             // the current user is the customer
@@ -641,6 +644,10 @@ public class RequestDetailActivity extends BaseMenuActivity {
                     });
                 }
                 mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.NO_MULE);
+                flightNumber = null;
+                flightNum.setText("");
+                mDatabase.child(REQUESTS).child(transactionID).child("flightNumber").removeValue();
+
                 Toast.makeText(this, "Unregistered!", Toast.LENGTH_SHORT).show();
                 btnSignUpOrUnregister.setText("sign up");
             } catch (Exception e) {

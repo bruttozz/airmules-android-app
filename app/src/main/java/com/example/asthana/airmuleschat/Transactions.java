@@ -4,6 +4,7 @@ package com.example.asthana.airmuleschat;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -29,6 +30,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -443,6 +445,19 @@ public class Transactions extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull TransactionHolder holder, int position) {
             Request model = requestListToShow.get(position);
+            if (model.getStatus().equals(Request.NO_PAYMENT)) {
+
+                holder.itemView.setBackgroundColor(Color.parseColor("#F5DEB3")); // no payment: yellow
+
+            } else if (model.getStatus().equals(Request.PAID)) {
+
+                holder.itemView.setBackgroundColor(Color.parseColor("#8FBC8F"));// paid: green
+
+            } else if (model.getStatus().equals(Request.COMPLETE)) {
+
+                holder.itemView.setBackgroundColor(Color.parseColor("#ADD8E6")); // complete: blue
+
+            }
             holder.bindTransactionData(model.getTransactionID(),
                     model.getDeparture().getCity(), model.getDeparture().getCountry(),
                     model.getArrival().getCity(), model.getArrival().getCountry(),

@@ -671,10 +671,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
         }
     }
 
-    protected void parseRealTime(String response) {
-        if (response == null) {
-            response = "Error with processing the request";
-        }
+    protected boolean parseRealTime(String response) {
         try {
             JSONObject obj = new JSONObject(response);
             JSONObject geography = new JSONObject(obj.getString("geography"));
@@ -682,9 +679,9 @@ public class RequestDetailActivity extends BaseMenuActivity {
             longitude = Double.parseDouble(geography.getString("longitude"));
             planedir = Double.parseDouble(geography.getString("direction"));
         } catch (JSONException e) {
-
+            return false;
         }
-        Log.i("INFO", response);
+        return true;
     }
 
     //Uses the HttpURLConnection and URL libraries to get the result of the request
@@ -736,14 +733,9 @@ public class RequestDetailActivity extends BaseMenuActivity {
                 response = "Error with processing the request";
                 Log.i("INFO", response);
             }
-            else if ((latitude == 0.0) && (longitude == 0.0) && (planedir == 0.0)){
-                Log.i("INFO", response);
-                Toast.makeText(RequestDetailActivity.this, R.string.badresponse, Toast.LENGTH_LONG).show();
-            }
-            else {
-                Log.i("INFO", response);
-                String formatted_response = response.substring(1, response.length() - 1);
-                parseRealTime(formatted_response);
+            Log.i("INFO", response);
+            String formatted_response = response.substring(1, response.length() - 1);
+            if (parseRealTime(formatted_response)){
                 Intent myIntent = new Intent(RequestDetailActivity.this, MapsActivity.class);
                 myIntent.putExtra("Flightnum", flight);
                 myIntent.putExtra("Latitude", latitude);
@@ -752,6 +744,9 @@ public class RequestDetailActivity extends BaseMenuActivity {
                 myIntent.putExtra("arrTime", arrive);
                 myIntent.putExtra("depTime", depart);
                 RequestDetailActivity.this.startActivity(myIntent);
+            }
+            else{
+                Toast.makeText(RequestDetailActivity.this, R.string.badresponse, Toast.LENGTH_LONG).show();
             }
         }
     }

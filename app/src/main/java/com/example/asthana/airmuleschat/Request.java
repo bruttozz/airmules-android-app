@@ -2,9 +2,9 @@ package com.example.asthana.airmuleschat;
 
 public class Request {
     public static final String NO_MULE = "NO MULE";
-    public static final String NO_PAYMENT = "NOT PAID";
-    public static final String PAID = "PAYMENT PENDING";
-    public static final String COMPLETE = "COMPLETE";
+    public static final String NO_PAYMENT = "NOT PAID";  // yellow
+    public static final String PAID = "PAYMENT PENDING"; // green
+    public static final String COMPLETE = "COMPLETE";   //blue
 
     //Unfortunately we need to track it here, so that we can pass it between activities...
     private String transactionID;

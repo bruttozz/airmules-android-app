@@ -91,6 +91,7 @@
     <string name="amount_with_colon">Amount:</string>
     <string name="badresponse">{"error": "No Record Found or Flight not currently detected by receivers. " }</string>
     <string-array name="methods">
+        <item>Bank</item>
         <item>Venmo</item>
         <item>PayPal</item>
     </string-array>

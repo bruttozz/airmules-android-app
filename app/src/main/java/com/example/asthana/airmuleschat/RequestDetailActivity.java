@@ -570,7 +570,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
     }
 
     void updateRating(float newRating) {
-        float rating = (currentRating + newRating) / ((numRatings + 1));
+        float rating = (currentRating * numRatings + newRating) / ((numRatings + 1));
         mDatabase.child("users").child(uid).child("rating").setValue(rating);
         mDatabase.child("users").child(uid).child("numRatings").setValue(numRatings + 1);
         Toast.makeText(this, "Rated " + Float.toString(rating), Toast.LENGTH_SHORT).show();

@@ -54,12 +54,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        planedir = planedir - 45;
         // Add a marker in Sydney and move the camera
         LatLng mulepos = new LatLng(latitude, longitude);
         String snippet;
         if(!flightnum.equals(USER_LOCATION)){
-            snippet = flightnum + "\n" + "Latitude: " + latitude + "\n" + "Longitude: " + longitude + "\n" + "Direction: " + (planedir + 45);
+            snippet = flightnum + "\n" + "Latitude: " + latitude + "\n" + "Longitude: " + longitude + "\n" + "Direction: " + (planedir);
         } else{
             snippet = "Last tracked location:\n" + "Latitude: " + latitude + "\n" + "Longitude: " + longitude;
         }
@@ -67,8 +66,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .position(mulepos)
                 .title("Mule Position")
                 .snippet(snippet)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_plane))
-                .rotation((float) (planedir)));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mule_image)));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(mulepos));
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 

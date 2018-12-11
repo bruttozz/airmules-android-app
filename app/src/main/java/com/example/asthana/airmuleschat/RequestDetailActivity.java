@@ -55,7 +55,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private Button btnChat;
     private Button btnCancel;
     private Button btnSignUpOrUnregister;
-    private Button btnFlight;
+    private Button btnLocation;
     private Button btnPayOrConfirm;
     private Button btnViewMules;
     private String transactionID;
@@ -111,7 +111,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
         btnSignUpOrUnregister = (Button) findViewById(R.id.btnSignUpOrUnregister);
         btnPayOrConfirm = (Button) findViewById(R.id.btnPayOrConfirm);
 
-        btnFlight = (Button) findViewById(R.id.btnFlight);
+        btnLocation = (Button) findViewById(R.id.btnLocation);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -415,22 +415,24 @@ public class RequestDetailActivity extends BaseMenuActivity {
         }
 
         if (status.equals(Request.NO_MULE) || status.equals(Request.COMPLETE)){
-            btnFlight.setEnabled(false);
+            btnLocation.setEnabled(false);
         }
         else{
-            btnFlight.setEnabled(true);
+            btnLocation.setEnabled(true);
         }
         if (mFirebaseAuth.getCurrentUser().getUid().equals(myReq.getMule())){
             Log.i("Flight", mFirebaseAuth.getCurrentUser().getUid()+", "+myReq.getMule());
             flightNum.setEnabled(true);
+            btnLocation.setText(R.string.update);
         }
         else{
             flightNum.setEnabled(false);
+            btnLocation.setText(R.string.location);
         }
-        btnFlight.setOnClickListener(new View.OnClickListener() {
+        btnLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setOrRequestFlight(myReq);
+                setOrRequestLocation(myReq);
             }
         });
     }
@@ -439,7 +441,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
         Toast.makeText(this, "Changed Flight Number to "+flightNumber, Toast.LENGTH_SHORT).show();
     }
 
-    private void setOrRequestFlight(final Request myReq){
+    private void setOrRequestLocation(final Request myReq){
         DatabaseReference ref = mDatabase.child(REQUESTS).child(transactionID).getRef();
         // Attach a listener to read the data at our posts reference
         ref.addListenerForSingleValueEvent(new ValueEventListener() {

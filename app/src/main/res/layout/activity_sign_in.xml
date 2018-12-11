@@ -29,26 +29,24 @@
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_below="@id/welcomeImage"
-        android:layout_marginTop="40dp"
         android:layout_alignLeft="@+id/txtViewWelcome"
         android:layout_alignRight="@+id/txtViewWelcome"
-        />
+        android:layout_marginTop="40dp" />
+
     <Button
         android:id="@+id/wechat_login_btn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
-        android:drawableLeft="@drawable/ic_wechatlogo"
-        android:text="WeChat"
-        android:fontFamily="serif"
-        android:textStyle="bold"
-        android:textColor="@color/cb_dark_grey"
-        android:textSize="11sp"
+        android:layout_height="54dp"
         android:layout_below="@id/sign_in_button"
         android:layout_alignLeft="@+id/txtViewWelcome"
         android:layout_alignRight="@+id/txtViewWelcome"
-        />
+        android:backgroundTint="@color/white"
+        android:drawableLeft="@drawable/ic_wechatlogo"
+        android:text="WeChat"
+        android:textColor="@color/cb_dark_grey"
+        android:textSize="11sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

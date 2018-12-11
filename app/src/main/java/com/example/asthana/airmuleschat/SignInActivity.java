@@ -261,7 +261,8 @@ public class SignInActivity extends AppCompatActivity implements
     }
 
     private void getAccessToken(String code) {
-        String http = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + WeChat.APP_ID + "&secret=" + WeChat.APP_SECRET + "&code=" + code + "&grant_type=authorization_code";
+        String http = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + WeChat.APP_ID + "&secret="
+                        + WeChat.APP_SECRET + "&code=" + code + "&grant_type=authorization_code";
         OkHttpUtils.ResultCallback<String> resultCallback = new OkHttpUtils.ResultCallback<String>() {
             @Override
             public void onSuccess(String response) {

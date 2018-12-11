@@ -1,6 +1,7 @@
 package com.example.asthana.airmuleschat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -102,6 +103,8 @@ public class Deposit extends AppCompatActivity {
                 String account = accountInfo.getText().toString();
 //                accountInfo.setText(amt);
                 depositSuccess(amount);
+                startActivity(new Intent(Deposit.this, UserProfileActivity.class));
+                Toast.makeText(Deposit.this, "Deposit Success!", Toast.LENGTH_SHORT).show();
 //                startActivity(new Intent(Withdraw.this, UserProfileActivity.class));
             }
         });
@@ -145,6 +148,7 @@ public class Deposit extends AppCompatActivity {
                                 }
                             });
                             topupSuccess();
+                            startActivity(new Intent(Deposit.this, UserProfileActivity.class));
                             Toast.makeText(Deposit.this, "Payment Success", Toast.LENGTH_SHORT).show();
                         } else if (payResult.getCode() == EPayResult.FAIL_CODE.getCode()) {
 

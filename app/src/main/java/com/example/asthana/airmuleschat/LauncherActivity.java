@@ -69,26 +69,28 @@ public class LauncherActivity extends BaseMenuActivity {
             }
         });
 
-        DatabaseReference q = FirebaseDatabase.getInstance().getReference().child("users").child(mFirebaseAuth.getCurrentUser().getUid())
-                .child(GeographicalPreferences.DATABASE_TABLE_NAME).getRef();
-        q.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                int geoPrefCount = 0;
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    geoPrefCount++;
+        if (mFirebaseUser != null) {
+            DatabaseReference q = FirebaseDatabase.getInstance().getReference().child("users").child(mFirebaseAuth.getCurrentUser().getUid())
+                    .child(GeographicalPreferences.DATABASE_TABLE_NAME).getRef();
+            q.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    int geoPrefCount = 0;
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                        geoPrefCount++;
+                    }
+                    if (geoPrefCount == 0) {
+                        Toast t = Toast.makeText(LauncherActivity.this, "Tip: No Geo. Preferences found, consider adding some through the main menu", Toast.LENGTH_LONG);
+                        t.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 250);
+                        t.show();
+                    }
                 }
-                if(geoPrefCount == 0){
-                    Toast t = Toast.makeText(LauncherActivity.this, "No Geo. Preferences found, consider adding some through the main menu", Toast.LENGTH_LONG);
-                    t.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 250);
-                    t.show();
-                }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e("GeoPref", "Cannot connect to Firebase");
-            }
-        });
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.e("GeoPref", "Cannot connect to Firebase");
+                }
+            });
+        }
     }
 }

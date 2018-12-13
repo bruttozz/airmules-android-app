@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
 
@@ -60,13 +61,14 @@ public class TrackingService extends Service {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mFirebaseAuth = FirebaseAuth.getInstance();
 
-
-        buildNotification();
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
+            buildNotification();
 //        loginToFirebase();
         requestLocationUpdates();
     }
 
     private void buildNotification() {
+
         String stop = "stop";
         registerReceiver(stopReceiver, new IntentFilter(stop));
         PendingIntent broadcastIntent = PendingIntent.getBroadcast(

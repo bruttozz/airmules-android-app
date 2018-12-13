@@ -78,7 +78,7 @@ public class PersonalChat extends BaseMenuActivity {
         mUsername = mFirebaseUser.getDisplayName();
         mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
 
-        // Initialize ProgressBar and RecyclerView.
+        // Initialize ProgressBar and Message RecyclerView.
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         mMessageRecyclerView = (RecyclerView) findViewById(R.id.messageRecyclerView);
         mLinearLayoutManager = new LinearLayoutManager(this);
@@ -98,11 +98,16 @@ public class PersonalChat extends BaseMenuActivity {
             }
         };
 
+        // This is used as our reference for Firebase. It didn't make sense to repeatedly
         DatabaseReference messagesRef = mFirebaseDatabaseReference.child(PERSONAL_MESSAGES_CHILD).child(mPrivateChatID);
         FirebaseRecyclerOptions<MessageClass> options =
                 new FirebaseRecyclerOptions.Builder<MessageClass>()
                         .setQuery(messagesRef, parser)
                         .build();
+
+        // This is what is used to populate the messages.
+        // First, we check to see if we have loaded any messages - if not, it displays
+        // a loading bar.
         mFirebaseAdapter = new FirebaseRecyclerAdapter<MessageClass, MessageViewHolder>(options) {
             @Override
             public MessageViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -120,6 +125,9 @@ public class PersonalChat extends BaseMenuActivity {
                     viewHolder.messageTextView.setVisibility(TextView.VISIBLE);
                     viewHolder.messageImageView.setVisibility(ImageView.GONE);
                 } else if (messageClass.getImageUrl() != null) {
+                    // This snippet is there in case someone tries to send an image.
+                    // We found that the app was crashing if someone sent images without
+                    // this snippet being there
                     String imageUrl = messageClass.getImageUrl();
                     if (imageUrl.startsWith("gs://")) {
                         StorageReference storageReference = FirebaseStorage.getInstance()
@@ -170,7 +178,7 @@ public class PersonalChat extends BaseMenuActivity {
                 int lastVisiblePosition =
                         mLinearLayoutManager.findLastCompletelyVisibleItemPosition();
                 // If the recycler view is initially being loaded or the
-                // user is at the bottom of the list, scroll to the bottom
+                // user is at the top of the list, scroll to the bottom
                 // of the list to show the newly added message.
                 if (lastVisiblePosition == -1 ||
                         (positionStart >= (friendlyMessageCount - 1) &&
@@ -182,6 +190,8 @@ public class PersonalChat extends BaseMenuActivity {
 
         mMessageRecyclerView.setAdapter(mFirebaseAdapter);
 
+        // Check to see if there is a non-zero-length and non-all-whitespace string
+        // in the input bar. Is so, enable the send button.
         mMessageEditText = (EditText) findViewById(R.id.messageEditText);
         mMessageEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -202,6 +212,10 @@ public class PersonalChat extends BaseMenuActivity {
             }
         });
 
+
+        // This button is used to send messages - nothing special here.
+        // The message is formatted in a specific way.
+        // We made a class called MessageClass to simplify the interactions with firebase.
         mSendButton = (Button) findViewById(R.id.sendButton);
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,8 +232,6 @@ public class PersonalChat extends BaseMenuActivity {
         });
 
     }
-
-    // Firebase instance variables
 
     @Override
     public void onStart() {

@@ -43,6 +43,7 @@ public class PostRequestActivity extends BaseMenuActivity {
     private DatePickerDialog.OnDateSetListener dateDep;
     private DatePickerDialog.OnDateSetListener dateArr;
 
+    //track all the edit fields for convenience (ex. make sure all filled in)
     private ArrayList<TextView> allEditTexts;
 
     private Button btnSubmit;
@@ -104,7 +105,7 @@ public class PostRequestActivity extends BaseMenuActivity {
         allEditTexts.add(editTextArrCountry);
         allEditTexts.add(txtArrDate);
 
-        //Setup the calendar date pop-ups
+        //Setup the calendar date pop-ups for the date fields
         myCalendar = Calendar.getInstance();
         txtDepDate.setClickable(true);
         dateDep = new DatePickerDialog.OnDateSetListener() {
@@ -250,6 +251,10 @@ public class PostRequestActivity extends BaseMenuActivity {
         return req;
     }
 
+    /**
+     * For testing purposes
+     * @return
+     */
     private Request makeFakeRequest() {
         Request req = createEmptyRequestObject();
 
@@ -267,6 +272,10 @@ public class PostRequestActivity extends BaseMenuActivity {
         return req;
     }
 
+    /**
+     * Set the selected date for the departure or arrival date field
+     * @param type
+     */
     private void updateLabel(String type) {
         String myFormat = "dd" + Request.LocationInfo.DATE_DELIMITER + "MM" + Request.LocationInfo.DATE_DELIMITER + "yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);

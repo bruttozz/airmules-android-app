@@ -47,6 +47,7 @@ public class AllTransactionsActivity extends BaseMenuActivity implements Transac
         txtRequestTypes = findViewById(R.id.txtRequestTypes);
         setTextByType(myType);
 
+        //Create the fragment on the fly so that we can pass it the type of requests it should show
         fragmentReqTransactions = new Transactions();
         Bundle bundle = new Bundle();
         bundle.putString(Transactions.INFO_TYPE, myType);

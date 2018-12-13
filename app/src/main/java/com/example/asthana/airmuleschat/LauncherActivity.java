@@ -70,6 +70,7 @@ public class LauncherActivity extends BaseMenuActivity {
         });
 
         if (mFirebaseUser != null) {
+            //Check if the user has any preferences, and if not, then suggest he/she should add some
             DatabaseReference q = FirebaseDatabase.getInstance().getReference().child("users").child(mFirebaseAuth.getCurrentUser().getUid())
                     .child(GeographicalPreferences.DATABASE_TABLE_NAME).getRef();
             q.addListenerForSingleValueEvent(new ValueEventListener() {

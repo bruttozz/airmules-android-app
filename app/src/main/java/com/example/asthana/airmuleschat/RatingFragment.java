@@ -36,8 +36,8 @@ public class RatingFragment extends DialogFragment {
                 .setPositiveButton("Rate", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
+                        //Update the rating for the mule
                         ((RequestDetailActivity) getActivity()).updateRating(ratingBar.getRating());
-                        // sign in the user ...
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

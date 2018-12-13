@@ -69,6 +69,7 @@ public class GeographicalPreferences extends BaseMenuActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
         MenuItem item = menu.findItem(R.id.geo_pref_menu);
+        //Don't display the geo pref menu item on the geo pref activity
         item.setVisible(false);
         return true;
     }
@@ -76,6 +77,7 @@ public class GeographicalPreferences extends BaseMenuActivity {
     private void createDatabaseQueryAdapter() {
         //based on https://github.com/firebase/FirebaseUI-Android/blob/master/database/README.md
 
+        //Display all the geo preferences of the user
         Query q = mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).child(DATABASE_TABLE_NAME).getRef();
         FirebaseRecyclerOptions<GeoPref> options = new FirebaseRecyclerOptions.Builder<GeoPref>()
                 .setQuery(q, GeoPref.class).build();
@@ -98,12 +100,14 @@ public class GeographicalPreferences extends BaseMenuActivity {
     @Override
     public void onStart() {
         super.onStart();
+        //Allow the geo preferences list to sync with the database
         adapter.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        //Stop the geo preferences list from syncing with the database
         adapter.stopListening();
     }
 
@@ -122,7 +126,7 @@ public class GeographicalPreferences extends BaseMenuActivity {
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 //We want to do error handling, which stops the dialog from always closing,
-                //so we can only do that after the dialog is made
+                //so we can only override this behavior after the dialog is made
             }
         });
 
@@ -133,6 +137,7 @@ public class GeographicalPreferences extends BaseMenuActivity {
         });
 
         final AlertDialog dialog = builder.create();
+        //Make the city/country validation pop-up lists work nicely with this dialog vox
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         dialog.show();
 

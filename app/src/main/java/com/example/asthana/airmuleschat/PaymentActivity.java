@@ -103,7 +103,8 @@ public class PaymentActivity extends BaseMenuActivity {
         txtFee = (TextView) findViewById(R.id.txtFeeAmount);
         txtTotalAmount = (TextView) findViewById(R.id.txtTotalAmount);
         setUpPriceListeners();
-        //Get the price of the transaction
+
+        //Get the price of the transaction and the name of the mule
         DatabaseReference reqRef = mDatabase.child("requests").child(transactionID).getRef();
         reqRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -119,6 +120,7 @@ public class PaymentActivity extends BaseMenuActivity {
                     return;
                 }
 
+                //Get the name of the mule
                 DatabaseReference userRef = mDatabase.child("users").child(req.getMule()).getRef();
                 userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -139,6 +141,7 @@ public class PaymentActivity extends BaseMenuActivity {
                     }
                 });
 
+                //Set the price
                 txtPrice.setText(convertToMoneyFormatString(req.getReward()));
             }
 
@@ -223,6 +226,7 @@ public class PaymentActivity extends BaseMenuActivity {
                     return;
                 }
 
+                //Update the dependent text views: service fee and total
                 float serviceFee = price * SERVICE_FEE;
                 float total = price + serviceFee;
                 txtFee.setText(convertToMoneyFormatString(serviceFee));

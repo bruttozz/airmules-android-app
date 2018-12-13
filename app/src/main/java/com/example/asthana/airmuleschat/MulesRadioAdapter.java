@@ -71,6 +71,7 @@ public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
         UserClass mule = getItem(position);
 
         if (mule != null) {
+            //Set the specific mules data
             TextView muleName = v.findViewById(R.id.dialogTxtMuleName);
             RatingBar muleRating = v.findViewById(R.id.dialogMuleRating);
             TextView txtNumRatings = v.findViewById(R.id.txtNumRatings);
@@ -82,6 +83,7 @@ public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
             muleRating.setRating(mule.getRating());
             txtNumRatings.setText(Integer.toString(mule.getNumRatings()));
 
+            //Find the most popular location the mule has gone to
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("requests").getRef();
             // Attach a listener to read the data at our posts reference
             ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -141,6 +143,7 @@ public class MulesRadioAdapter extends ArrayAdapter<UserClass> {
                 }
             });
 
+            //Remove the mule from the list from the list of potential mules
             btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

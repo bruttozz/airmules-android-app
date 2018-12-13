@@ -81,6 +81,7 @@ public class Deposit extends AppCompatActivity {
         withdrawbtn = (Button) findViewById(R.id.submit_btn);
         thirdparty = (Button) findViewById(R.id.thirdpartypay_btn);
 
+        //Display the amount of money the user has
         DatabaseReference ref = mDatabase.child(USERS).child(mFirebaseAuth.getCurrentUser().getUid()).getRef();
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -164,6 +165,7 @@ public class Deposit extends AppCompatActivity {
     }
 
     private void topupSuccess() {
+        //After actual payment, deposit money to the user's account
         mDatabase = FirebaseDatabase.getInstance().getReference();
         DatabaseReference ref = mDatabase.child(USERS).child(mFirebaseAuth.getCurrentUser().getUid()).getRef();
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -171,6 +173,7 @@ public class Deposit extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserClass user = dataSnapshot.getValue(UserClass.class);
                 float inAppMoney = user.getMoney();
+                //For demonstration purposes, add $1 to user's account, even if we are charging less than that but it is real money
                 inAppMoney = inAppMoney + 1;
                 mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).child("money").setValue(inAppMoney);
             }
@@ -183,6 +186,7 @@ public class Deposit extends AppCompatActivity {
     }
 
     private void depositSuccess(float num) {
+        //Add the stubbed, fake money to the user's account
         mDatabase = FirebaseDatabase.getInstance().getReference();
         DatabaseReference ref = mDatabase.child(USERS).child(mFirebaseAuth.getCurrentUser().getUid()).getRef();
         ref.addListenerForSingleValueEvent(new ValueEventListener() {

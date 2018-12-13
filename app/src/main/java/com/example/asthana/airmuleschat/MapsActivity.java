@@ -40,6 +40,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         latitude = this.getIntent().getDoubleExtra("Latitude", 0.0);
         longitude = this.getIntent().getDoubleExtra("Longitude", 0.0);
         if(!flightnum.equals(USER_LOCATION)) {
+            //We are displaying flight information, instead of just the user's location
             planedir = this.getIntent().getDoubleExtra("Direction", 0.0);
             depart = this.getIntent().getStringExtra("depTime");
             arrive = this.getIntent().getStringExtra("arrTime");

@@ -122,8 +122,11 @@ public abstract class BaseMenuActivity extends AppCompatActivity
     private void readInWorldLocationData() {
         try {
             if (geoLocationsDatabase == null || geoLocationsDatabase.isEmpty()) {
+                //We have not read in the location database yet
+
                 geoLocationsDatabase = new HashMap<String, TreeSet<String>>();
 
+                //Read in the file with the cities and countries
                 AssetManager assetManager = getApplicationContext().getAssets();
                 InputStream inputStream = assetManager.open("world_cities" + File.separator + "world-cities.csv");
                 InputStreamReader inputreader = new InputStreamReader(inputStream);
@@ -159,6 +162,7 @@ public abstract class BaseMenuActivity extends AppCompatActivity
                     String city = rowData[cityIndex];
                     String country = rowData[countryIndex];
 
+                    //Store a country to cities mapping
                     TreeSet<String> countryData = geoLocationsDatabase.get(country);
                     if (countryData == null) {
                         countryData = new TreeSet<String>();
@@ -185,6 +189,7 @@ public abstract class BaseMenuActivity extends AppCompatActivity
                                      AutoCompleteTextView countryET) {
         int currentCityColor = cityLabel.getCurrentTextColor();
 
+        //City is disabled until user enters valid country
         cityET.setEnabled(false);
         cityLabel.setTextColor(Color.LTGRAY);
         cityET.setThreshold(2);
@@ -224,9 +229,10 @@ public abstract class BaseMenuActivity extends AppCompatActivity
                     return false;
                 }
 
-                //User can now interact with the city
+                //User can now interact with the city field
                 cityET.setEnabled(true);
                 cityLabel.setTextColor(currentCityColor);
+                //display cities for the country
                 cityET.setAdapter(new ArrayAdapter<String>(parentContext, android.R.layout.simple_dropdown_item_1line, new ArrayList<String>(geoLocationsDatabase.get(textString))));
                 return true;
             }
@@ -242,7 +248,7 @@ public abstract class BaseMenuActivity extends AppCompatActivity
         countryET.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Validate right away, so the user can click on the city field
+                //Validate the country as soon as the user selects one from the list, so the user can click on the city field
                 countryET.performValidation();
             }
         });

@@ -55,6 +55,7 @@ public class Withdraw extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        //Stubbed functionality: various payment options to deposit "money" from app
         Spinner spinner = findViewById(R.id.choice);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.methods, android.R.layout.simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -68,6 +69,7 @@ public class Withdraw extends AppCompatActivity {
 
         withdrawbtn = (Button) findViewById(R.id.submit_btn);
 
+        //Display the current amount of money the user has
         DatabaseReference ref = mDatabase.child(USERS).child(mFirebaseAuth.getCurrentUser().getUid()).getRef();
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -98,6 +100,8 @@ public class Withdraw extends AppCompatActivity {
     }
 
     private void withdrawSuccess(float num) {
+        //Stubbed functionality: remove the amount of money from the user's account because
+        //it "was" deposited into a different account (ex. bank account)
         mDatabase = FirebaseDatabase.getInstance().getReference();
         DatabaseReference ref = mDatabase.child(USERS).child(mFirebaseAuth.getCurrentUser().getUid()).getRef();
         ref.addListenerForSingleValueEvent(new ValueEventListener() {

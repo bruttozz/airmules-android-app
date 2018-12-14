@@ -103,6 +103,7 @@ public class Transactions extends Fragment {
         // Inflate the layout for this fragment
         View fragView = inflater.inflate(R.layout.fragment_transactions, container, false);
 
+        //Views for the filtering functionality for the transactions
         layoutButton = (LinearLayout) fragView.findViewById(R.id.layoutButton);
         btnFilter = (Button) fragView.findViewById(R.id.btnFilter);
         layoutFilter = (LinearLayout) fragView.findViewById(R.id.layoutFilter);
@@ -127,7 +128,7 @@ public class Transactions extends Fragment {
         createDatabaseQueryAdapter();
         listTransactions.setAdapter(adapter);
 
-        //add pop-up date picker
+        //add pop-up date picker for the filtering based on date
         myCalendar = Calendar.getInstance();
         editTextDepDate.setClickable(true);
         dateDep = new DatePickerDialog.OnDateSetListener() {
@@ -187,6 +188,7 @@ public class Transactions extends Fragment {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        //Allow the user to pull on the list of requests to resync them with the database
                         adapter.updateDataFromFirebase();
                         swipeRefreshLayout.setRefreshing(false);
                     }
@@ -223,6 +225,7 @@ public class Transactions extends Fragment {
             @Override
             public void onClick(View view) {
                 btnFilter.setVisibility(LinearLayout.GONE);
+                //Display the filter options to the user
                 layoutFilter.setVisibility(LinearLayout.VISIBLE);
             }
         });
@@ -233,6 +236,7 @@ public class Transactions extends Fragment {
                 layoutFilter.setVisibility(LinearLayout.GONE);
                 btnFilter.setVisibility(LinearLayout.VISIBLE);
 
+                //Hide the requests which should not be shown from the Recycler View
                 adapter.filterRequests();
             }
         });
@@ -279,7 +283,7 @@ public class Transactions extends Fragment {
     public void onResume() {
         super.onResume();
 
-        //Every time we resume the activity make sure we pull the latest data
+        //Every time we resume the activity make sure we pull the latest data (including the first time too)
         adapter.updateDataFromFirebase();
     }
 
@@ -341,6 +345,9 @@ public class Transactions extends Fragment {
             this.myQuery = myQuery;
         }
 
+        /**
+         * Query Firebase for the latest list of requests and apply the users preferred geolocation filter (if showing All Requests)
+         */
         protected void updateDataFromFirebase() {
             requestListAll = new ArrayList<Request>();
             requestListToShow = new ArrayList<Request>();
@@ -381,6 +388,7 @@ public class Transactions extends Fragment {
             });
         }
 
+
         private void setUpDataForAdapter(DataSnapshot dataSnapshot, ArrayList<GeoPref> userGeoPrefs) {
             requestListAll.clear();
             for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
@@ -400,6 +408,7 @@ public class Transactions extends Fragment {
                         continue;
                     }
 
+                    //Are there geo preferences for the user?
                     if (!userGeoPrefs.isEmpty()) {
                         boolean geoPrefMatch = false;
                         for (GeoPref geoPref : userGeoPrefs) {
@@ -421,7 +430,7 @@ public class Transactions extends Fragment {
                 requestListAll.add(r);
             }
 
-            //Sort by arrive date
+            //Sort by arrive date (more recent is first)
             Collections.sort(requestListAll, new Comparator<Request>() {
                 @Override
                 public int compare(Request r1, Request r2) {
@@ -431,6 +440,7 @@ public class Transactions extends Fragment {
                 }
             });
 
+            //Display all the returned and relevant requests
             clearRequestFilters();
         }
 
@@ -445,8 +455,11 @@ public class Transactions extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull TransactionHolder holder, int position) {
             Request model = requestListToShow.get(position);
+
+            //Color the row based on the status of the request
             int color = model.getColorForStatusType(true);
             holder.itemView.setBackgroundColor(color);
+
             holder.bindTransactionData(model.getTransactionID(),
                     model.getDeparture().getCity(), model.getDeparture().getCountry(),
                     model.getArrival().getCity(), model.getArrival().getCountry(),
@@ -462,7 +475,7 @@ public class Transactions extends Fragment {
         private void filterRequests() {
             requestListToShow.clear();
 
-            //apply the filers
+            //apply the filers the user has set
             for (Request r : requestListAll) {
                 if (!dataMatches(editTextDepCity.getText().toString(), r.getDeparture().getCity())) {
                     continue;
@@ -484,6 +497,7 @@ public class Transactions extends Fragment {
                     continue;
                 }
 
+                //The request should be shown with these filters
                 requestListToShow.add(r);
             }
 

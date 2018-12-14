@@ -251,6 +251,7 @@ public class Request {
         public static int compareDates(String date1, String date2, boolean laterIsBetter){
             int order = 1;
             if(laterIsBetter){
+                //reverse the order
                 order = -1;
             }
 

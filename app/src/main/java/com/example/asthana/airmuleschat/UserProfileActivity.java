@@ -51,7 +51,7 @@ public class UserProfileActivity extends BaseMenuActivity {
     private TextView txtViewNumOfRatings;
     private String userID;
     private Uri mImageUri;
-    private String path;
+    private String path;    //path to the user's profile picture in FireBase Storage (if there is one)
 
 
     @Override
@@ -85,11 +85,13 @@ public class UserProfileActivity extends BaseMenuActivity {
         btnWithdrawMoney = (Button) findViewById(R.id.btnWithdrawMoney);
         txtViewNumOfRatings = (TextView) findViewById(R.id.txtViewNumOfRatings);
 
+        //Get the data for the user
         DatabaseReference ref = mDatabase.child(USERS).child(mFirebaseAuth.getCurrentUser().getUid()).getRef();
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserClass me = dataSnapshot.getValue(UserClass.class);
+                //Set the data for the user
                 float myFunds = me.getMoney();
                 txtViewMoneyLeft.setText(PaymentActivity.convertToMoneyFormatString(myFunds));
                 float rateFloatAsMule = me.getRating();
@@ -134,6 +136,8 @@ public class UserProfileActivity extends BaseMenuActivity {
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null
                 && data.getData() != null) {
+            //We got a picture for the user!
+
             mImageUri = data.getData();
             userProfilePicture.setImageURI(mImageUri);
 
@@ -142,6 +146,7 @@ public class UserProfileActivity extends BaseMenuActivity {
             StorageMetadata metadata = new StorageMetadata.Builder()
                     .setCustomMetadata("user", mFirebaseAuth.getCurrentUser().getUid().toString()).build();
 
+            //Add the picture to the Firebase Storage
             UploadTask uploadTask = storageReference.putFile(mImageUri);
             uploadTask.addOnSuccessListener(UserProfileActivity.this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -164,6 +169,7 @@ public class UserProfileActivity extends BaseMenuActivity {
     private void openFileChooser() {
         Intent intent = new Intent();
         intent.setType("image/*");
+        //Allow the user to pick a picture on the device
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
 
@@ -186,8 +192,10 @@ public class UserProfileActivity extends BaseMenuActivity {
             public void onSuccess(byte[] bytes) {
                 // Data for "images/island.jpg" is returns, use this as needed
                 try {
+                    //Got an image, so set it for the Image View
                     setImageViewWithByteArray(userProfilePicture, bytes);
                 } catch (Exception e) {
+                    //Didn't have a specific image for the user, so set the default one
                     userProfilePicture.setImageResource(R.drawable.profileicon);
                     Toast.makeText(UserProfileActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
                 }

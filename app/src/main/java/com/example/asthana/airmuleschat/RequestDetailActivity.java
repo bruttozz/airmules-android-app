@@ -98,7 +98,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
         btnChat.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                //Start one-to-one chat activity
                 Intent i = new Intent(RequestDetailActivity.this, PersonalChat.class);
                 i.putExtra("chatID", transactionID);
                 startActivity(i);
@@ -129,6 +129,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
                 //Make sure no one else has already signed up to be the mule
                 if (!req.getCustomer().equals(mFirebaseAuth.getCurrentUser().getUid())
                         && req.getMule() != null && !req.getMule().equals(mFirebaseAuth.getCurrentUser().getUid())) {
+                    //Kick the user out
                     RequestDetailActivity.this.finish();
                     return;
                 }
@@ -143,6 +144,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
             }
         });
 
+        //Get the number of potential mules that have signed up; display it on the View Mules button
         DatabaseReference potentialMulesReference = mDatabase.child("potentialMules").getRef();
         potentialMulesReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -156,7 +158,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
                         if (eachOne.getMuleID().equals(mFirebaseAuth.getCurrentUser().getUid())) {
                             // the current user has registered to be mule for this request
                             btnSignUpOrUnregister.setText("unregister");
-                            // todo : how to set the chat button??
                         }
                     }
                 }
@@ -171,6 +172,10 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
     }
 
+    /**
+     * Create the dialog box to select the mule
+     * @param view
+     */
     public void showAlertDialogButtonClicked(View view) {
 
         // create an alert builder
@@ -181,17 +186,12 @@ public class RequestDetailActivity extends BaseMenuActivity {
         final View ViewMulesDialog = getLayoutInflater().inflate(R.layout.dialog_mules, null);
         builder.setView(ViewMulesDialog);
 
-        // Initialize contacts
+        //List of mules to add to from database
         List<UserClass> mules = new ArrayList<UserClass>();
-        /*
-        mules.add(new UserClass("food", 5, 5, 0));
-        mules.add(new UserClass("Bar", 5, 2, 0));
-        mules.add(new UserClass("troll", 5, 1, 0));
-        mules.add(new UserClass("firer", 5, 3, 0));
-        */
 
-
+        //Track the User object to user ID conversion for the potential mules
         HashMap<UserClass, String> mulesToIDs = new HashMap<UserClass, String>();
+
         final MulesRadioAdapter adapter = new MulesRadioAdapter(this, R.layout.dialog_mules, mules, mulesToIDs,
                 transactionID);
         ListView listView = (ListView) ViewMulesDialog.findViewById(R.id.viewMulesDialogRecycler);
@@ -210,6 +210,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //We can't implement this here, because we want to stop the dialog from closing without a mule selected
+                //Override the functionality after the dialog has been created
             }
         });
         builder.setNegativeButton("Cancel", null);
@@ -225,6 +226,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
                 if (myMule == null) {
                     Toast.makeText(RequestDetailActivity.this, "Please select a mule", Toast.LENGTH_LONG).show();
                 } else {
+                    //User chose a new mule, so reset the state of the request appropriately:
                     clearChat();
                     String muleID = mulesToIDs.get(myMule);
                     mDatabase.child(REQUESTS).child(transactionID).child(MULE).setValue(muleID);
@@ -235,6 +237,11 @@ public class RequestDetailActivity extends BaseMenuActivity {
         });
     }
 
+    /**
+     * Update the data in the potential mules list after the Firebase callback gets the data
+     * @param adapter
+     * @param mulesToIDs
+     */
     private void getPotentialMules(MulesRadioAdapter adapter, HashMap<UserClass, String> mulesToIDs) {
         DatabaseReference ref = mDatabase.child("potentialMules").getRef();
         // Attach a listener to read the data at our posts reference
@@ -250,6 +257,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
                         return;
                     }
 
+                    //Get the actual user data for the potential mule asynchronously
                     if (RequestDetailActivity.this.transactionID.equals(pMule.getRequestID())) {
                         DatabaseReference ref2 = mDatabase.child("users").child(pMule.getMuleID()).getRef();
                         ref2.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -261,6 +269,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
                                     return;
                                 }
 
+                                //safely update the adapter as user data comes in
                                 synchronized (adapter) {
                                     mulesToIDs.put(mule, pMule.getMuleID());
                                     adapter.add(mule);
@@ -285,8 +294,8 @@ public class RequestDetailActivity extends BaseMenuActivity {
     }
 
     private void setTextAndButton(Request myReq) {
-
         if (myReq.getMule() != null) {
+            //Update the mule text field with the mule's name
             DatabaseReference userRef = mDatabase.child("users").child(myReq.getMule()).getRef();
             userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -329,6 +338,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
             flightNum.setText("");
         }
 
+        //Display the appropriately buttons/controls to the customer or other users (potential mules) for this request
         if (mFirebaseAuth.getCurrentUser().getUid().equals(myReq.getCustomer())) {
             // the current user is the customer
             btnCancel.setVisibility(View.VISIBLE);
@@ -354,6 +364,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
     private void addButtonFunctions(final Request myReq) {
         final String status = myReq.getStatus();
 
+        //Update the button functionality to be pay or confirm for the customer based on the status of the request
         if (status.equals(Request.PAID) || status.equals(Request.COMPLETE)) {
             btnPayOrConfirm.setText("CONFIRM");
         } else {
@@ -397,6 +408,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
             }
         });
 
+        //Update the functionality of the sign up/unregister button for a mule
         if (status.equals(Request.COMPLETE)) {
             btnSignUpOrUnregister.setEnabled(false);
         } else {
@@ -416,6 +428,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
             this.btnViewMules.setEnabled(true);
         }
 
+        //Update the button functionality for setting (mule) or viewing (customer) location information
         if (status.equals(Request.NO_MULE) || status.equals(Request.COMPLETE)){
             btnLocation.setEnabled(false);
         }
@@ -449,11 +462,14 @@ public class RequestDetailActivity extends BaseMenuActivity {
                     try {
                         flightNumber = dataSnapshot.child("flightNumber").getValue().toString();
                         if(flightNumber == null || flightNumber.equals("")){
+                            //We don't have a flight number set
                             throw new NullPointerException();
                         }
                         new getFlightTask().execute();
                     }
                     catch (Exception e){
+                        //We did not have/could not get flight information, so display the user's last known location
+
                         DatabaseReference ref = mDatabase.child("users").child(myReq.getMule()).getRef();
                         // Attach a listener to read the data at our posts reference
                         ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -467,9 +483,11 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
                                 latitude = user.getLatitude();
                                 longitude = user.getLongitude();
+                                //Has the mule ever shared his/her location?
                                 boolean muleGavelocation = latitude != 0 || longitude != 0;
 
                                 if(muleGavelocation) {
+                                    //Create a dialog to prompt the user to view the mule's last known location
                                     new AlertDialog.Builder(RequestDetailActivity.this)
                                             .setMessage("Mule has not given a Flight Number. Display mule's last known location?")
                                             .setCancelable(true)
@@ -530,6 +548,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
                         return;
                     }
 
+                    //Increase the amount of money in the mules account by the reward
                     float inAppMoney = user.getMoney();
                     inAppMoney = inAppMoney + myReq.getReward();
                     mDatabase.child("users").child(myReq.getMule()).child("money").setValue(inAppMoney);
@@ -539,8 +558,9 @@ public class RequestDetailActivity extends BaseMenuActivity {
                     currentRating = user.getRating();
                     numRatings = user.getNumRatings();
                     mDatabase.child("users").child(myReq.getMule()).child("money").setValue(inAppMoney);
+
+                    //Allow the user to rate the mule
                     showRatingDialog(otherUser);
-                    //TODO notify the mule of payment
                 }
 
                 @Override
@@ -554,6 +574,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
             //complete the transaction
             mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.COMPLETE);
         } else {
+            //Customer has not paid yet, so start payment activity
             Intent payIntent = new Intent(this, PaymentActivity.class);
             payIntent.putExtra("transactionID", transactionID);
             this.startActivity(payIntent);
@@ -563,13 +584,15 @@ public class RequestDetailActivity extends BaseMenuActivity {
     void showRatingDialog(String otherUser) {
         // Create the fragment and show it as a dialog.
         Bundle bundle = new Bundle();
-        bundle.putString("otherUser", otherUser);
+        bundle.putString("otherUser", otherUser);   //the mule
+        //Display the rating fragment in a dialog box
         DialogFragment newFragment = new RatingFragment();
         newFragment.setArguments(bundle);
         newFragment.show(getFragmentManager(), "ratings");
     }
 
     void updateRating(float newRating) {
+        //Update the average rating to include the new rating
         float rating = (currentRating * numRatings + newRating) / ((numRatings + 1));
         mDatabase.child("users").child(uid).child("rating").setValue(rating);
         mDatabase.child("users").child(uid).child("numRatings").setValue(numRatings + 1);
@@ -578,6 +601,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
     private void removeThisRequestFromDatabase() {
         try {
+            //Remove all the data associated with this request
             clearChat();
             mDatabase.child(REQUESTS).child(transactionID).removeValue();
             DatabaseReference ref = mDatabase.child("potentialMules").getRef();
@@ -585,6 +609,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
             ref.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
+                    //Remove each potential mule from the database
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         PotentialMule pMule = postSnapshot.getValue(PotentialMule.class);
                         if (pMule == null || pMule.getRequestID() == null) {
@@ -618,7 +643,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
                 mDatabase.child("potentialMules").child(potentialMuleKey).removeValue();
                 mDatabase.child(REQUESTS).child(transactionID).child(MULE).removeValue();
                 if (myReq.getStatus().equals(Request.PAID)) {
-                    //refund payment
+                    //refund payment to the customer
                     DatabaseReference ref = mDatabase.child("users").child(myReq.getCustomer()).getRef();
                     // Attach a listener to read the data at our posts reference
                     ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -633,8 +658,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
                             float inAppMoney = user.getMoney();
                             inAppMoney = inAppMoney + myReq.getReward();
                             mDatabase.child("users").child(myReq.getCustomer()).child("money").setValue(inAppMoney);
-
-                            //TODO notify the customer of mule cancellation and payment return
                         }
 
                         @Override
@@ -655,9 +678,11 @@ public class RequestDetailActivity extends BaseMenuActivity {
             }
         } else {
             if (myReq.getMule() != null) {
+                //User should not be able to get here because no potential mule can view request if a mule is chosen
                 Toast.makeText(this, "Sorry, someone already signed up", Toast.LENGTH_SHORT).show();
 
             } else {
+                //Add user as a potential mule
                 String key = transactionID + mFirebaseAuth.getCurrentUser().getUid();
                 mDatabase.child("potentialMules").child(key)
                         .setValue(new PotentialMule(transactionID, mFirebaseAuth.getCurrentUser().getUid()));
@@ -675,8 +700,10 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
     protected boolean parseRealTime(String response) {
         try {
+            //Convert the JSON string to JSON object
             JSONObject obj = new JSONObject(response);
             JSONObject geography = new JSONObject(obj.getString("geography"));
+            //Get the location data from it
             latitude = Double.parseDouble(geography.getString("latitude"));
             longitude = Double.parseDouble(geography.getString("longitude"));
             planedir = Double.parseDouble(geography.getString("direction"));
@@ -687,6 +714,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
     }
 
     //Uses the HttpURLConnection and URL libraries to get the result of the request
+    //https://developer.android.com/reference/java/net/HttpURLConnection
 //Uses input/output buffers to read in the results and paste it to the TextView
     class getFlightTask extends AsyncTask<Void, Void, String> {
 
@@ -738,6 +766,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
             Log.i("INFO", response);
             String formatted_response = response.substring(1, response.length() - 1);
             if (parseRealTime(formatted_response)){
+                //Pass the flight location information to the map activity
                 Intent myIntent = new Intent(RequestDetailActivity.this, MapsActivity.class);
                 myIntent.putExtra("Flightnum", flight);
                 myIntent.putExtra("Latitude", latitude);

@@ -61,9 +61,11 @@ public class TrackingService extends Service {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mFirebaseAuth = FirebaseAuth.getInstance();
 
+        //Don't create a notification for later android versions (was causing issues)
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
             buildNotification();
 //        loginToFirebase();
+        //Start listening to location updates
         requestLocationUpdates();
     }
 

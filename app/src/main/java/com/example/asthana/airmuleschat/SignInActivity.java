@@ -80,6 +80,8 @@ public class SignInActivity extends AppCompatActivity implements
                 AnimationUtils.loadAnimation(getApplicationContext(),
                         R.anim.rotate);
         welcomeImage.startAnimation(animation1);
+
+        //Log in view WeChat
         launchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,6 +119,10 @@ public class SignInActivity extends AppCompatActivity implements
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
+    /**
+     * Log in via Google
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -192,6 +198,9 @@ public class SignInActivity extends AppCompatActivity implements
                 });
     }
 
+    /**
+     * Add the user to the user table if we don't have him or her and then start the main app
+     */
     private void completeSignInProcedureForUser() {
         DatabaseReference ref = mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).getRef();
         // Attach a listener to read the data at our posts reference
@@ -200,11 +209,12 @@ public class SignInActivity extends AppCompatActivity implements
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserClass user = dataSnapshot.getValue(UserClass.class);
                 if (user == null || user.getName() == null) {
-                    //We don't have this user yet
+                    //We don't have this user yet, so add him/her
                     mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid())
                             .setValue(new UserClass(mFirebaseAuth.getCurrentUser().getDisplayName(), 0, 0, 0));
                 }
 
+                //start the app!
                 startActivity(new Intent(SignInActivity.this, LauncherActivity.class));
                 finish();
             }
@@ -223,12 +233,15 @@ public class SignInActivity extends AppCompatActivity implements
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            //Successfully authenticated the new user
                             FirebaseUser user = mFirebaseAuth.getCurrentUser();
                             if (user != null) {
+                                //Set the actual name for the user
                                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                         .setDisplayName(name).build();
                                 user.updateProfile(profileUpdates);
                             }
+                            //Add the user to the users table and start the app
                             completeSignInProcedureForUser();
                         } else {
                             // If sign in fails, display a message to the user.
@@ -242,18 +255,21 @@ public class SignInActivity extends AppCompatActivity implements
 
     private void firebaseAuthWithWeChat(final String openid, final String name) {
         String token = openid + "@gmail.com";
+        //try to first sign in with the email and password, which are both based on the openid
         mFirebaseAuth.signInWithEmailAndPassword(token, openid)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        //Have already authenticated this user?
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
+                            // Sign in success, set the user and start the application
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mFirebaseAuth.getCurrentUser();
                             mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).child("name").setValue(name);
                             startActivity(new Intent(SignInActivity.this, LauncherActivity.class));
                             finish();
                         } else {
+                            //We need to add the user as a new user
                             createUserWithWeChat(openid, name);
                         }
                     }
@@ -279,12 +295,14 @@ public class SignInActivity extends AppCompatActivity implements
 //                Toast.makeText(SignInActivity.this, access, Toast.LENGTH_SHORT).show();
 //                Toast.makeText(SignInActivity.this, openId, Toast.LENGTH_SHORT).show();
 
+                //We got the access token and the openid, so now we can get the user's information from the API
                 String getUserInfo = "https://api.weixin.qq.com/sns/userinfo?access_token=" + access + "&openid=" + openId + "";
-                final String opid = openId;
+                final String opid = openId;     //unique ID for user to use in Firebase
 
                 OkHttpUtils.ResultCallback<WeChatInfo> resultCallback = new OkHttpUtils.ResultCallback<WeChatInfo>() {
                     @Override
                     public void onSuccess(WeChatInfo response) {
+                        //The WeChat user name
                         final String wxusername = response.toString();
                         Log.i("TAG", wxusername);
 //                        Toast.makeText(SignInActivity.this, wxusername, Toast.LENGTH_LONG).show();

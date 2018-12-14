@@ -67,6 +67,7 @@ public class Deposit extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        //Stubbed functionality: various payment options
         Spinner spinner = findViewById(R.id.choice);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.methods, android.R.layout.simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

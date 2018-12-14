@@ -31,6 +31,7 @@ public class WeChatLoginActivity extends AppCompatActivity {
 
         registerReceiver();
 
+        //Create a request to get the authentication code from the WeChat application
         SendAuth.Req req = new SendAuth.Req();
         req.scope = WeChat.AUTH_SCOPE;
         req.state = WeChat.STATE;

@@ -89,7 +89,7 @@ public class SignInActivity extends AppCompatActivity implements
                 }
                 //Toast.makeText(SignInActivity.this, "success", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(SignInActivity.this, WeChatLoginActivity.class);
-                startActivityForResult(intent, ActivityReqCode.WE_CHAT_LOGIN);
+                startActivityForResult(intent, WeChat.WE_CHAT_LOGIN);
             }
         });
 
@@ -160,10 +160,10 @@ public class SignInActivity extends AppCompatActivity implements
             return;
         }
 
-        if (requestCode == ActivityReqCode.WE_CHAT_LOGIN) {
+        if (requestCode == WeChat.WE_CHAT_LOGIN) {
             startActivity(new Intent(SignInActivity.this, LauncherActivity.class));
             Optional.ofNullable(data).ifPresent(intent -> {
-                final String code = intent.getStringExtra(IntentKey.WE_CHAT_AUTH_CODE);
+                final String code = intent.getStringExtra(WeChat.WE_CHAT_AUTH_CODE);
                 getAccessToken(code);
             });
         }

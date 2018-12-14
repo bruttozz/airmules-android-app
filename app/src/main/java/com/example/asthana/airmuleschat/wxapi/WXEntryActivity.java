@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.example.asthana.airmuleschat.BroadcastAction;
-import com.example.asthana.airmuleschat.IntentKey;
 import com.example.asthana.airmuleschat.WeChat;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -64,9 +62,9 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
 
     private void sendAuthResult(SendAuth.Resp resp) {
         Intent intent = new Intent();
-        intent.setAction(BroadcastAction.WE_CHAT_AUTH_RESULT);
-        intent.putExtra(IntentKey.WE_CHAT_AUTH_CODE, resp.code);
-        intent.putExtra(IntentKey.WE_CHAT_ERROR_CODE, resp.errCode);
+        intent.setAction(WeChat.WE_CHAT_AUTH_RESULT);
+        intent.putExtra(WeChat.WE_CHAT_AUTH_CODE, resp.code);
+        intent.putExtra(WeChat.WE_CHAT_ERROR_CODE, resp.errCode);
         sendBroadcast(intent);
 
         finish();

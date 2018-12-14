@@ -9,8 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
 import com.annimon.stream.Optional;
-import com.example.asthana.airmuleschat.BroadcastAction;
-import com.example.asthana.airmuleschat.IntentKey;
 import com.example.asthana.airmuleschat.WeChat;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -45,7 +43,7 @@ public class WeChatLoginActivity extends AppCompatActivity {
     }
 
     private void registerReceiver() {
-        registerReceiver(receiver, new IntentFilter(BroadcastAction.WE_CHAT_AUTH_RESULT));
+        registerReceiver(receiver, new IntentFilter(WeChat.WE_CHAT_AUTH_RESULT));
     }
 
     private void unregisterReceiver() {
@@ -57,10 +55,10 @@ public class WeChatLoginActivity extends AppCompatActivity {
 
     private void handleBroadcast(@NonNull Intent from) {
         final String action = from.getAction();
-        if (BroadcastAction.WE_CHAT_AUTH_RESULT.equalsIgnoreCase(action)) {
+        if (WeChat.WE_CHAT_AUTH_RESULT.equalsIgnoreCase(action)) {
             Intent result = new Intent();
-            result.putExtra(IntentKey.WE_CHAT_AUTH_CODE, from.getStringExtra(IntentKey.WE_CHAT_AUTH_CODE));
-            result.putExtra(IntentKey.WE_CHAT_ERROR_CODE, from.getStringExtra(IntentKey.WE_CHAT_ERROR_CODE));
+            result.putExtra(WeChat.WE_CHAT_AUTH_CODE, from.getStringExtra(WeChat.WE_CHAT_AUTH_CODE));
+            result.putExtra(WeChat.WE_CHAT_ERROR_CODE, from.getStringExtra(WeChat.WE_CHAT_ERROR_CODE));
             setResult(RESULT_OK, result);
             finish();
         }

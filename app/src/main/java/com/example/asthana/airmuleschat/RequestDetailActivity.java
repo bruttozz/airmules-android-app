@@ -570,8 +570,6 @@ public class RequestDetailActivity extends BaseMenuActivity {
                 }
             });
 
-            //TODO Rate the mule
-
             //complete the transaction
             mDatabase.child(REQUESTS).child(transactionID).child(STATUS).setValue(Request.COMPLETE);
         } else {
@@ -699,6 +697,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
         }
     }
 
+    //parses the http string response into a usable JSONObject to obtain the flight information
     protected boolean parseRealTime(String response) {
         try {
             //Convert the JSON string to JSON object
@@ -716,7 +715,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
     //Uses the HttpURLConnection and URL libraries to get the result of the request
     //https://developer.android.com/reference/java/net/HttpURLConnection
-//Uses input/output buffers to read in the results and paste it to the TextView
+    //Uses input/output buffers to read in the results and paste it to the TextView
     class getFlightTask extends AsyncTask<Void, Void, String> {
 
         private Exception exception;
@@ -725,12 +724,10 @@ public class RequestDetailActivity extends BaseMenuActivity {
         protected void onPreExecute() {
 
         }
-
         //runs the API call in the background
         protected String doInBackground(Void... urls) {
             //get the flight number from user input
             String flight = flightNumber;
-
             try {
                 //formats the URL containing the API key to add in the flight number (IATA)
                 URL url = new URL(API_URL + flight);
@@ -758,6 +755,7 @@ public class RequestDetailActivity extends BaseMenuActivity {
 
         //returns with errors if couldn't process the http request or returned with nothing and toggles the progress bar
         //sends a Log with the response
+        //provides the response as a String
         protected void onPostExecute(String response) {
             String flight = flightNum.getText().toString();
             if (response == null) {
@@ -773,11 +771,13 @@ public class RequestDetailActivity extends BaseMenuActivity {
                 myIntent.putExtra("Latitude", latitude);
                 myIntent.putExtra("Longitude", longitude);
                 myIntent.putExtra("Direction", planedir);
+                //arrival and depature time if we had decided to include another (wasteful) API call to the Airports API
                 myIntent.putExtra("arrTime", arrive);
                 myIntent.putExtra("depTime", depart);
                 RequestDetailActivity.this.startActivity(myIntent);
             }
             else{
+                //Informs user that there was no flight found
                 Toast.makeText(RequestDetailActivity.this, R.string.badresponse, Toast.LENGTH_LONG).show();
             }
         }

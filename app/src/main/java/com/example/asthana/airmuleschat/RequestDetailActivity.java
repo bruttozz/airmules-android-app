@@ -37,7 +37,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class RequestDetailActivity extends BaseMenuActivity {
-    static final String API_URL = "https://aviation-edge.com/v2/public/flights?key=782cbd-deb8af&flightIata=";
+    static final String API_KEY = "782cbd-deb8af";
+    static final String API_URL = "https://aviation-edge.com/v2/public/flights?key="+API_KEY+"&flightIata=";
     private static final String REQUESTS = "requests";
     private static final String MULE = "mule";
     private static final String STATUS = "status";

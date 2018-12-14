@@ -89,7 +89,6 @@ public class SignInActivity extends AppCompatActivity implements
                     Toast.makeText(SignInActivity.this, "Please install WeChat APP first", Toast.LENGTH_LONG).show();
                     return;
                 }
-                //Toast.makeText(SignInActivity.this, "success", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(SignInActivity.this, WeChatLoginActivity.class);
                 startActivityForResult(intent, WeChat.WE_CHAT_LOGIN);
             }
@@ -284,7 +283,6 @@ public class SignInActivity extends AppCompatActivity implements
             public void onSuccess(String response) {
                 String access = null;
                 String openId = null;
-                String wxusername = null;
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     access = jsonObject.getString("access_token");
@@ -292,8 +290,6 @@ public class SignInActivity extends AppCompatActivity implements
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-//                Toast.makeText(SignInActivity.this, access, Toast.LENGTH_SHORT).show();
-//                Toast.makeText(SignInActivity.this, openId, Toast.LENGTH_SHORT).show();
 
                 //We got the access token and the openid, so now we can get the user's information from the API
                 String getUserInfo = "https://api.weixin.qq.com/sns/userinfo?access_token=" + access + "&openid=" + openId + "";
@@ -305,11 +301,7 @@ public class SignInActivity extends AppCompatActivity implements
                         //The WeChat user name
                         final String wxusername = response.toString();
                         Log.i("TAG", wxusername);
-//                        Toast.makeText(SignInActivity.this, wxusername, Toast.LENGTH_LONG).show();
                         firebaseAuthWithWeChat(opid, wxusername);
-//                        mDatabase.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).child("name").setValue(wxusername);
-
-//                        finish();
                     }
 
                     @Override

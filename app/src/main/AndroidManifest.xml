@@ -17,7 +17,6 @@
             android:name=".wxapi.WXEntryActivity"
             android:exported="true" />
         <activity android:name=".wxapi.WeChatLoginActivity" />
-        <!-- activity android:name=".SignInActivity" / -->
         <activity android:name=".LauncherActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

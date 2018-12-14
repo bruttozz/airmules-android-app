@@ -72,7 +72,6 @@ public class Deposit extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.methods, android.R.layout.simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-//        spinner.setOnItemSelectedListener(this);
 
         moneyLeft = (TextView) findViewById(R.id.textView2);
 
@@ -103,11 +102,9 @@ public class Deposit extends AppCompatActivity {
             public void onClick(View view) {
                 float amount = Float.parseFloat(amountInput.getText().toString());
                 String account = accountInfo.getText().toString();
-//                accountInfo.setText(amt);
                 depositSuccess(amount);
                 startActivity(new Intent(Deposit.this, UserProfileActivity.class));
                 Toast.makeText(Deposit.this, "Deposit Success!", Toast.LENGTH_SHORT).show();
-//                startActivity(new Intent(Withdraw.this, UserProfileActivity.class));
             }
         });
 
@@ -155,7 +152,6 @@ public class Deposit extends AppCompatActivity {
                         } else if (payResult.getCode() == EPayResult.FAIL_CODE.getCode()) {
 
                             Toast.makeText(Deposit.this, "Payment Failed", Toast.LENGTH_SHORT).show(); //payResult.getMsg()
-//                            topupSuccess();
 
                         }
                     }

@@ -246,6 +246,10 @@ public class PaymentActivity extends BaseMenuActivity {
 
     /**
      * This method prepares all the payments params to be sent to PayuBaseActivity.java
+     * Based on:
+     * https://www.youtube.com/watch?v=gnQ0IF3XniM
+     * https://github.com/payu-intrepos/Android-SDK-Sample-App/releases/
+     * https://github.com/payu-intrepos/Documentations/wiki/6.-Android-SDK-Integration
      */
     public void navigateToBaseActivity() {
         merchantKey = "gtKFFx";

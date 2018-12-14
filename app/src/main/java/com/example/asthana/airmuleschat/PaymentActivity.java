@@ -252,6 +252,7 @@ public class PaymentActivity extends BaseMenuActivity {
      * https://github.com/payu-intrepos/Documentations/wiki/6.-Android-SDK-Integration
      */
     public void navigateToBaseActivity() {
+        //"Unique" key for our app
         merchantKey = "gtKFFx";
         String amount = txtTotalAmount.getText().toString().replace(",", "");
         String email = "test@gmail.com";
@@ -272,7 +273,7 @@ public class PaymentActivity extends BaseMenuActivity {
         mPaymentParams.setEmail(email);
         mPaymentParams.setPhone("");
 
-        //Fill in the info of the test card
+        //Fill in the info of the test card (doesn't seem to get applied though)
         mPaymentParams.setNameOnCard("UserName");
         mPaymentParams.setCardName("UserName");
         mPaymentParams.setCardNumber("512345678901346");
